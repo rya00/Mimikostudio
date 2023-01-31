@@ -115,7 +115,18 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
+
+# Rendering images
+MEDIA_URL = '/images/'
+
+# Telling django about static files folder
+STATICFILES_DIRS = [
+    BASE_DIR / 'static'
+]
+
+# MEDIA_ROOT -> For user uploaded content
+MEDIA_ROOT = 'static/images'
 
 CORS_ALLOW_ALL_ORIGINS = True
 

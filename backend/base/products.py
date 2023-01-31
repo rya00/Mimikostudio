@@ -2,7 +2,7 @@ products = [
     {
         '_id': '1',
         'name': 'Test 1',
-        'image': '/images/test1.jpg',
+        'image': '/images/1.jpg',
         'description':
             'The media presents and implements evident, mechanic approximations only as a different and evasive distance.',
         'brand': 'Painting',
