@@ -4,24 +4,29 @@ import { Row, Col, Image, ListGroup, Button, Card } from 'react-bootstrap'
 import Rating from '../components/Rating'
 // Connecting to backend
 import axios from 'axios'
+//import products from '../products'
 
 
 function ProductScreen( ) {
     const [product, setProduct] = useState([])
-    const { id } = useParams();
+    const {id} = useParams();
+    //console.log(id)
 
     useEffect(() => {
-        async function fetchProduct(id){
+        async function fetchProduct(){
         const {data} = await axios.get(`/api/products/${id}`)
         setProduct(data)
         }
 
-        fetchProduct(id)     
-    }, [])
+        fetchProduct()     
+    }, [id])
+
+    // const product = products.find((p) => p._id == useParams.id)
+
+    //console.log(product.image)
 
     return (
         <div>
-            {/* 1 hour 14 minutes */}
             <Link to = '/' className='btn btn-light my-3'>Go back</Link>
             <Row>
                 <Col md = {6} className='w-50'>
