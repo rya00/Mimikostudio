@@ -126,7 +126,7 @@ STATICFILES_DIRS = [
 ]
 
 # MEDIA_ROOT -> For user uploaded content
-MEDIA_ROOT = 'static/images'
+MEDIA_ROOT = 'static/images/' 
 
 CORS_ALLOW_ALL_ORIGINS = True
 

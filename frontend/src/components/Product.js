@@ -6,10 +6,12 @@ import { Link } from 'react-router-dom'
 
 // Product({ product }) -> Accessing products directly without using props
 function Product({ product }) {
+    console.log();
   return (
     <Card className='my-3 p-3 rounded'>
         <Link to={`/product/${product._id}`}> 
             <Card.Img src={product.image} />
+            {/* <img src={require(product.image)} /> */}
         </Link>
 
         <Card.Body>
