@@ -5,6 +5,7 @@ import Footer from './components/Footer'
 
 import HomeScreen from './screens/HomeScreen'
 import ProductScreen from './screens/ProductScreen'
+import CartScreen from './screens/CartScreen'
 
 function App() {
   return (
@@ -16,6 +17,8 @@ function App() {
             <Route exact path='/' element={< HomeScreen />} />
             {/* Passing id as parameter */}
             <Route path='/product/:id' element={< ProductScreen />} /> 
+            {/* id? -> Making the id an option as sometimes we can just go to cart directly */}
+            <Route path='/cart/:id?' element={< CartScreen />} /> 
           </Routes>
         </Container>
       </main>

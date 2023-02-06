@@ -39,8 +39,14 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "corsheaders",
-    "base.apps.BaseConfig",    
+    "base.apps.BaseConfig", 
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
@@ -126,7 +132,7 @@ STATICFILES_DIRS = [
 ]
 
 # MEDIA_ROOT -> For user uploaded content
-MEDIA_ROOT = 'static/images/' 
+MEDIA_ROOT = 'static/images' 
 
 CORS_ALLOW_ALL_ORIGINS = True
 
