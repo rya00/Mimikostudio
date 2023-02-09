@@ -6,10 +6,14 @@ import Product from '../components/Product'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import { listProducts } from '../actions/productActions'
+import useUser from '../helper/useUser'
 
 /* <Message>{error}</Message> -> Error is passed as child in the component */
 
 function HomeScreen() {
+  // const user = useUser();
+  // console.log(user);
+  
   const dispatch = useDispatch()
   const productList = useSelector(state => state.productList)
   // Destructuring productListReducer

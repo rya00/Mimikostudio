@@ -14,6 +14,7 @@ function ProductScreen( ) {
 
     const productDetails = useSelector((state) => state.productDetails);
     const { loading, error, product } = productDetails;
+  
     const { id } = useParams();
     const navigate = useNavigate()
 
@@ -35,7 +36,7 @@ function ProductScreen( ) {
                     :(
                         <Row>
                             <Col md = {6} className='w-50'>
-                                <Image src={product.image} alt={product.name} fluid/>
+                                <Image img src={product.image} alt={product.name} fluid/>
                             </Col>
                             <Col md={3}>
                                 <ListGroup variant='flush'>
