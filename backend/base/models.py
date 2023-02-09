@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Models is used to create database
+
 class Product(models.Model):
     # SET_NULL -> Child is not deleted if parent gets deleted
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
