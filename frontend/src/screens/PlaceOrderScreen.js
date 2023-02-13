@@ -8,6 +8,16 @@ import CheckoutSteps from '../components/CheckoutSteps'
 function PlaceOrderScreen() {
     const cart = useSelector(state => state.cart)
 
+    cart.itemsPrice = cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0).toFixed(2)
+
+    // Setting shipping price. if > 50000 then free
+    cart.shippingPrice = (cart.itemsPrice > 50000 ? 0: 200).toFixed(2)
+
+    // Tax rate = 0.082
+    cart.taxPrice = Number((0.082) * cart.itemsPrice).toFixed(2)
+
+    cart.totalPrice = (Number(cart.itemsPrice) + Number(cart.shippingPrice) + Number(cart.taxPrice)).toFixed(2)
+
     const placeOrder = () => {
       console.log('Place Order')
     }
@@ -79,7 +89,7 @@ function PlaceOrderScreen() {
 
                 <ListGroup.Item>
                   <Row>
-                    <Col>Item:</Col>
+                    <Col>Items:</Col>
                     <Col>${cart.itemsPrice}</Col>
                   </Row>
                 </ListGroup.Item>
