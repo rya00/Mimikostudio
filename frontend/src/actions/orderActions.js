@@ -1,0 +1,57 @@
+import axios from 'axios'
+import { 
+    ORDER_CREATE_REQUEST, 
+    ORDER_CREATE_SUCCESS, 
+    ORDER_CREATE_FAIL,
+} from '../constants/orderConstants'
+
+import { CART_CLEAR_ITEMS } from '../constants/cartConstants'
+
+export const createOrder = (order) => async(dispatch, getState) => {
+    try{
+        dispatch({
+            type: ORDER_CREATE_REQUEST
+        })
+
+        // Pulling out user
+        // Need user to send in token and place an order
+        const {
+            userLogin: {userInfo}
+        }= getState()
+
+        // Added token into config into headers
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${userInfo.token}`
+            }
+        }
+
+        const {data} = await axios.post(
+            `/api/orders/add/`,
+            order,
+            config
+        )
+
+        // Response data is sent as payload and state is updated
+        dispatch({
+            type: ORDER_CREATE_SUCCESS,
+            payload: data,
+        })
+
+        dispatch({
+            type: CART_CLEAR_ITEMS,
+            payload: data,
+        })
+
+        localStorage.removeItem('cartItems')
+
+    }catch(error){
+        dispatch({
+            type: ORDER_CREATE_FAIL,
+            payload:error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message,
+        })
+    }
+}
