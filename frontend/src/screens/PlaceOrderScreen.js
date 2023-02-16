@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useEffect} from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
@@ -30,10 +30,9 @@ function PlaceOrderScreen() {
       navigate('/payment')
     }})
     
-
     useEffect(() =>{
       if(success){
-        navigate(`/orders/${order._id}`)
+        navigate(`/order/${order._id}`)
         dispatch({type: ORDER_CREATE_RESET})
       }
     }, [navigate, success, order])
