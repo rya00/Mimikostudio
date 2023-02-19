@@ -12,6 +12,11 @@ import {
     ORDER_PAY_SUCCESS, 
     ORDER_PAY_FAIL,
     ORDER_PAY_RESET,
+
+    ORDER_LIST_MY_REQUEST, 
+    ORDER_LIST_MY_SUCCESS, 
+    ORDER_LIST_MY_FAIL,
+    ORDER_LIST_MY_RESET,
 } from '../constants/orderConstants'
 
 import { CART_CLEAR_ITEMS } from '../constants/cartConstants'
@@ -139,6 +144,46 @@ export const payOrder = (id, paymentResult) => async(dispatch, getState) => {
     }catch(error){
         dispatch({
             type: ORDER_PAY_FAIL,
+            payload:error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message,
+        })
+    }
+}
+
+export const listMyOrders = () => async(dispatch, getState) => {
+    try{
+        dispatch({
+            type: ORDER_LIST_MY_REQUEST
+        })
+
+        // Pulling out user
+        // Need user to send in token and place an order
+        const {
+            userLogin: {userInfo},
+        }= getState()
+
+        // Added token into config into headers
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${userInfo.token}`
+            }
+        }
+
+        const {data} = await axios.get(
+            `/api/orders/myorders/`,
+            config
+        )
+
+        // Response data is sent as payload and state is updated
+        dispatch({
+            type: ORDER_LIST_MY_SUCCESS,
+            payload: data,
+        })
+    }catch(error){
+        dispatch({
+            type: ORDER_LIST_MY_FAIL,
             payload:error.response && error.response.data.detail
                 ? error.response.data.detail
                 : error.message,

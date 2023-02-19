@@ -6,6 +6,7 @@ import Rating from '../components/Rating'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import { listProductDetails } from '../actions/productActions'
+import { SEED } from '../env'
 
 
 function ProductScreen( ) {
@@ -36,7 +37,7 @@ function ProductScreen( ) {
                     :(
                         <Row>
                             <Col md = {6} className='w-50'>
-                                <Image img src={product.image} alt={product.name} fluid/>
+                                <Image src={`${SEED}${product.image}`} alt={product.name} fluid height='300px' width='400px'/>
                             </Col>
                             <Col md={3}>
                                 <ListGroup variant='flush'>
