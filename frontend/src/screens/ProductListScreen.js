@@ -36,7 +36,7 @@ function ProductListScreen() {
         }
 
         if(successCreate){
-            navigate(`/admin/product/${createdProduct._id}/edit}`)
+            navigate(`/admin/product/${createdProduct._id}/edit`)
         }else{
             dispatch(listProducts())
         }
@@ -44,7 +44,7 @@ function ProductListScreen() {
     }, [dispatch, navigate, userInfo, successDelete, successCreate, createdProduct])
 
     const deleteHandler = (id) =>{
-        if(window.confirm('Are you sure you want to delete this user?')){
+        if(window.confirm('Are you sure you want to delete this product?')){
             dispatch(deleteProduct(id))
         }
     }

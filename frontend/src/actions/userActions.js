@@ -317,7 +317,6 @@ export const updateUser = (user) => async(dispatch, getState) => {
             config
         )
 
-        // Response data is sent as payload and state is updated
         dispatch({
             type: USER_UPDATE_SUCCESS,
         })
