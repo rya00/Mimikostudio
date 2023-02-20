@@ -21,7 +21,9 @@ import {
         orderCreateReducer, 
         orderDetailsReducer, 
         orderPayReducer, 
-        orderListMyReducer 
+        orderListMyReducer,
+        orderListReducer, 
+        orderDeliverReducer,
 } from './reducers/orderReducers'
 import thunk from 'redux-thunk'
 
@@ -48,6 +50,8 @@ const reducer = combineReducers({
   orderDetails: orderDetailsReducer,
   orderPay: orderPayReducer,
   orderListMy: orderListMyReducer,
+  orderList: orderListReducer,
+  orderDeliver: orderDeliverReducer,
 })
 
 const cartItemsFromStorage = localStorage.getItem('cartItems') ?
