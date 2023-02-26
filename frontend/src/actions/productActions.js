@@ -24,15 +24,19 @@ import {
     PRODUCT_CREATE_REVIEW_SUCCESS,
     PRODUCT_CREATE_REVIEW_FAIL,
 
+    PRODUCT_TOP_REQUEST,
+    PRODUCT_TOP_SUCCESS,
+    PRODUCT_TOP_FAIL,
+
 } from '../constants/productConstants'
 
 // Function responsible for replacing API call that was previously used in HomeScreen
-export const listProducts = () => async ( dispatch ) => {
+export const listProducts = (keyword = '') => async ( dispatch ) => {
     try{
         // Fires off first reducer
         dispatch({type: PRODUCT_LIST_REQUEST})
 
-        const {data} = await axios.get('/api/products/')
+        const {data} = await axios.get(`/api/products${keyword}`)
 
         dispatch({
             type:PRODUCT_LIST_SUCCESS,
@@ -41,6 +45,29 @@ export const listProducts = () => async ( dispatch ) => {
     }catch(error){
         dispatch({
             type: PRODUCT_LIST_FAIL,
+            payload:error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message,
+        })
+
+    }
+
+}
+
+export const listTopProducts = () => async ( dispatch ) => {
+    try{
+        // Fires off first reducer
+        dispatch({type: PRODUCT_TOP_REQUEST})
+
+        const {data} = await axios.get(`/api/products/top/`)
+
+        dispatch({
+            type:PRODUCT_TOP_SUCCESS,
+            payload:data
+        })
+    }catch(error){
+        dispatch({
+            type: PRODUCT_TOP_FAIL,
             payload:error.response && error.response.data.detail
                 ? error.response.data.detail
                 : error.message,

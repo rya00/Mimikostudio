@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from base.models import Product, Review
 from base.serializers import ProductSerializer
@@ -11,9 +12,38 @@ from rest_framework import status
 
 @api_view(['GET'])
 def getProducts(request):
-    products = Product.objects.all() # setting variable for query
+    query = request.query_params.get('keyword')
+    print('query:', query)
+    if query == None:
+        query = ''
+
+    # If name contains any value inside of query then its going to filter and return the product
+    products = Product.objects.filter(name__icontains=query) # setting variable for query
+
+    page = request.query_params.get('page')
+    paginator = Paginator(products, 2)
+
+    try:
+        products = paginator.page(page)
+    except PageNotAnInteger:
+        products = paginator.page(1)
+    except EmptyPage:
+        products = paginator.page(paginator.num_pages)
+    
+    if page == None:
+        page = 1
+    
+    page = int(page)
+
+
     # Creating serializer. Serializer -> Wraps our model and turns it into JSON format
     serializer = ProductSerializer(products, many=True) # many=True -> Serializing many products
+    return Response({'products':serializer.data, 'page':page, 'pages':paginator.num_pages})
+
+@api_view(['GET'])
+def getTopProducts(request):
+    products = Product.objects.filter(rating__gte=4).order_by('-rating')[0:5]
+    serializer = ProductSerializer(products, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
