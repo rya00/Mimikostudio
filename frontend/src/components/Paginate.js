@@ -37,3 +37,8 @@ function Paginate({pages, page, keyword='', isAdmin = false}) {
 }
 
 export default Paginate
+
+
+
+
+
