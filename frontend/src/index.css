@@ -133,11 +133,13 @@ h3 {
 .qty-counter-shell{
     margin-left: auto;
     margin-right: auto;
-
 }
 
 .qty-counter{
     cursor: pointer;
+}
+.shipping-grp-fields{
+    margin-bottom: 25px;
 }
 
 /* for mobiles apparently */

@@ -31,7 +31,7 @@ function ShippingScreen() {
             <CheckoutSteps step1 step2 />
             <h1>Shipping</h1>
             <Form onSubmit={submitHandler}>
-                <Form.Group controlId='address'>
+                <Form.Group controlId='address' className='shipping-grp-fields'>
                     <Form.Label>Address:</Form.Label>
                     <Form.Control
                         required
@@ -43,7 +43,7 @@ function ShippingScreen() {
                     </Form.Control>
                 </Form.Group>
 
-                <Form.Group controlId='city'>
+                <Form.Group controlId='city' className='shipping-grp-fields'>
                     <Form.Label>City:</Form.Label>
                     <Form.Control
                         required
@@ -55,7 +55,7 @@ function ShippingScreen() {
                     </Form.Control>
                 </Form.Group>
 
-                <Form.Group controlId='postalCode'>
+                <Form.Group controlId='postalCode' className='shipping-grp-fields'>
                     <Form.Label>Postal Code:</Form.Label>
                     <Form.Control
                         required
@@ -67,12 +67,12 @@ function ShippingScreen() {
                     </Form.Control>
                 </Form.Group>
 
-                <Form.Group controlId='country'>
+                <Form.Group controlId='country' className='shipping-grp-fields'>
                     <Form.Label>Country:</Form.Label>
                     <Form.Control
                         required
                         type='text'
-                        placeholder='Enter Postal Code'
+                        placeholder='Enter Country'
                         value={country ? country : ''}
                         onChange={(e) => setCountry(e.target.value) }
                     >
