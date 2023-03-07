@@ -1,23 +1,23 @@
-main{
-    min-height: 80vh;
+main {
+  min-height: 80vh;
 }
 
-h1{
-    font-size: 1.8rem;
-    padding: 1rem 0;
+h1 {
+  font-size: 1.8rem;
+  padding: 1rem 0;
 }
 
-h2{
-    font-size: 1.4rem;
-    padding: 0.5rem 0;
+h2 {
+  font-size: 1.4rem;
+  padding: 0.5rem 0;
 }
 
-h3{
-    padding: 1rem 0;
+h3 {
+  padding: 1rem 0;
 }
 
-.rating span{
-    margin: 0.1rem;
+.rating span {
+  margin: 0.1rem;
 }
 
 /* Carousel */
@@ -25,75 +25,98 @@ h3{
 .carousel-item-next,
 .carousel-item-prev,
 .carousel-item.active {
-    display: flex;
+  display: flex;
 }
 
-.carousel-caption{
-    position: absolute;
-    top: 0;
+.carousel-caption {
+  position: absolute;
+  top: 0;
 }
 
-.carousel-caption h4{
-    color: #fff;
+.carousel-caption h4 {
+  color: #fff;
 }
 
 .carousel img {
-    display: block;
-    height: 300px;
-    padding: 30px;
-    margin: 40px;
-    border-radius: 50%;
-    margin-left: auto;
-    margin-right: auto;
+  display: block;
+  height: 300px;
+  padding: 30px;
+  margin: 40px;
+  border-radius: 50%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.carousel a{
-    margin: 0 auto;
+.carousel a {
+  margin: 0 auto;
 }
 
 /* container for the searchbar and button */
-.search-item-container{
-    display: flex;
-    flex-direction: row;
+.search-item-container {
+  display: flex;
+  flex-direction: row;
 }
 
 /* cart, account, admin button's container */
 .nav-items-container {
-    margin-left: auto;
+  margin-left: auto;
 }
 
-.search-bar{
-    width: 500px !important;
-    border-top-left-radius: 6px !important;
-    border-bottom-left-radius: 6px !important;
+.search-bar {
+  width: 500px !important;
+  border-top-left-radius: 6px !important;
+  border-bottom-left-radius: 6px !important;
 }
 
 /* button for search-bar */
 .searh-item-submit {
-    border-top-right-radius: 6px !important;
-    border-bottom-right-radius: 6px !important;
+  border-top-right-radius: 6px !important;
+  border-bottom-right-radius: 6px !important;
 }
 
 /* cart, account, admin button */
-.nav-item-custom{
-    margin-right: 0px !important;
+.nav-item-custom {
+  margin-right: 0px !important;
 }
 
-.carousel-custom{
+.carousel-custom {
+  border-radius: 6px;
+}
+
+/* .product-card {
+  transition: all 0.3s ease;
+}
+
+.product-card:hover {
+  width: calc( + 10%);
+  height: calc(inherit + 10%);
+} */
+
+.page-button span{
     border-radius: 6px;
 }
 
+.page-button a{
+
+    border-radius: 6px;
+}
+
+.page-button:hover a{
+    background-color: #a9a9a9 ;
+}
+
+
 /* for mobiles apparently */
 @media (max-width: 900px) {
-    .carousel-caption h2{
-        font-size: 2.5vw;
-    }
-    
-    .search-bar{
-        width: 100% !important;
-    }
+  .carousel-caption h2 {
+    font-size: 2.5vw;
+  }
 
-    .search-item-container{
-        margin-top: 15px;
-    }
+  .search-bar {
+    width: 100% !important;
+  }
+
+  .search-item-container {
+    margin-top: 15px;
+  }
 }

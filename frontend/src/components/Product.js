@@ -3,11 +3,12 @@ import { Card } from 'react-bootstrap'
 import { SEED } from '../env'
 import Rating from './Rating'
 import { Link } from 'react-router-dom'
+import "../index.css"
 
 // Product({ product }) -> Accessing products directly without using props
 function Product({ product }) {
   return (
-    <Card className='my-3 p-3 rounded'>
+    <Card className='my-3 p-3 rounded product-card'>
         <Link to={`/product/${product._id}`}> 
             <Card.Img src={`${SEED}${product.image}`} />
         </Link>

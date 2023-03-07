@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Pagination } from 'react-bootstrap'
+import "../index.css"
 
 function Paginate({pages, page, keyword='', isAdmin = false}) {
     const navigate = useNavigate()
@@ -29,7 +30,7 @@ function Paginate({pages, page, keyword='', isAdmin = false}) {
     return (pages > 1 && (
         <Pagination linkClass="">
             {[...Array(pages).keys()].map((x) => (
-                <Pagination.Item  key={x + '-page-item'} active={x + 1 === page } onClick={() => clickHandler(x+1)}>{x + 1}</Pagination.Item>                    
+                <Pagination.Item  key={x + '-page-item'} active={x + 1 === page } onClick={() => clickHandler(x+1)} className="page-button">{x + 1}</Pagination.Item>                    
             ))}
         </Pagination>
     )
