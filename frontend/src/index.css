@@ -51,8 +51,45 @@ h3{
     margin: 0 auto;
 }
 
+/* container for the searchbar and button */
+.search-item-container{
+    display: flex;
+    flex-direction: row;
+}
+
+/* cart, account, admin button's container */
+.nav-items-container {
+    margin-left: auto;
+}
+
+.search-bar{
+    width: 500px !important;
+    border-top-left-radius: 6px !important;
+    border-bottom-left-radius: 6px !important;
+}
+
+/* button for search-bar */
+.searh-item-submit {
+    border-top-right-radius: 6px !important;
+    border-bottom-right-radius: 6px !important;
+}
+
+/* cart, account, admin button */
+.nav-item-custom{
+    margin-right: 0px !important;
+}
+
+/* for mobiles apparently */
 @media (max-width: 900px) {
     .carousel-caption h2{
         font-size: 2.5vw;
-    }    
+    }
+    
+    .search-bar{
+        width: 100% !important;
+    }
+
+    .search-item-container{
+        margin-top: 15px;
+    }
 }
