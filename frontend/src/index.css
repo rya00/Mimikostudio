@@ -1,3 +1,9 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400&display=swap');
+
+*{
+    font-family: 'Poppins', sans-serif;
+} */
+
 main {
   min-height: 80vh;
 }
@@ -103,7 +109,35 @@ h3 {
 }
 
 .page-button:hover a{
-    background-color: #a9a9a9 ;
+    background-color: #d9d9d9 ;
+}
+
+.go-back-btn {
+    display: flex !important;
+    align-items: center;
+    width: fit-content;
+    border-radius: 6px;
+}
+
+.review-item:hover {
+    background-color: #d9d9d9 ;
+}
+
+.qty-container {
+    flex: none !important;
+    width: fit-content !important;
+    margin-top: auto !important;
+    margin-bottom: auto;
+}
+
+.qty-counter-shell{
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+.qty-counter{
+    cursor: pointer;
 }
 
 /* for mobiles apparently */
