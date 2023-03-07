@@ -79,6 +79,10 @@ h3{
     margin-right: 0px !important;
 }
 
+.carousel-custom{
+    border-radius: 6px;
+}
+
 /* for mobiles apparently */
 @media (max-width: 900px) {
     .carousel-caption h2{
