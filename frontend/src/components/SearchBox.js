@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import {BsSearch} from "react-icons/bs"
 import "../index.css"
 
 function SearchBox() {
@@ -26,8 +27,8 @@ function SearchBox() {
           className="mr-sm-2 ml-sm-5 search-bar"
         ></Form.Control>
 
-        <Button type="submit" variant="outline-success" className="p-2 searh-item-submit">
-          Search
+        <Button type="submit" variant="outline-success" className="searh-item-submit">
+          <BsSearch size={20} />
         </Button>
       </div>
     </Form>
