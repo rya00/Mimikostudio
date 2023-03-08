@@ -19,7 +19,7 @@ function Header() {
 
   return (
     <header>
-      <Navbar bg="dark" variant='dark' expand="lg" collapseOnSelect>
+      <Navbar  variant='dark' expand="lg" collapseOnSelect className='nav-color'>
         <Container>
           <LinkContainer to='/'>
             <Navbar.Brand>Mimikostudio</Navbar.Brand>
