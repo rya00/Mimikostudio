@@ -31,6 +31,8 @@ function HomeScreen() {
     dispatch(listProducts(keyword))
   }, [dispatch, keyword]) 
 
+  console.log(products);
+
   return (
     <div>
       {!keyword && <ProductCarousel />}
@@ -39,7 +41,7 @@ function HomeScreen() {
         : error ? <Message variant='danger'>{error}</Message>
           :
           <div>
-            <Row>
+            <Row className='painting-container'>
               {products.map(product => (
                   // Key attribute is needed to map for looping in react
                   <Col key={product._id} sm={12} md={6} lg={4} xl={3}>

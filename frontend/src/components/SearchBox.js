@@ -27,8 +27,8 @@ function SearchBox() {
           className="mr-sm-2 ml-sm-5 search-bar"
         ></Form.Control>
 
-        <Button type="submit" variant="outline-success" className="searh-item-submit">
-          <BsSearch size={20} />
+        <Button type="submit" variant="outline-success" className="search-item-submit">
+          <BsSearch size={20} style={{color: 'white'}}/>
         </Button>
       </div>
     </Form>
