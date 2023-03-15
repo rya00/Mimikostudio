@@ -85,11 +85,18 @@ h3 {
 }
 
 /* button for search-bar */
-.searh-item-submit {
+.search-item-submit {
   border-top-right-radius: 6px !important;
   border-bottom-right-radius: 6px !important;
   padding-left: 15px !important;
   padding-right: 15px !important;
+  background-color: #4bbf73 !important;
+  color: white;
+}
+
+.search-item-submit:hover {
+  background-color: #389F5C !important;
+  border: 2px solid #389F5C !important;
 }
 
 /* cart, account, admin button */
@@ -102,14 +109,48 @@ h3 {
   background-color: #588157;
 }
 
-/* .product-card {
+.product-card {
+  margin-top: 1rem!important;
+  margin-bottom: 1rem!important;
+  padding: 1rem!important;
+  border-radius: 6px;
   transition: all 0.3s ease;
+
+  position: relative;
+  overflow: hidden;
 }
 
 .product-card:hover {
-  width: calc( + 10%);
-  height: calc(inherit + 10%);
-} */
+  /* width: calc(500px + 10%);
+  height: calc(500px + 10%); */
+  transform: scale(1.02);
+  transform: translateY(-10px);
+}
+
+.product-card:hover::before {
+  content: 'View Details';
+  position: absolute;
+  top: 100%; 
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(220, 220, 220, 0.9);  /* adjust RGBA values */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20; /* set z-index to place above card content */
+  transform: translateY(100%);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(3px); /* add backdrop filter */
+}
+
+.product-card:hover::before {
+  transform: translateY(-100%);
+}
+
+.painting-container {
+  margin-bottom: 30px;
+}
 
 .page-button span{
     border-radius: 6px;
@@ -161,6 +202,52 @@ h3 {
 
 .profile-header-container h2 {
     margin-bottom: 0px;
+}
+
+.painting-title{
+  font-size: medium;
+}
+
+.cart-item {
+  transition: background-color 0.3s ease;
+}
+
+.cart-item:hover{
+  background-color: #d9d9d9;
+}
+
+.product-card-title {
+  display: flex;
+  align-items: center;
+}
+
+.product-card-title p {
+  margin-bottom: 0px;
+  text-decoration: none;
+}
+
+.product-card-label {
+  font-size: large;
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.product-review-container, .product-price-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.product-card-body {
+  padding-left: 0px !important;
+}
+.price {
+  font-size: medium;
+  margin-bottom: 0px;
+}
+
+a:link {
+  text-decoration: none!important;
 }
 
 /* for mobiles apparently */
