@@ -65,7 +65,7 @@ function ProductListScreen() {
                     <h1>Products</h1>
                 </Col>
                 <Col className='text-right'>
-                    <Button className='my-3' onClick={createProductHandler}>
+                    <Button className='my-3 standard-btn' onClick={createProductHandler}>
                         <i className='fa fa-plus'></i>Add Product
                     </Button>
                 </Col>

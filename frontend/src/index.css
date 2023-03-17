@@ -296,7 +296,15 @@ a:link {
   left: 0;
   background-color: black;
   transform-origin: bottom right;
-  animation: underline-animation 0.5s ease-out forwards;
+  animation: underline-animation 2s ease-out forwards;
+}
+
+.standard-btn {
+  background-color: #3a5a40 !important;
+}
+
+.standard-btn:hover{
+  background-color: #304A35 !important;
 }
 
 @keyframes underline-animation {

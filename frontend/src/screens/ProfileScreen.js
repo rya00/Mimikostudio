@@ -9,6 +9,7 @@ import { getUserDetails, updateUserProfile } from "../actions/userActions";
 import { USER_UPDATE_PROFILE_RESET } from "../constants/userConstants";
 import { listMyOrders } from "../actions/orderActions";
 import { AiOutlineUser } from "react-icons/ai";
+import "../index.css"
 
 function ProfileScreen() {
   const [name, setName] = useState("");
@@ -70,10 +71,11 @@ function ProfileScreen() {
     <Row>
       <Col md={3}>
         <div className="profile-header-container">
-          <AiOutlineUser size={30} style={{color: 'black', marginRight: 5}}/>
-          <h2>Profile</h2>
+          {/* <AiOutlineUser size={30} style={{color: 'black', marginRight: 5}}/> */}
+          
+          <h2 className="auto-underline-animation" style={{marginBottom: 20}}>User Profile</h2>
         </div>
-        <h1> Sign Up</h1>
+        
         {/* Message is only shown when passwords do not match */}
         {message && <Message variant="danger">{message}</Message>}
         {error && <Message variant="danger">{error}</Message>}
@@ -121,14 +123,14 @@ function ProfileScreen() {
             ></Form.Control>
           </Form.Group>
 
-          <Button type="submit" variant="primary" style={{ marginBottom: 20 }}>
+          <Button type="submit" variant="primary" style={{ marginBottom: 20 }} className="standard-btn">
             Update
           </Button>
         </Form>
       </Col>
 
       <Col md={9}>
-        <h2>My Orders</h2>
+        <h2 className="auto-underline-animation " style={{marginBottom: 20}}>My Orders</h2>
         {loadingOrders ? (
           <Loader />
         ) : errorOrders ? (
@@ -161,7 +163,7 @@ function ProfileScreen() {
                   </td>
                   <td>
                     <LinkContainer to={`/order/${order._id}`}>
-                      <Button classsname="btn-sm">Details</Button>
+                      <Button className="btn-sm standard-btn">Details</Button>
                     </LinkContainer>
                   </td>
                 </tr>
