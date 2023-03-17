@@ -30,7 +30,7 @@ function OrderListScreen() {
 
     return (
         <div>
-            <h1>Orders</h1>
+            <h1 className='auto-underline-animation'>Orders</h1>
             {loading 
                 ? (<Loader />)
                 : error

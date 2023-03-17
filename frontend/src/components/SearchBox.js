@@ -25,6 +25,7 @@ function SearchBox() {
           name="q"
           onChange={(e) => setKeyword(e.target.value)}
           className="mr-sm-2 ml-sm-5 search-bar"
+          placeholder="Search for painting..."
         ></Form.Control>
 
         <Button type="submit" variant="outline-success" className="search-item-submit">

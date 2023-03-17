@@ -93,7 +93,7 @@ function CartScreen() {
                   <Col md={1}>
                     <Button
                       type="button"
-                      variant="light"
+                      variant='danger'
                       onClick={() => removeFromCartHandler(item.product)}
                     >
                       <i className="fas fa-trash"></i>
