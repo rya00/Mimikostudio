@@ -36,7 +36,7 @@ function HomeScreen() {
   return (
     <div>
       {!keyword && <ProductCarousel />}
-      <h1>Latest Products</h1>
+      <h1 className='auto-underline-animation'>Latest Products</h1>
       {loading ? <Loader />
         : error ? <Message variant='danger'>{error}</Message>
           :

@@ -63,7 +63,7 @@ h3 {
   margin: 0 auto;
 }
 
-.nav-color{
+.nav-color {
   background-color: #3a5a40;
 }
 
@@ -95,8 +95,8 @@ h3 {
 }
 
 .search-item-submit:hover {
-  background-color: #389F5C !important;
-  border: 2px solid #389F5C !important;
+  background-color: #389f5c !important;
+  border: 2px solid #389f5c !important;
 }
 
 /* cart, account, admin button */
@@ -110,9 +110,9 @@ h3 {
 }
 
 .product-card {
-  margin-top: 1rem!important;
-  margin-bottom: 1rem!important;
-  padding: 1rem!important;
+  margin-top: 1rem !important;
+  margin-bottom: 1rem !important;
+  padding: 1rem !important;
   border-radius: 6px;
   transition: all 0.3s ease;
 
@@ -128,13 +128,13 @@ h3 {
 }
 
 .product-card:hover::before {
-  content: 'View Details';
+  content: "View Details";
   position: absolute;
-  top: 100%; 
+  top: 100%;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(220, 220, 220, 0.9);  /* adjust RGBA values */
+  background-color: rgba(220, 220, 220, 0.9); /* adjust RGBA values */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -152,59 +152,62 @@ h3 {
   margin-bottom: 30px;
 }
 
-.page-button span{
-    border-radius: 6px;
+.page-button span {
+  border-radius: 6px;
+  margin-right: 5px;
+  background-color: #3a5a40 !important;
+  border-color: #3a5a40 !important;
 }
 
-.page-button a{
-    border-radius: 6px;
+.page-button a {
+  border-radius: 6px;
 }
 
-.page-button:hover a{
-    background-color: #d9d9d9 ;
+.page-button:hover a {
+  background-color: #d9d9d9;
 }
 
 .go-back-btn {
-    display: flex !important;
-    align-items: center;
-    width: fit-content;
-    border-radius: 6px;
+  display: flex !important;
+  align-items: center;
+  width: fit-content;
+  border-radius: 6px;
 }
 
 .review-item:hover {
-    background-color: #d9d9d9 ;
+  background-color: #d9d9d9;
 }
 
 .qty-container {
-    flex: none !important;
-    width: fit-content !important;
-    margin-top: auto !important;
-    margin-bottom: auto;
+  flex: none !important;
+  width: fit-content !important;
+  margin-top: auto !important;
+  margin-bottom: auto;
 }
 
-.qty-counter-shell{
-    margin-left: auto;
-    margin-right: auto;
+.qty-counter-shell {
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.qty-counter{
-    cursor: pointer;
+.qty-counter {
+  cursor: pointer;
 }
-.grp-fields{
-    margin-bottom: 25px;
+.grp-fields {
+  margin-bottom: 25px;
 }
 
-.profile-header-container{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+.profile-header-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .profile-header-container h2 {
-    margin-bottom: 0px;
+  margin-bottom: 0px;
 }
 
-.painting-title{
+.painting-title {
   font-size: medium;
 }
 
@@ -212,7 +215,7 @@ h3 {
   transition: background-color 0.3s ease;
 }
 
-.cart-item:hover{
+.cart-item:hover {
   background-color: #d9d9d9;
 }
 
@@ -232,7 +235,8 @@ h3 {
   margin-right: 5px;
 }
 
-.product-review-container, .product-price-container {
+.product-review-container,
+.product-price-container {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -247,8 +251,61 @@ h3 {
 }
 
 a:link {
-  text-decoration: none!important;
+  text-decoration: none !important;
 }
+
+/* for animating hover effect underline for brand-name */
+.hover-underline-animation {
+  display: inline-block;
+  position: relative;
+  /* color: #0087ca; */
+}
+
+.hover-underline-animation:after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: white;
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.hover-underline-animation:hover:after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+
+/* auto underline animation */
+.auto-underline-animation {
+  display: inline-block;
+  position: relative;
+}
+
+.auto-underline-animation::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: black;
+  transform-origin: bottom right;
+  animation: underline-animation 0.5s ease-out forwards;
+}
+
+@keyframes underline-animation {
+  to {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+  }
+}
+
 
 /* for mobiles apparently */
 @media (max-width: 900px) {

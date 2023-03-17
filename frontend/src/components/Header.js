@@ -22,7 +22,7 @@ function Header() {
       <Navbar  variant='dark' expand="lg" collapseOnSelect className='nav-color'>
         <Container>
           <LinkContainer to='/'>
-            <Navbar.Brand>Mimikostudio</Navbar.Brand>
+            <Navbar.Brand className='hover-underline-animation'>Mimikostudio</Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
