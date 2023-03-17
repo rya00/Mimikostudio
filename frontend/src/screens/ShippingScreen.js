@@ -29,7 +29,7 @@ function ShippingScreen() {
     return (
         <FormContainer>
             <CheckoutSteps step1 step2 />
-            <h1>Shipping</h1>
+            <h1 className='auto-underline-animation'>Shipping</h1>
             <Form onSubmit={submitHandler}>
                 <Form.Group controlId='address' className='grp-fields'>
                     <Form.Label>Address:</Form.Label>

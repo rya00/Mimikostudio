@@ -166,10 +166,9 @@ function ProductScreen() {
                   <ListGroup.Item>
                     <Button
                       onClick={addToCartHandler}
-                      className="btn-block"
+                      className="btn-block standard-btn"
                       disabled={product.countInStock === 0}
                       type="button"
-                      style={{borderRadius: 6}}
                     >
                       Add to Cart
                     </Button>
@@ -237,7 +236,8 @@ function ProductScreen() {
                         disabled={loadingProductReview}
                         type="submit"
                         variant="primary"
-                        style={{borderRadius: 6, marginTop: 30}}
+                        style={{marginTop: 30}}
+                        className="standard-btn"
                       >
                         Submit
                       </Button>

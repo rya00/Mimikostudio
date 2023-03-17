@@ -58,7 +58,7 @@ function PlaceOrderScreen() {
           <Col md={8}>
             <ListGroup variant='flush'>
               <ListGroup.Item>
-              <h2>Shipping</h2>
+              <h2 className='auto-underline-animation'>Shipping</h2>
               <p>
                 <strong>Shipping: </strong>
                 {cart.shippingAddress.address}, {cart.shippingAddress.city},
@@ -70,7 +70,7 @@ function PlaceOrderScreen() {
               </ListGroup.Item>
             
               <ListGroup.Item>
-                <h2>Payment Method</h2>
+                <h2 className='auto-underline-animation'>Payment Method</h2>
                 <p>
                   <strong>Method: </strong>
                   {cart.paymentMethod}
@@ -78,7 +78,7 @@ function PlaceOrderScreen() {
               </ListGroup.Item>
               
               <ListGroup.Item>
-                <h2>Order Items</h2>
+                <h2 className='auto-underline-animation'>Order Items</h2>
                 {cart.cartItems.length === 0 ? <Message variant='info'>
                   Your cart is empty
                 </Message> : (

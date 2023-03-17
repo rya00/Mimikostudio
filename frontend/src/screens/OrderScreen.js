@@ -85,7 +85,7 @@ function OrderScreen() {
             <Col md={8}>
               <ListGroup variant='flush'>
                 <ListGroup.Item>
-                <h2>Shipping</h2>
+                <h2 className='auto-underline-animation'>Shipping</h2>
                 <p><strong>Name: </strong>{order.user.name}</p>
                 <p><strong>Email: </strong><a href={`mailto:${order.user.email}`}>{order.user.email}</a></p>
                 <p>
@@ -105,7 +105,7 @@ function OrderScreen() {
                 </ListGroup.Item>
               
                 <ListGroup.Item>
-                  <h2>Payment Method</h2>
+                  <h2 className='auto-underline-animation'>Payment Method</h2>
                   <p>
                     <strong>Method: </strong>
                     {order.paymentMethod}
@@ -119,7 +119,7 @@ function OrderScreen() {
                 </ListGroup.Item>
                 
                 <ListGroup.Item>
-                  <h2>Order Items</h2>
+                  <h2 className='auto-underline-animation'>Order Items</h2>
                   {order.orderItems.length === 0 ? <Message variant='info'>
                     No orders have been placed.
                   </Message> : (

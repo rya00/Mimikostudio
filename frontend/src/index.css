@@ -284,6 +284,8 @@ a:link {
 .auto-underline-animation {
   display: inline-block;
   position: relative;
+  padding-bottom: 5px;
+  margin-bottom: 20px;
 }
 
 .auto-underline-animation::after {
@@ -295,16 +297,8 @@ a:link {
   bottom: 0;
   left: 0;
   background-color: black;
-  transform-origin: bottom right;
-  animation: underline-animation 2s ease-out forwards;
-}
-
-.standard-btn {
-  background-color: #3a5a40 !important;
-}
-
-.standard-btn:hover{
-  background-color: #304A35 !important;
+  transform-origin: bottom left;
+  animation: underline-animation 0.5s ease-out forwards;
 }
 
 @keyframes underline-animation {
@@ -314,6 +308,13 @@ a:link {
   }
 }
 
+.standard-btn {
+  background-color: #3a5a40 !important;
+}
+
+.standard-btn:hover{
+  background-color: #304A35 !important;
+}
 
 /* for mobiles apparently */
 @media (max-width: 900px) {
