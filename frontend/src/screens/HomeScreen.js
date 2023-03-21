@@ -9,6 +9,7 @@ import Message from '../components/Message'
 import Paginate from '../components/Paginate'
 import ProductCarousel from '../components/ProductCarousel'
 import { listProducts } from '../actions/productActions'
+import AboutCarousel from '../components/AboutCarousel'
 import useUser from '../helper/useUser'
 
 /* <Message>{error}</Message> -> Error is passed as child in the component */
@@ -35,7 +36,8 @@ function HomeScreen() {
 
   return (
     <div>
-      {!keyword && <ProductCarousel />}
+      {/* {!keyword && <ProductCarousel />} */}
+      <AboutCarousel />
       <h1 className='auto-underline-animation'>Latest Products</h1>
       {loading ? <Loader />
         : error ? <Message variant='danger'>{error}</Message>
