@@ -27,6 +27,9 @@ function Header() {
           <Navbar.Collapse id="basic-navbar-nav">
             <SearchBox />
             <Nav className="mr-auto">
+              <LinkContainer to='/biddings'>
+                <Nav.Link><i className="fa-solid fa-hammer"></i>Bidding</Nav.Link>
+              </LinkContainer>
               <LinkContainer to='/cart'>
                 <Nav.Link><i className='fas fa-shopping-cart'></i>Cart</Nav.Link>
               </LinkContainer>
@@ -55,6 +58,10 @@ function Header() {
 
                   <LinkContainer to='/admin/orderlist'>
                     <NavDropdown.Item>Orders</NavDropdown.Item>
+                  </LinkContainer>
+
+                  <LinkContainer to='/admin/biddinglist'>
+                    <NavDropdown.Item>Bids</NavDropdown.Item>
                   </LinkContainer>
                 </NavDropdown>
               )}

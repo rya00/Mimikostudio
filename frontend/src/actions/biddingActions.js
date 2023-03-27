@@ -1,50 +1,50 @@
 import axios from 'axios'
 import { 
-    PRODUCT_LIST_REQUEST,
-    PRODUCT_LIST_SUCCESS,
-    PRODUCT_LIST_FAIL,
+    BIDDING_LIST_REQUEST,
+    BIDDING_LIST_SUCCESS,
+    BIDDING_LIST_FAIL,
 
-    PRODUCT_DETAILS_REQUEST,
-    PRODUCT_DETAILS_SUCCESS,
-    PRODUCT_DETAILS_FAIL,
+    BIDDING_DETAILS_REQUEST,
+    BIDDING_DETAILS_SUCCESS,
+    BIDDING_DETAILS_FAIL,
 
-    PRODUCT_DELETE_REQUEST,
-    PRODUCT_DELETE_SUCCESS,
-    PRODUCT_DELETE_FAIL,
+    BIDDING_DELETE_REQUEST,
+    BIDDING_DELETE_SUCCESS,
+    BIDDING_DELETE_FAIL,
 
-    PRODUCT_CREATE_REQUEST,
-    PRODUCT_CREATE_SUCCESS,
-    PRODUCT_CREATE_FAIL,
+    BIDDING_CREATE_REQUEST,
+    BIDDING_CREATE_SUCCESS,
+    BIDDING_CREATE_FAIL,
+    BIDDING_CREATE_RESET,
 
-    PRODUCT_UPDATE_REQUEST,
-    PRODUCT_UPDATE_SUCCESS,
-    PRODUCT_UPDATE_FAIL,
+    BIDDING_UPDATE_REQUEST,
+    BIDDING_UPDATE_SUCCESS,
+    BIDDING_UPDATE_FAIL,
+    BIDDING_UPDATE_RESET,
 
-    PRODUCT_CREATE_REVIEW_REQUEST,
-    PRODUCT_CREATE_REVIEW_SUCCESS,
-    PRODUCT_CREATE_REVIEW_FAIL,
+    PRODUCT_CREATE_BID_REQUEST,
+    PRODUCT_CREATE_BID_SUCCESS,
+    PRODUCT_CREATE_BID_FAIL,
 
-    PRODUCT_TOP_REQUEST,
-    PRODUCT_TOP_SUCCESS,
-    PRODUCT_TOP_FAIL,
+    BIDDING_TOP_REQUEST,
+    BIDDING_TOP_SUCCESS,
+    BIDDING_TOP_FAIL,
+ } from '../constants/biddingConstants'
 
-} from '../constants/productConstants'
-
-// Function responsible for replacing API call that was previously used in HomeScreen
-export const listProducts = (keyword = '', sort = '') => async ( dispatch ) => {
+ export const listBiddings = (keyword = '') => async ( dispatch ) => {
     try{
         // Fires off first reducer
-        dispatch({type: PRODUCT_LIST_REQUEST})
+        dispatch({type: BIDDING_LIST_REQUEST})
 
-        const {data} = await axios.get(`/api/products${keyword}`)
+        const {data} = await axios.get(`/api/biddings${keyword}`)
 
         dispatch({
-            type:PRODUCT_LIST_SUCCESS,
+            type:BIDDING_LIST_SUCCESS,
             payload:data
         })
     }catch(error){
         dispatch({
-            type: PRODUCT_LIST_FAIL,
+            type: BIDDING_LIST_FAIL,
             payload:error.response && error.response.data.detail
                 ? error.response.data.detail
                 : error.message,
@@ -54,20 +54,20 @@ export const listProducts = (keyword = '', sort = '') => async ( dispatch ) => {
 
 }
 
-export const listTopProducts = () => async ( dispatch ) => {
+export const listBiddingDetails = (id) => async ( dispatch ) => {
     try{
         // Fires off first reducer
-        dispatch({type: PRODUCT_TOP_REQUEST})
+        dispatch({type: BIDDING_DETAILS_REQUEST})
 
-        const {data} = await axios.get(`/api/products/top/`)
+        const {data} = await axios.get(`/api/biddings/${id}`)
 
         dispatch({
-            type:PRODUCT_TOP_SUCCESS,
+            type:BIDDING_DETAILS_SUCCESS,
             payload:data
         })
     }catch(error){
         dispatch({
-            type: PRODUCT_TOP_FAIL,
+            type: BIDDING_DETAILS_FAIL,
             payload:error.response && error.response.data.detail
                 ? error.response.data.detail
                 : error.message,
@@ -77,32 +77,10 @@ export const listTopProducts = () => async ( dispatch ) => {
 
 }
 
-export const listProductDetails = (id) => async ( dispatch ) => {
-    try{
-        // Fires off first reducer
-        dispatch({type: PRODUCT_DETAILS_REQUEST})
-        const {data} = await axios.get(`/api/products/${id}`)
-
-        dispatch({
-            type:PRODUCT_DETAILS_SUCCESS,
-            payload:data
-        })
-    }catch(error){
-        dispatch({
-            type: PRODUCT_DETAILS_FAIL,
-            payload:error.response && error.response.data.detail
-                ? error.response.data.detail
-                : error.message,
-        })
-
-    }
-
-}
-
-export const deleteProduct = (id) => async(dispatch, getState) => {
+export const deleteBidding = (id) => async(dispatch, getState) => {
     try{
         dispatch({
-            type: PRODUCT_DELETE_REQUEST
+            type: BIDDING_DELETE_REQUEST
         })
 
         // Pulling out user
@@ -120,17 +98,17 @@ export const deleteProduct = (id) => async(dispatch, getState) => {
         }
 
         const {data} = await axios.delete(
-            `/api/products/delete/${id}`,
+            `/api/biddings/delete/${id}`,
             config
         )
 
         // Response data is sent as payload and state is updated
         dispatch({
-            type: PRODUCT_DELETE_SUCCESS,
+            type: BIDDING_DELETE_SUCCESS,
         })
     }catch(error){
         dispatch({
-            type: PRODUCT_DELETE_FAIL,
+            type: BIDDING_DELETE_FAIL,
             payload:error.response && error.response.data.detail
                 ? error.response.data.detail
                 : error.message,
@@ -138,10 +116,10 @@ export const deleteProduct = (id) => async(dispatch, getState) => {
     }
 }
 
-export const createProduct = () => async(dispatch, getState) => {
+export const createBidding = () => async(dispatch, getState) => {
     try{
         dispatch({
-            type: PRODUCT_CREATE_REQUEST
+            type: BIDDING_CREATE_REQUEST
         })
 
         // Pulling out user
@@ -159,19 +137,19 @@ export const createProduct = () => async(dispatch, getState) => {
         }
 
         const {data} = await axios.post(
-            `/api/products/create/`,
+            `/api/biddings/create/`,
             {},
             config
         )
 
         // Response data is sent as payload and state is updated
         dispatch({
-            type: PRODUCT_CREATE_SUCCESS,
+            type: BIDDING_CREATE_SUCCESS,
             payload: data,
         })  
     }catch(error){
         dispatch({
-            type: PRODUCT_CREATE_FAIL,
+            type: BIDDING_CREATE_FAIL,
             payload:error.response && error.response.data.detail
                 ? error.response.data.detail
                 : error.message,
@@ -179,10 +157,10 @@ export const createProduct = () => async(dispatch, getState) => {
     }
 }
 
-export const updateProduct = (product) => async(dispatch, getState) => {
+export const updateBidding = (bidding_product) => async(dispatch, getState) => {
     try{
         dispatch({
-            type: PRODUCT_UPDATE_REQUEST
+            type: BIDDING_UPDATE_REQUEST
         })
 
         // Pulling out user
@@ -200,25 +178,25 @@ export const updateProduct = (product) => async(dispatch, getState) => {
         }
 
         const {data} = await axios.put(
-            `/api/products/update/${product._id}/`,
-            product,
+            `/api/biddings/update/${bidding_product._id}/`,
+            bidding_product,
             config
         )
 
         // Response data is sent as payload and state is updated
         dispatch({
-            type: PRODUCT_UPDATE_SUCCESS,
+            type: BIDDING_UPDATE_SUCCESS,
             payload: data,
         })
         
         dispatch({
-            type:PRODUCT_DETAILS_SUCCESS, 
+            type:BIDDING_DETAILS_SUCCESS, 
             payload:data
         })
 
     }catch(error){
         dispatch({
-            type: PRODUCT_UPDATE_FAIL,
+            type: BIDDING_UPDATE_FAIL,
             payload:error.response && error.response.data.detail
                 ? error.response.data.detail
                 : error.message,
@@ -226,10 +204,33 @@ export const updateProduct = (product) => async(dispatch, getState) => {
     }
 }
 
-export const createProductReview = (productId, review) => async(dispatch, getState) => {
+export const listTopBiddings = () => async ( dispatch ) => {
+    try{
+        // Fires off first reducer
+        dispatch({type: BIDDING_TOP_REQUEST})
+
+        const {data} = await axios.get(`/api/biddings/top/`)
+
+        dispatch({
+            type:BIDDING_TOP_SUCCESS,
+            payload:data
+        })
+    }catch(error){
+        dispatch({
+            type: BIDDING_TOP_FAIL,
+            payload:error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message,
+        })
+
+    }
+
+}
+
+export const createProductBid = (bidId, bid) => async(dispatch, getState) => {
     try{
         dispatch({
-            type: PRODUCT_CREATE_REVIEW_REQUEST
+            type: PRODUCT_CREATE_BID_REQUEST
         })
 
         // Pulling out user
@@ -247,20 +248,20 @@ export const createProductReview = (productId, review) => async(dispatch, getSta
         }
 
         const {data} = await axios.post(
-            `/api/products/${productId}/reviews/`,
-            review,
+            `/api/biddings/${bidId}/bids/`,
+            bid,
             config
         )
 
         // Response data is sent as payload and state is updated
         dispatch({
-            type: PRODUCT_CREATE_REVIEW_SUCCESS,
+            type: PRODUCT_CREATE_BID_SUCCESS,
             payload: data,
         })
 
     }catch(error){
         dispatch({
-            type: PRODUCT_CREATE_REVIEW_FAIL,
+            type: PRODUCT_CREATE_BID_FAIL,
             payload:error.response && error.response.data.detail
                 ? error.response.data.detail
                 : error.message,

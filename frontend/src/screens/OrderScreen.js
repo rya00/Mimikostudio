@@ -17,6 +17,7 @@ function OrderScreen() {
     const orderId = id
     const dispatch = useDispatch()
 
+    // const [khaltiReady, setKhaltiReady] = useState(false);
     const [sdkReady, setSdkReady] = useState(false)
 
     const orderDetails = useSelector(state => state.orderDetails)
@@ -48,6 +49,18 @@ function OrderScreen() {
       }
       document.body.appendChild(script)
     }
+
+    // const addKhaltiScript = () => {
+    //   const script = document.createElement('script');
+    //   script.type = 'text/javascript';
+    //   script.src = 'https://khalti.com/static/khalti-checkout.js';
+    //   script.async = true;
+    //   script.onload = () => {
+    //     setKhaltiReady(true);
+    //   };
+    //   document.body.appendChild(script);
+    // };
+    
     
     useEffect(() =>{
       if(!userInfo){
@@ -66,9 +79,17 @@ function OrderScreen() {
       }
     }, [dispatch, order, orderId, successPay, successDeliver])
 
-    const successPaymentHandler = (paymentResult) =>{
-      dispatch(payOrder(orderId, paymentResult))
-    }
+    const successPaymentHandler = (paymentResult) => {
+      dispatch(
+        payOrder(orderId, {
+          paymentMethod: order.paymentMethod,
+          paymentResult: {
+            referenceId: paymentResult.id,
+            paymentId: paymentResult.user_id,
+          },
+        })
+      );
+    };
 
     const deliverHandler = () => {
       dispatch(deliverOrder(order))
@@ -195,6 +216,14 @@ function OrderScreen() {
                           amount={order.totalPrice}
                           onSuccess={successPaymentHandler}
                         />
+                        // <Button
+                        //     type='button'
+                        //     className='btn btn-block'
+                        //     disabled={loadingPay}
+                        //     onClick={() => checkout.show({})}
+                        // >
+                        //     Pay with Khalti
+                        // </Button>
                       )}
                     </ListGroup.Item>
                   )}

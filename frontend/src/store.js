@@ -11,6 +11,15 @@ import {
 } from './reducers/productReducers'
 import { cartReducer } from './reducers/cartReducers'
 import { 
+        biddingListReducer,
+        biddingDetailsReducer,
+        biddingCreateReducer,
+        biddingDeleteReducer,
+        biddingUpdateReducer,
+        biddingTopRatedReducer,
+        productBidCreateReducer
+} from './reducers/biddingReducers'
+import { 
         userLoginReducer, 
         userRegisterReducer, 
         userDetailsReducer, 
@@ -38,6 +47,14 @@ const reducer = combineReducers({
   productUpdate: productUpdateReducer,
   productReviewCreate: productReviewCreateReducer,
   productTopRated: productTopRatedReducer,
+
+  biddingList: biddingListReducer,
+  biddingDetails: biddingDetailsReducer,
+  biddingDelete: biddingDeleteReducer,
+  biddingCreate: biddingCreateReducer,
+  biddingUpdate: biddingUpdateReducer,
+  biddingTopRated: biddingTopRatedReducer,
+  productBidCreate: productBidCreateReducer,
 
   cart: cartReducer,
   

@@ -2,69 +2,47 @@
 import React, {useState, useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col } from 'react-bootstrap'
-import { useNavigate, useLocation } from 'react-router-dom'
-import Product from '../components/Product'
+import { useLocation } from 'react-router-dom'
+import BiddingProduct from '../components/Bidding'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import Paginate from '../components/Paginate'
 import ProductCarousel from '../components/ProductCarousel'
-import { listProducts } from '../actions/productActions'
+import { listBiddings } from '../actions/biddingActions'
 import useUser from '../helper/useUser'
 
 /* <Message>{error}</Message> -> Error is passed as child in the component */
 
-function HomeScreen() {
-  const navigate = useNavigate()
+function BiddingScreen() {
   const location = useLocation()
   
   const dispatch = useDispatch()
-  const productList = useSelector(state => state.productList)
-  // Destructuring productListReducer
-  const {error, loading, products, page, pages} = productList
+  const biddingList = useSelector(state => state.biddingList)
+  // Destructuring biddingListReducer
+  const {error, loading, bidding_products, page, pages} = biddingList
 
   let keyword = location.search
-
-  const [sort, setSort] = useState('');
 
   // useEffect ->  Triggered every single time the component loads or when a state value gets updated
   // In our app it gets triggered when the component first loads
   // Empty array kept because we only want this to update when the component loads not when an actual state element gets updated
   useEffect(() => {
-    dispatch(listProducts(keyword, sort))
-  }, [dispatch, keyword, sort]) 
+    dispatch(listBiddings(keyword))
+  }, [dispatch, keyword]) 
 
-  const handleSortChange = (e) => {
-    const selectedSort = e.target.value;
-    setSort(selectedSort);
-    if (selectedSort) {
-      keyword = `?keyword=${keyword}&sort=${selectedSort}`;
-    } else {
-      keyword = `?keyword=${keyword}`;
-    }
-    dispatch(listProducts(keyword));
-  };
-  
   return (
     <div>
       {!keyword && <ProductCarousel />}
-      <select value={sort} onChange={handleSortChange}>
-        <option value="">Sort by</option>
-        <option value="name_asc">Name (A to Z)</option>
-        <option value="name_desc">Name (Z to A)</option>
-        <option value="price_asc">Price (Low to High)</option>
-        <option value="price_desc">Price (High to Low)</option>
-      </select>
-
-      <h1>Latest Products</h1>
+      <h1>Bidding Products</h1>
       {loading ? <Loader />
         : error ? <Message variant='danger'>{error}</Message>
           :
           <div>
             <Row>
-              {products.map(product => (
+              {bidding_products.map(bidding_product => (
                   // Key attribute is needed to map for looping in react
-                  <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
-                      <Product product ={product} />
+                  <Col key={bidding_product._id} sm={12} md={6} lg={4} xl={3}>
+                      <BiddingProduct bidding_product ={bidding_product} />
                   </Col>
               ))}
             </Row>
@@ -75,4 +53,4 @@ function HomeScreen() {
   )
 }
 
-export default HomeScreen
+export default BiddingScreen

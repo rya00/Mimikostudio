@@ -13,7 +13,7 @@ function PaymentScreen() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    const [paymentMethod, setPaymentMethod] = useState('Paypal')
+    const [paymentMethod, setPaymentMethod] = useState('Khalti')
 
     if(!shippingAddress.address){
         navigate('/shipping')
@@ -35,8 +35,8 @@ function PaymentScreen() {
                     <Col>
                         <Form.Check
                             type='radio'
-                            label='Paypal'
-                            id='paypal'
+                            label='Khalti'
+                            id='khalti'
                             name='paymentMethod'
                             checked
                             onChange={(e) => setPaymentMethod(e.target.value)}
