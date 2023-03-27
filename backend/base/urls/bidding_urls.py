@@ -5,7 +5,7 @@ from base.views import bidding_views as views
 urlpatterns = [
     path('', views.bidding_product_list, name='biddings'),
 
-    path('create/', views.create_bidding_product, name='bidding-product-create'),
+    path('create/', views.createBidding, name='bidding-product-create'),
     path('upload/', views.uploadImage, name="image-upload"),
 
     path('<str:pk>/bids/', views.createProductBid, name='bidding-product-bid'),

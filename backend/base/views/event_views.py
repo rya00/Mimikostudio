@@ -7,20 +7,20 @@ from rest_framework.response import Response
 from base.models import Event
 from base.serializers import EventSerializer
 from rest_framework import status
+import datetime
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 @api_view(['GET'])
 def eventList(request):
-
     query = request.query_params.get('keyword')
     print('query:', query)
     if query == None:
         query = ''
 
     # If name contains any value inside of query then its going to filter and return the product
-    events = Event.objects.filter(title__icontains=query) # setting variable for query
+    events = Event.objects.filter(title__icontains=query)
 
     page = request.query_params.get('page')
     paginator = Paginator(events, 10)
@@ -31,15 +31,13 @@ def eventList(request):
         events = paginator.page(1)
     except EmptyPage:
         events = paginator.page(paginator.num_pages)
-    
+
     if page == None:
         page = 1
-    
+
     page = int(page)
 
-
-    # Creating serializer. Serializer -> Wraps our model and turns it into JSON format
-    serializer = Event(events, many=True) # many=True -> Serializing many products
+    serializer = EventSerializer(events, many=True)
     return Response({'events':serializer.data, 'page':page, 'pages':paginator.num_pages})
 
 @api_view(['POST'])
@@ -47,10 +45,16 @@ def eventList(request):
 def createEvent(request):
     user = request.user
 
+    # Get the current date and time
+    now = datetime.datetime.now()
+
+    # Format the date and time using strftime() method
+    date_time_str = now.strftime("%Y-%m-%d %H:%M:%S")
+
     event = Event.objects.create(
-        user=user,
+        user = user,
         title='Sample Name',
-        date = '0',
+        date = date_time_str,
         event_description='',
         location='',
     )
@@ -61,19 +65,12 @@ def createEvent(request):
 @api_view(['PUT'])
 @permission_classes([IsAdminUser])
 def updateEvent(request, pk):
-    data = request.data
-    event = Event.objects.get(_id=pk)
-
-    event.name = data['name']
-    event.price = data['price']
-    event.category = data['category']
-    event.countInStock = data['countInStock']
-    event.description = data['description']
-    
-    event.save()
-    
-    serializer = EventSerializer(event, many=False)
-    return Response(serializer.data)
+    event = get_object_or_404(Event, _id=pk)
+    serializer = EventSerializer(event, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['DELETE'])
 @permission_classes([IsAdminUser])

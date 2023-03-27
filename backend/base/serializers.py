@@ -128,4 +128,4 @@ class BiddingProductSerializer(serializers.ModelSerializer):
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = ['id', 'title', 'description', 'date', 'location', 'event']
+        fields = '__all__'

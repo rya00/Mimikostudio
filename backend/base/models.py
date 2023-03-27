@@ -86,6 +86,7 @@ class ShippingAddress(models.Model):
 # Bidding
     
 class BiddingProduct(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     bidding_name = models.CharField(max_length=100)
     bidding_description = models.TextField()
     image = models.ImageField(null=True, blank=True, 
@@ -111,6 +112,7 @@ class Bid(models.Model):
 from django.db import models
 
 class Event(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     title = models.CharField(max_length=200)
     image = models.ImageField(null=True, blank=True, 
                               default='/placeholder.png')

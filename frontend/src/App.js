@@ -11,12 +11,15 @@ import CartScreen from './screens/CartScreen'
 import LoginScreen from './screens/LoginScreen'
 import RegisterScreen from './screens/RegisterScreen'
 import ProfileScreen from './screens/ProfileScreen'
+import EventScreen from './screens/EventScreen'
 import ShippingScreen from './screens/ShippingScreen'
 import PaymentScreen from './screens/PaymentScreen'
 import PlaceOrderScreen from './screens/PlaceOrderScreen'
 import OrderScreen from './screens/OrderScreen'
 import UserListScreen from './screens/UserListScreen'
 import UserEditScreen from './screens/UserEditScreen'
+import EventListScreen from './screens/EventListScreen'
+import EventEditScreen from './screens/EventEditScreen'
 import ProductListScreen from './screens/ProductListScreen'
 import ProductEditScreen from './screens/ProductEditScreen'
 import BiddingListScreen from './screens/BiddingListScreen'
@@ -32,6 +35,7 @@ function App() {
           <Routes>
             <Route exact path='/' element={< HomeScreen />} />
             <Route exact path='/biddings' element={< BiddingScreen />} />
+            <Route exact path='/events' element={< EventScreen />} />
             <Route path='/login' element={< LoginScreen />} />
             <Route path='/register' element={< RegisterScreen />} />
             <Route path='/profile' element={< ProfileScreen />} />
@@ -54,6 +58,9 @@ function App() {
 
             <Route path='/admin/biddinglist' element={< BiddingListScreen />} />
             <Route path='/admin/bidding/:id/edit' element={< BiddingEditScreen />} />
+
+            <Route path='/admin/eventlist' element={< EventListScreen />} />
+            <Route path='/admin/event/:id/edit' element={< EventEditScreen />} />
 
             <Route path='/admin/orderlist' element={< OrderListScreen />} />
           </Routes>

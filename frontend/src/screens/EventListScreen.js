@@ -6,25 +6,25 @@ import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import Paginate from '../components/Paginate'
-import { listBiddings, deleteBidding, createBidding } from '../actions/biddingActions'
-import { BIDDING_CREATE_RESET } from '../constants/biddingConstants'
+import { listEvents, deleteEvent, createEvent } from '../actions/eventActions'
+import { EVENT_CREATE_RESET } from '../constants/eventConstants'
 
 
-function BiddingListScreen() {
+function EventListScreen() {
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
     // const { id } = useParams()
 
-    const biddingList = useSelector(state => state.biddingList)
-    // Destructuring biddingList and pulling out data
-    const {loading, error, bidding_products, pages, page} = biddingList
+    const eventList = useSelector(state => state.eventList)
+    // Destructuring eventList and pulling out data
+    const {loading, error, events, pages, page} = eventList
 
-    const biddingDelete = useSelector(state => state.biddingDelete)
-    const {loading:loadingDelete, error:errorDelete, success:successDelete} = biddingDelete
+    const eventDelete = useSelector(state => state.eventDelete)
+    const {loading:loadingDelete, error:errorDelete, success:successDelete} = eventDelete
     
-    const biddingCreate = useSelector(state => state.biddingCreate)
-    const {loading:loadingCreate, error:errorCreate, success:successCreate, bidding_product:createdBidding} = biddingCreate
+    const eventCreate = useSelector(state => state.eventCreate)
+    const {loading:loadingCreate, error:errorCreate, success:successCreate, event:createdEvent} = eventCreate
 
     const userLogin = useSelector(state => state.userLogin)
     const { userInfo } = userLogin
@@ -34,39 +34,39 @@ function BiddingListScreen() {
     let keyword = location.search
 
     useEffect(() => {
-        dispatch({type:BIDDING_CREATE_RESET})
+        dispatch({type:EVENT_CREATE_RESET})
 
         if(!userInfo.isAdmin){
             navigate('/login')
         }
 
         if(successCreate){
-            navigate(`/admin/bidding/${createdBidding._id}/edit`)
+            navigate(`/admin/event/${createdEvent._id}/edit`)
         }else{
-            dispatch(listBiddings(keyword))
+            dispatch(listEvents(keyword))
         }
         
-    }, [dispatch, navigate, userInfo, successDelete, successCreate, createdBidding, keyword])
+    }, [dispatch, navigate, userInfo, successDelete, successCreate, createdEvent, keyword])
 
     const deleteHandler = (id) =>{
-        if(window.confirm('Are you sure you want to delete this product?')){
-            dispatch(deleteBidding(id))
+        if(window.confirm('Are you sure you want to delete this event?')){
+            dispatch(deleteEvent(id))
         }
     }
 
-    const createBiddingHandler = () =>{
-        dispatch(createBidding())
+    const createEventHandler = () =>{
+        dispatch(createEvent())
     }
 
     return (
         <div>
             <Row className='align-items-center'>
                 <Col>
-                    <h1>Bids</h1>
+                    <h1>Events</h1>
                 </Col>
                 <Col className='text-right'>
-                    <Button className='my-3' onClick={createBiddingHandler}>
-                        <i className='fa fa-plus'></i>Add Bidding Product
+                    <Button className='my-3' onClick={createEventHandler}>
+                        <i className='fa fa-plus'></i>Add Event
                     </Button>
                 </Col>
             </Row>
@@ -87,28 +87,28 @@ function BiddingListScreen() {
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>PRODUCT</th>
-                                        <th>BIDDER</th>
-                                        <th>PRICE</th>
+                                        <th>NAME</th>
+                                        <th>DATE</th>
+                                        <th>LOCATION</th>
                                         <th></th>
                                     </tr> 
                                 </thead>
 
                                 <tbody>
-                                    {bidding_products.map(bidding_product => (
-                                        <tr key={bidding_product._id}>
-                                            <td>{bidding_product._id}</td>
-                                            <td>{bidding_product.bidding_name}</td>
-                                            <td>{bidding_product.highest_bidder}</td>
-                                            <td>Rs. {bidding_product.current_price}</td>
+                                    {events.map(event => (
+                                        <tr key={event._id}>
+                                            <td>{event._id}</td>
+                                            <td>{event.title}</td>
+                                            <td>{event.date}</td>
+                                            <td>{event.location}</td>
                                             <td>
-                                                <LinkContainer to={`/admin/bidding/${bidding_product._id}/edit`}>
+                                                <LinkContainer to={`/admin/event/${event._id}/edit`}>
                                                     <Button variant='light' className='btn-sm'>
                                                         <i className='fas fa-edit'></i>
                                                     </Button>
                                                 </LinkContainer>
                                                 
-                                                <Button variant='danger' className='btn-sm' onClick={() => deleteHandler(bidding_product._id)}>
+                                                <Button variant='danger' className='btn-sm' onClick={() => deleteHandler(event._id)}>
                                                         <i className='fas fa-trash'></i>
                                                 </Button>
                                             </td>
@@ -126,4 +126,4 @@ function BiddingListScreen() {
     )
 }
 
-export default BiddingListScreen
+export default EventListScreen

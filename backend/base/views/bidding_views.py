@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from base.models import BiddingProduct, Bid
 from base.serializers import BiddingProductSerializer, BidSerializer
 from rest_framework import status
+import datetime
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from decimal import Decimal, InvalidOperation
@@ -53,6 +54,7 @@ def bidding_product_detail(request, pk):
 def createProductBid(request, pk):
     user = request.user
     bidding_product = BiddingProduct.objects.get(_id=pk)
+    bidding_count = bidding_product.count()
     data = request.data
 
     if bidding_product.end_time < timezone.now():
@@ -79,17 +81,29 @@ def createProductBid(request, pk):
     
     data = serializer.data
 
-    return Response(data, status=status.HTTP_201_CREATED)
-
+    return Response({'bidding_product': data, 'bidCount': bidding_count})
 
 @api_view(['POST'])
 @permission_classes([IsAdminUser])
-def create_bidding_product(request):
-    serializer = BiddingProductSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+def createBidding(request):
+    user = request.user
+
+    # Get the current date and time
+    now = datetime.datetime.now()
+
+    # Format the date and time using strftime() method
+    date_time_str = now.strftime("%Y-%m-%d %H:%M:%S")
+
+    bidding_product = BiddingProduct.objects.create(
+        user=user,
+        bidding_name='Sample Name',
+        minimum_price=0,
+        end_time=date_time_str,
+        bidding_description=''
+    )
+    
+    serializer = BiddingProductSerializer(bidding_product, many=False)
+    return Response(serializer.data)
 
 @api_view(['PUT'])
 @permission_classes([IsAdminUser])
