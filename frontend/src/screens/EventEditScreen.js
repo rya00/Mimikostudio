@@ -31,19 +31,35 @@ function EventListScreen() {
     const eventUpdate = useSelector(state => state.eventUpdate)
     const {error:errorUpdate, loading:loadingUpdate, success:successUpdate} = eventUpdate
 
+    // useEffect(() => {
+    //     if(successUpdate){
+    //         dispatch({type:EVENT_UPDATE_RESET})
+    //         navigate('/admin/eventlist')
+    //     }else{
+    //             setTitle(event.title)
+    //             setDate(event.date)
+    //             setImage(event.image)
+    //             setLocation(event.location)
+    //             setEventDescription(event.event_description)
+    //         } else {
+    //             dispatch(listEventDetails(eventId))
+    //         }
+    //     }
+    // }, [dispatch, event, eventId, navigate, successUpdate])
+
     useEffect(() => {
         if(successUpdate){
             dispatch({type:EVENT_UPDATE_RESET})
             navigate('/admin/eventlist')
         }else{
-            if (event && event._id === Number(eventId)) {
+            if(!event.title || event._id !== Number(eventId)){
+                dispatch(listEventDetails(eventId))
+            }else{
                 setTitle(event.title)
                 setDate(event.date)
                 setImage(event.image)
                 setLocation(event.location)
                 setEventDescription(event.event_description)
-            } else {
-                dispatch(listEventDetails(eventId))
             }
         }
     }, [dispatch, event, eventId, navigate, successUpdate])
@@ -63,9 +79,10 @@ function EventListScreen() {
     const uploadFileHandler = async (e) => {
         const file = e.target.files[0]
         // Using form data function and adding file and event id to form data
+        console.log(file)
         const formData = new FormData()
 
-        formData.append('image', file)
+        formData.append('image', file, file.name)
         formData.append('event_id', eventId)
 
         setUploading(true)

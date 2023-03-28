@@ -12,6 +12,8 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from django.contrib.auth.hashers import make_password
 from rest_framework import status
 
+from django.core.mail import EmailMessage
+
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
         data = super().validate(attrs)
@@ -26,6 +28,37 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
+# def send_verification_email(user_email):
+#     subject = 'Please verify your email'
+#     message = 'Thank you for registering. Please click the link to verify your email.'
+#     from_email = 'mimikostudio@gmail.com'
+#     recipient_list = [user_email]
+#     send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+
+# @api_view(['POST'])
+# def registerUser(request):
+#     data = request.data
+
+#     try:
+#         user = User.objects.create(
+#             first_name=data['name'],
+#             username=data['email'],
+#             email=data['email'],
+#             password=make_password(data['password'])
+#         )
+#         serializer = UserSerializerWithToken(user, many=False)
+#         send_mail(
+#             'Welcome to Mimikostudio!',
+#             'Thank you for registering with us. Please click the link below to verify your account:\nhttp://localhost:3000/verify/' + str(serializer.data['id']) + '/',
+#             'mimikostudio@gmail.com',
+#             [data['email']],
+#             fail_silently=False,
+#         )
+#         return Response(serializer.data)
+#     except:
+#         message = {'detail': 'User with this email already exists'}
+#         return Response(message, status=status.HTTP_400_BAD_REQUEST)
+
 @api_view(['POST'])
 def registerUser(request):
     data = request.data
@@ -34,8 +67,7 @@ def registerUser(request):
         user = User.objects.create(
             first_name = data['name'],
             username = data['email'],
-            email = data['email'],
-            password = make_password(data['password'])
+            email = data['email']
         )
 
         serializer = UserSerializerWithToken(user, many=False)
@@ -43,6 +75,26 @@ def registerUser(request):
     except:
         message = {'detail': 'User with this email already exists.'}
         return Response(message, status=status.HTTP_400_BAD_REQUEST)
+
+# @api_view(['POST'])
+# def registerUser(request):
+#     data = request.data
+
+#     try:
+#         user = User.objects.create(
+#             first_name=data['name'],
+#             username=data['email'],
+#             email=data['email'],
+#             password=make_password(data['password'])
+#         )
+
+#         send_verification_email(user.email)
+
+#         serializer = UserSerializerWithToken(user, many=False)
+#         return Response(serializer.data)
+#     except:
+#         message = {'detail': 'User with this email already exists.'}
+#         return Response(message, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])

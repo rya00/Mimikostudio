@@ -175,3 +175,10 @@ CORS_ALLOW_ALL_ORIGINS = True
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'mimikostudio@gmail.com'
+EMAIL_HOST_PASSWORD = "r5e5y1@ree_ya"
+EMAIL_PORT = 587

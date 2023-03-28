@@ -71,12 +71,18 @@ def createEvent(request):
 @api_view(['PUT'])
 @permission_classes([IsAdminUser])
 def updateEvent(request, pk):
-    event = get_object_or_404(Event, _id=pk)
-    serializer = EventSerializer(event, data=request.data, partial=True)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    data = request.data
+    event = Event.objects.get(_id=pk)
+
+    event.title = data['title']
+    event.location = data['location']
+    event.date = data['date']
+    event.event_description = data['event_description']
+    
+    event.save()
+    
+    serializer = EventSerializer(event, many=False)
+    return Response(serializer.data)
 
 @api_view(['DELETE'])
 @permission_classes([IsAdminUser])

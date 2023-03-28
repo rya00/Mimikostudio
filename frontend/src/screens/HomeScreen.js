@@ -36,12 +36,15 @@ function HomeScreen() {
   const handleSortChange = (e) => {
     const selectedSort = e.target.value;
     setSort(selectedSort);
-    if (selectedSort) {
-      keyword = `?keyword=${keyword}&sort=${selectedSort}`;
+    let newKeyword = '';
+    if (keyword && keyword.includes('keyword=')) {
+      // Keyword is already present, so just update the sort parameter
+      newKeyword = `${keyword}&sort=${selectedSort}`;
     } else {
-      keyword = `?keyword=${keyword}`;
+      // Keyword is not present, so set the sort parameter with a leading "?"
+      newKeyword = `?sort=${selectedSort}`;
     }
-    dispatch(listProducts(keyword));
+    dispatch(listProducts(newKeyword));
   };
   
   return (
