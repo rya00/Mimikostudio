@@ -58,7 +58,7 @@ function HomeScreen() {
         <option value="price_desc">Price (High to Low)</option>
       </select>
 
-      <h1>Latest Products</h1>
+      <h1>All Products</h1>
       {loading ? <Loader />
         : error ? <Message variant='danger'>{error}</Message>
           :

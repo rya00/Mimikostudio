@@ -24,7 +24,7 @@ def bidding_product_list(request):
     bidding_products = BiddingProduct.objects.filter(bidding_name__icontains=query) # setting variable for query
 
     page = request.query_params.get('page')
-    paginator = Paginator(bidding_products, 10)
+    paginator = Paginator(bidding_products, 12)
 
     try:
         bidding_products = paginator.page(page)

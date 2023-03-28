@@ -23,7 +23,7 @@ def eventList(request):
     events = Event.objects.filter(title__icontains=query)
 
     page = request.query_params.get('page')
-    paginator = Paginator(events, 10)
+    paginator = Paginator(events, 12)
 
     try:
         events = paginator.page(page)

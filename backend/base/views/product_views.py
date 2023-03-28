@@ -32,7 +32,7 @@ def getProducts(request):
         products = products.order_by('-price')
 
     # Paginate the products
-    paginator = Paginator(products, 10)
+    paginator = Paginator(products, 12)
     page = request.query_params.get('page')
     try:
         products = paginator.page(page)
