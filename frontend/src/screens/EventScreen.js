@@ -19,6 +19,9 @@ function EventScreen() {
   // Destructuring eventListReducer
   const {error, loading, events, page, pages} = eventList
 
+  const eventDetails = useSelector((state) => state.eventDetails);
+  const { loading:loadingEvent, error:errorEvent, event } = eventDetails;
+
   let keyword = location.search
 
   // useEffect ->  Triggered every single time the component loads or when a state value gets updated

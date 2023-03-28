@@ -5,6 +5,10 @@ import {
     EVENT_LIST_SUCCESS,
     EVENT_LIST_FAIL,
 
+    EVENT_DETAILS_REQUEST,
+    EVENT_DETAILS_SUCCESS,
+    EVENT_DETAILS_FAIL,
+
     EVENT_DELETE_REQUEST,
     EVENT_DELETE_SUCCESS,
     EVENT_DELETE_FAIL,
@@ -40,6 +44,24 @@ export const eventListReducer = (state = {events:[]}, action) => {
         
         default:
             return state
+    }
+}
+
+export const eventDetailsReducer = (state = {event:[] }, action) => {
+    switch(action.type){
+        case EVENT_DETAILS_REQUEST:
+            return {loading:true, ...state} 
+        
+        case EVENT_DETAILS_SUCCESS:
+            return {loading:false, event: action.payload}
+
+        case EVENT_DETAILS_FAIL:
+            // Adding error attribute and response from payload
+            return {loading:false, error: action.payload}
+        
+        default:
+            return state
+
     }
 }
 

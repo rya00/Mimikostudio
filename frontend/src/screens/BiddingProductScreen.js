@@ -14,6 +14,8 @@ function BiddingProductScreen( ) {
     const [highest_bidder, setHighestBidder] = useState('')
     // let bidCount = response.bid_count;
 
+    const [bids, setBids] = useState([]);
+
     const dispatch = useDispatch();
 
     const biddingDetails = useSelector((state) => state.biddingDetails);
@@ -54,8 +56,14 @@ function BiddingProductScreen( ) {
           return;
         }
       
-        dispatch(createProductBid(id, { amount, highest_bidder }));
+        dispatch(createProductBid(id, { id, amount, highest_bidder }));
     };
+
+    useEffect(() => {
+        if (bidding_product && bidding_product.bids) {
+          setBids(bidding_product.bids);
+        }
+      }, [bidding_product]);
 
     return (
         <div>
@@ -119,68 +127,54 @@ function BiddingProductScreen( ) {
                                                     </Col>
                                                 </Row>
                                             </ListGroup.Item>
-
-                                            {/* <ListGroup.Item>
-                                                <Row>
-                                                    <Col>Bids:</Col>
-                                                    <Col>
-                                                    <strong value={bidding_product.bid} text={`${bidding_product.numBids} bids`} />
-                                                    </Col>
-                                                </Row>
-                                            </ListGroup.Item> */}
                                             
                                             <ListGroup.Item>
                                                 <Row>
                                                     <Col>Your Price:</Col>
-                                                    <Col>
-                                                        <Form.Group controlId='bid'>
-                                                            <Form.Label>Your Bid</Form.Label>
-                                                            <Form.Control
-                                                                as='textarea'
-                                                                row='5'
-                                                                value={amount}
-                                                                onChange={(e) => setAmount(e.target.value)}
-                                                            ></Form.Control>
-                                                        </Form.Group>
-                                                    </Col>
+                                                    {userInfo ? (
+                                                        <form onSubmit={submitBidHandler}>
+                                                        <input
+                                                            type='textarea'
+                                                            placeholder='Enter amount'
+                                                            disabled={bidding_product.end_time < {date}}
+                                                            value={amount}
+                                                            onChange={(e) => setAmount(e.target.value)}
+                                                        />
+                                                        <br></br>
+                                                        <button 
+                                                            type='submit'
+                                                            disabled={bidding_product.end_time < {date}}
+                                                        >
+                                                            Bid
+                                                        </button>
+                                                        </form>
+                                                    ) : (
+                                                        <p>Please login to bid on this product.</p>
+                                                    )}
+                                                    {errorProductBid && <p>{errorProductBid}</p>}
+                                                    {successProductBid && <p>Bid successfully placed.</p>}
                                                 </Row>
                                             </ListGroup.Item>
-                                            {userInfo? (
-                                                <ListGroup.Item>
-                                                <Button 
-                                                    onClick={submitBidHandler}
-                                                    className='btn-block' 
-                                                    type='button'
-                                                > 
-                                                    Bid
-                                                </Button>
-                                            </ListGroup.Item>):(
-                                                <Message variant='info'>Please <Link to='/login'>login</Link> to bid.</Message>
-                                            )}
                                         </ListGroup>
                                     </Card>
                                 </Col>
                             </Row>
-                            {/* <Row>
+                            <Row>
                             <Col md={6}>
                                 <h4>Bids</h4>
-                                {bidding_product.bids.length === 0 && <Message variant='info'>No Bids</Message>}
-                                {bidding_product.bids.length > 0 && 
-                                    <div>
-                                    <p>Total Bids: {bidding_product.bids}</p>
-                                    <ListGroup variant='flush'>
-                                        {bidding_product.bids.map((bid) => (
-                                        <ListGroup.Item key={bid._id}>
-                                            <strong>{bid.bidder}</strong>
-                                            <strong>{bid.amount}</strong>
-                                            <p>{bid.timestamp.substring(0, 10)}</p>
-                                        </ListGroup.Item>
+                                {bids.length > 0 ? (
+                                        <ul>
+                                        {bids.map((bid) => (
+                                            <li key={bid.id}>
+                                            Bidder Email: {bid.bidder.email} - Highest Bid Amount: {bid.amount}
+                                            </li>
                                         ))}
-                                    </ListGroup>
-                                    </div>
-                                }
+                                        </ul>
+                                    ) : (
+                                        <p>No bids yet.</p>
+                                )}
                             </Col>
-                            </Row> */}
+                            </Row>
                         </div>
                     )
 

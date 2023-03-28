@@ -58,13 +58,13 @@ export const biddingListReducer = (state = {bidding_products:[]}, action) => {
 
 }
 
-export const biddingDetailsReducer = (state = {bidding_product:[] }, action) => {
+export const biddingDetailsReducer = (state = {bidding_product:[], bidding_count: 0}, action) => {
     switch(action.type){
         case BIDDING_DETAILS_REQUEST:
-            return {loading:true, ...state} 
+            return {loading:true, ...state, bidding_count: 0} 
         
         case BIDDING_DETAILS_SUCCESS:
-            return {loading:false, bidding_product: action.payload}
+            return {loading:false, bidding_product: action.payload, bidding_count: action.payload.bidding_count}
 
         case BIDDING_DETAILS_FAIL:
             // Adding error attribute and response from payload

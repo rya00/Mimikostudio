@@ -49,12 +49,44 @@ def bidding_product_detail(request, pk):
     serializer = BiddingProductSerializer(bidding_product)
     return Response(serializer.data)
 
+# @api_view(['POST'])
+# @permission_classes([IsAuthenticated])
+# def createProductBid(request, pk):
+#     user = request.user
+#     bidding_product = BiddingProduct.objects.get(_id=pk)
+#     data = request.data
+
+#     if bidding_product.end_time < timezone.now():
+#         content = {'detail': 'Bidding has ended for this product.'}
+#         return Response(content, status=status.HTTP_400_BAD_REQUEST)
+#     if 'amount' not in data:
+#         content = {'detail': 'Amount is required.'}
+#         return Response(content, status=status.HTTP_400_BAD_REQUEST)
+#     amount = data['amount']
+#     try:
+#         decimal_amount = Decimal(amount)
+#     except InvalidOperation:
+#         content = {'detail': 'Invalid amount.'}
+#         return Response(content, status=status.HTTP_400_BAD_REQUEST)
+#     if decimal_amount < bidding_product.minimum_price or decimal_amount <= bidding_product.current_price:
+#         content = {'detail': 'Invalid amount.'}
+#         return Response(content, status=status.HTTP_400_BAD_REQUEST)
+#     bid = Bid.objects.create(bidding_product=bidding_product, bidder=user, amount=decimal_amount)
+#     bidding_product.current_price = decimal_amount
+#     bidding_product.highest_bidder = user
+
+#     bidding_product.save()
+#     serializer = BidSerializer(bid)
+    
+#     data = serializer.data
+
+#     return Response(data, status=status.HTTP_201_CREATED)
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def createProductBid(request, pk):
     user = request.user
     bidding_product = BiddingProduct.objects.get(_id=pk)
-    bidding_count = bidding_product.count()
     data = request.data
 
     if bidding_product.end_time < timezone.now():
@@ -75,13 +107,16 @@ def createProductBid(request, pk):
     bid = Bid.objects.create(bidding_product=bidding_product, bidder=user, amount=decimal_amount)
     bidding_product.current_price = decimal_amount
     bidding_product.highest_bidder = user
+    
+    # Increment the number of bids on the product by 1
+    bidding_product.numberBids = Bid.objects.filter(bidding_product=bidding_product).count()
 
     bidding_product.save()
     serializer = BidSerializer(bid)
     
     data = serializer.data
 
-    return Response({'bidding_product': data, 'bidCount': bidding_count})
+    return Response(data, status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])
 @permission_classes([IsAdminUser])

@@ -4,6 +4,10 @@ import {
     EVENT_LIST_SUCCESS,
     EVENT_LIST_FAIL,
 
+    EVENT_DETAILS_REQUEST,
+    EVENT_DETAILS_SUCCESS,
+    EVENT_DETAILS_FAIL,
+
     EVENT_DELETE_REQUEST,
     EVENT_DELETE_SUCCESS,
     EVENT_DELETE_FAIL,
@@ -34,6 +38,29 @@ export const listEvents = (keyword = '') => async ( dispatch ) => {
     }catch(error){
         dispatch({
             type: EVENT_LIST_FAIL,
+            payload:error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message,
+        })
+
+    }
+
+}
+
+export const listEventDetails = (id) => async ( dispatch ) => {
+    try{
+        // Fires off first reducer
+        dispatch({type: EVENT_DETAILS_REQUEST})
+
+        const {data} = await axios.get(`/api/events/${id}`)
+
+        dispatch({
+            type:EVENT_DETAILS_SUCCESS,
+            payload:data
+        })
+    }catch(error){
+        dispatch({
+            type: EVENT_DETAILS_FAIL,
             payload:error.response && error.response.data.detail
                 ? error.response.data.detail
                 : error.message,

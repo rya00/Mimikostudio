@@ -21,6 +21,7 @@ import {
 } from './reducers/biddingReducers'
 import { 
         eventListReducer,
+        eventDetailsReducer,
         eventCreateReducer,
         eventDeleteReducer,
         eventUpdateReducer,
@@ -55,6 +56,7 @@ const reducer = combineReducers({
   productTopRated: productTopRatedReducer,
 
   eventList: eventListReducer,
+  eventDetails: eventDetailsReducer,
   eventDelete: eventDeleteReducer,
   eventCreate: eventCreateReducer,
   eventUpdate: eventUpdateReducer,

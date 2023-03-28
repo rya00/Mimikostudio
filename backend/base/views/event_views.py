@@ -40,6 +40,12 @@ def eventList(request):
     serializer = EventSerializer(events, many=True)
     return Response({'events':serializer.data, 'page':page, 'pages':paginator.num_pages})
 
+@api_view(['GET'])
+def event_detail(request, pk):
+    event = Event.objects.get(_id=pk)
+    serializer = EventSerializer(event)
+    return Response(serializer.data)
+
 @api_view(['POST'])
 @permission_classes([IsAdminUser])
 def createEvent(request):
@@ -59,7 +65,7 @@ def createEvent(request):
         location='',
     )
     
-    serializer = Event(event, many=False)
+    serializer = EventSerializer(event, many=False)
     return Response(serializer.data)
 
 @api_view(['PUT'])

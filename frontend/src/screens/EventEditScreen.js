@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import FormContainer from '../components/FormContainer'
-import { listEvents, updateEvent } from '../actions/eventActions'
+import { listEventDetails, updateEvent } from '../actions/eventActions'
 import { EVENT_UPDATE_RESET } from '../constants/eventConstants'
 
 function EventListScreen() {
@@ -17,7 +17,7 @@ function EventListScreen() {
     const [title, setTitle] = useState('')
     const [image, setImage] = useState('')
     const [date, setDate] = useState('')
-    const [location, setLocation] = useState(0)
+    const [location, setLocation] = useState('')
     const [event_description, setEventDescription] = useState('')
     const [uploading, setUploading] = useState(false)
 
@@ -26,7 +26,7 @@ function EventListScreen() {
     const dispatch = useDispatch()
 
     const eventDetails = useSelector(state => state.eventDetails)
-    const {error, loading, event} = eventDetails
+    const {loading:loadingEvent, error:errorEvent, event} = eventDetails
 
     const eventUpdate = useSelector(state => state.eventUpdate)
     const {error:errorUpdate, loading:loadingUpdate, success:successUpdate} = eventUpdate
@@ -36,14 +36,14 @@ function EventListScreen() {
             dispatch({type:EVENT_UPDATE_RESET})
             navigate('/admin/eventlist')
         }else{
-            if(!event.title || event._id !== Number(eventId)){
-                dispatch(listEvents(eventId))
-            }else{
+            if (event && event._id === Number(eventId)) {
                 setTitle(event.title)
                 setDate(event.date)
                 setImage(event.image)
                 setLocation(event.location)
                 setEventDescription(event.event_description)
+            } else {
+                dispatch(listEventDetails(eventId))
             }
         }
     }, [dispatch, event, eventId, navigate, successUpdate])
@@ -95,7 +95,7 @@ function EventListScreen() {
                 <h1> Edit Event</h1>
                 {loadingUpdate && < Loader />}
                 {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
-                {loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> 
+                {loadingEvent ? <Loader /> : errorEvent ? <Message variant='danger'>{errorEvent}</Message> 
                     :(
                         <Form onSubmit={ submitHandler }>
                             <Form.Group controlId='title'>
