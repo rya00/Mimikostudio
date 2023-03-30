@@ -118,6 +118,9 @@ h3 {
 
   position: relative;
   overflow: hidden;
+  border: 0px !important;
+  padding: 0px !important;
+  background-color: #F7F7F7 !important;
 }
 
 .product-card:hover {
@@ -125,28 +128,29 @@ h3 {
   height: calc(500px + 10%); */
   transform: scale(1.02);
   transform: translateY(-10px);
+  background-color: #AECBB4 !important;
 }
 
-.product-card:hover::before {
+/* .product-card:hover::before {
   content: "View Details";
   position: absolute;
   top: 100%;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(220, 220, 220, 0.9); /* adjust RGBA values */
+  background-color: rgba(220, 220, 220, 0.9); 
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 20; /* set z-index to place above card content */
+  z-index: 20; 
   transform: translateY(100%);
   transition: all 0.3s ease;
-  backdrop-filter: blur(3px); /* add backdrop filter */
+  backdrop-filter: blur(3px); 
 }
 
 .product-card:hover::before {
   transform: translateY(-100%);
-}
+} */
 
 .painting-container {
   margin-bottom: 30px;
@@ -243,8 +247,13 @@ h3 {
 }
 
 .product-card-body {
-  padding-left: 0px !important;
+  padding-left: 10px !important;
 }
+
+/* .product-card-body:hover {
+  background-color: #AECBB4;
+} */
+
 .price {
   font-size: medium;
   margin-bottom: 0px;
@@ -320,6 +329,30 @@ a:link {
   width: 100%;
   height: 80vh;
   background-color: #389f5c;
+}
+
+.paint{
+  display: flex;
+ flex:  1 1 auto;
+ background-color: red;
+}
+
+.carousel-img-container {
+  flex: 0 0 30%; /* set the flex-grow, flex-shrink and flex-basis properties to achieve the desired width */
+  height: 100%;
+
+  margin-left: auto;
+
+  /* border: 2px solid black; */
+  background-image: url("https://picsum.photos/200/300");
+  background-repeat: no-repeat;
+}
+
+.carousel-img-container img {
+  margin: 0px !important;
+  border-radius: 0%;
+  padding: 0px;
+  height: 100%;
 }
 
 /* for mobiles apparently */
