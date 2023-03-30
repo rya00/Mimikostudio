@@ -327,32 +327,35 @@ a:link {
 
 .about-carousel{
   width: 100%;
-  height: 80vh;
+  height: 83vh;
   background-color: #389f5c;
+  /* background-image: url("./images/red_door.jpg");
+  background-size: cover;
+  background-position: center 30%;
+  background-repeat: no-repeat; */
 }
 
-.paint{
-  display: flex;
- flex:  1 1 auto;
- background-color: red;
-}
-
-.carousel-img-container {
-  flex: 0 0 30%; /* set the flex-grow, flex-shrink and flex-basis properties to achieve the desired width */
+.carousel-pics, .carousel-pics-1, .carousel-pics-2{
   height: 100%;
-
-  margin-left: auto;
-
-  /* border: 2px solid black; */
-  background-image: url("https://picsum.photos/200/300");
-  background-repeat: no-repeat;
+  width: 100%;
+  background-image: url("./images/red_door.jpg");
+  background-size: cover;
+  background-position: center 30%;
 }
 
-.carousel-img-container img {
-  margin: 0px !important;
-  border-radius: 0%;
-  padding: 0px;
-  height: 100%;
+.carousel-pics-1{
+  background-image: url("./images/angels.jpg");
+  background-position: center 0%;
+}
+
+.carousel-pics-2{
+  background-image: url("./images/stones.jpg");
+  background-position: center 50%;
+}
+
+
+.carousel-inner{
+  height: 100% !important;
 }
 
 /* for mobiles apparently */

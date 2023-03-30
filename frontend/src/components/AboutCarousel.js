@@ -5,12 +5,13 @@ const AboutCarousel = () => {
   return (
     <>
       <Carousel pause="hover" className="about-carousel">
-        <Carousel.Item>
-          {/* <Image src="https://picsum.photos/200/300" alt="img" fluid /> */}
-          <div className="carousel-img-container">
-        ss
-          {/* <img src="https://picsum.photos/200/300" alt="painting" ></img> */}
-          </div>
+        <Carousel.Item className="carousel-pics">
+        </Carousel.Item>
+
+        <Carousel.Item className="carousel-pics-1">
+        </Carousel.Item>
+
+        <Carousel.Item className="carousel-pics-2">
         </Carousel.Item>
       </Carousel>
     </>
