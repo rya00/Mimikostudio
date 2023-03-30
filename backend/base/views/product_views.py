@@ -21,15 +21,16 @@ def getProducts(request):
     else:
         products = Product.objects.all()
 
-    # Sort products if a sort parameter is provided
-    if sort == 'name_asc':
-        products = products.order_by('name')
-    elif sort == 'name_desc':
-        products = products.order_by('-name')
-    elif sort == 'price_asc':
-        products = products.order_by('price')
-    elif sort == 'price_desc':
-        products = products.order_by('-price')
+    # Apply sorting if a sort parameter is provided
+    if sort:
+        if sort == 'price_asc':
+            products = products.order_by('price')
+        elif sort == 'price_desc':
+            products = products.order_by('-price')
+        elif sort == 'name_asc':
+            products = products.order_by('name')
+        elif sort == 'name_desc':
+            products = products.order_by('-name')
 
     # Paginate the products
     paginator = Paginator(products, 12)

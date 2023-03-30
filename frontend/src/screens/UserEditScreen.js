@@ -16,6 +16,8 @@ function UserEditScreen() {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [isAdmin, setIsAdmin] = useState(false)
+    const [nameError, setNameError] = useState('')
+    const [emailError, setEmailError] = useState('')
 
     const navigate = useNavigate()
 
@@ -26,6 +28,26 @@ function UserEditScreen() {
 
     const userUpdate = useSelector(state => state.userUpdate)
     const {error:errorUpdate, loading:loadingUpdate, success:successUpdate} = userUpdate
+
+    const validateName = (name) => {
+        if (name === "") {
+            setNameError("Name cannot be empty.");
+        } else {
+            setNameError("");
+        }
+    }
+
+    const validateEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+.[^\s@]+$/;
+
+        if (!emailRegex.test(email)){
+            setEmailError("Please enter a valid email address.");
+        } else if (email === "") {
+            setEmailError("Email cannot be empty.");
+        } else {
+            setEmailError("");
+        }
+    }
 
     useEffect(() => {
         if(successUpdate){
@@ -65,9 +87,13 @@ function UserEditScreen() {
                                     type='name'
                                     placeholder='Enter name'
                                     value={name}
-                                    onChange={(e) => setName(e.target.value) }
+                                    onChange={(e) => {
+                                        setName(e.target.value);
+                                        validateName(e.target.value);
+                                    }}
                                 >
                                 </Form.Control>
+                                {nameError  && <Message variant="danger">{nameError}</Message>}
                             </Form.Group>
 
                             <Form.Group controlId='email'>
@@ -76,9 +102,13 @@ function UserEditScreen() {
                                     type='email'
                                     placeholder='Enter email'
                                     value={email}
-                                    onChange={(e) => setEmail(e.target.value) }
+                                    onChange={(e) => {
+                                        setEmail(e.target.value); 
+                                        validateEmail(e.target.value);
+                                    }}
                                 >
                                 </Form.Control>
+                                {emailError  && <Message variant="danger">{emailError}</Message>}
                             </Form.Group>
 
                             <Form.Group controlId='isadmin'>

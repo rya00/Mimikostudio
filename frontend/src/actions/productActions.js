@@ -31,7 +31,7 @@ import {
 } from '../constants/productConstants'
 
 // Function responsible for replacing API call that was previously used in HomeScreen
-export const listProducts = (keyword = '', sort = '') => async ( dispatch ) => {
+export const listProducts = (keyword = '') => async ( dispatch ) => {
     try{
         // Fires off first reducer
         dispatch({type: PRODUCT_LIST_REQUEST})

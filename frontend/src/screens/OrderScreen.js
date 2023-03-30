@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { PayPalButton } from 'react-paypal-button-v2'
+// import { PayPalButton } from 'react-paypal-button-v2'
 import Message from '../components/Message'
 import { getOrderDetails, payOrder, deliverOrder } from '../actions/orderActions'
 import Loader from '../components/Loader'
@@ -17,7 +17,7 @@ function OrderScreen() {
     const orderId = id
     const dispatch = useDispatch()
 
-    // const [khaltiReady, setKhaltiReady] = useState(false);
+    const [khaltiReady, setKhaltiReady] = useState(false);
     const [sdkReady, setSdkReady] = useState(false)
 
     const orderDetails = useSelector(state => state.orderDetails)
@@ -39,27 +39,27 @@ function OrderScreen() {
 
     // AbEVP_8_yj1gws7zu8ryZu5LB8J7RA1W--WoHAXT7xpB104HL1nt2EguaCef3PeWmiDLRM4A0kjfrRwK    
 
-    const addPaypalScript = () =>{
-      const script = document.createElement('script')
-      script.type = 'text/javascript'
-      script.src = 'https://www.paypal.com/sdk/js?client-id=AbEVP_8_yj1gws7zu8ryZu5LB8J7RA1W--WoHAXT7xpB104HL1nt2EguaCef3PeWmiDLRM4A0kjfrRwK'
-      script.async = true
-      script.onload = () => {
-        setSdkReady(true)
-      }
-      document.body.appendChild(script)
-    }
-
-    // const addKhaltiScript = () => {
-    //   const script = document.createElement('script');
-    //   script.type = 'text/javascript';
-    //   script.src = 'https://khalti.com/static/khalti-checkout.js';
-    //   script.async = true;
+    // const addPaypalScript = () =>{
+    //   const script = document.createElement('script')
+    //   script.type = 'text/javascript'
+    //   script.src = 'https://www.paypal.com/sdk/js?client-id=AbEVP_8_yj1gws7zu8ryZu5LB8J7RA1W--WoHAXT7xpB104HL1nt2EguaCef3PeWmiDLRM4A0kjfrRwK'
+    //   script.async = true
     //   script.onload = () => {
-    //     setKhaltiReady(true);
-    //   };
-    //   document.body.appendChild(script);
-    // };
+    //     setSdkReady(true)
+    //   }
+    //   document.body.appendChild(script)
+    // }
+
+    const addKhaltiScript = () => {
+      const script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = 'https://khalti.com/static/khalti-checkout.js';
+      script.async = true;
+      script.onload = () => {
+        setKhaltiReady(true);
+      };
+      document.body.appendChild(script);
+    };
     
     
     useEffect(() =>{
@@ -72,7 +72,7 @@ function OrderScreen() {
         dispatch(getOrderDetails(orderId))
       }else if(!order.isPaid){
         if(!window.paypal){
-          addPaypalScript()
+          addKhaltiScript()
         }else{
           setSdkReady(true)
         }
@@ -212,18 +212,18 @@ function OrderScreen() {
                       {!sdkReady ? (
                         <Loader />
                       ) : (
-                        <PayPalButton
-                          amount={order.totalPrice}
-                          onSuccess={successPaymentHandler}
-                        />
-                        // <Button
-                        //     type='button'
-                        //     className='btn btn-block'
-                        //     disabled={loadingPay}
-                        //     onClick={() => checkout.show({})}
-                        // >
-                        //     Pay with Khalti
-                        // </Button>
+                        // <PayPalButton
+                        //   amount={order.totalPrice}
+                        //   onSuccess={successPaymentHandler}
+                        // />
+                        <Button
+                            type='button'
+                            className='btn btn-block'
+                            disabled={loadingPay}
+                            // onClick={() => checkout.show({})}
+                        >
+                            Pay with Khalti
+                        </Button>
                       )}
                     </ListGroup.Item>
                   )}

@@ -14,6 +14,12 @@ function RegisterScreen() {
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const [message, setMessage] = useState('')
+    
+    const [nameError, setNameError] = useState('')
+    const [emailError, setEmailError] = useState('')
+    const [passwordError, setPasswordError] = useState('')
+    const [confirmPasswordError, setConfirmPasswordError] = useState('')
+
 
     const navigate = useNavigate()
     const location = useLocation()
@@ -24,6 +30,42 @@ function RegisterScreen() {
 
     const userRegister = useSelector(state => state.userRegister)
     const {error, loading, userInfo} = userRegister
+
+    const validateName = (name) => {
+        if (name === "") {
+            setNameError("Name cannot be empty.");
+        } else {
+            setNameError("");
+        }
+    }
+
+    const validateEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+.[^\s@]+$/;
+
+        if (!emailRegex.test(email)){
+            setEmailError("Please enter a valid email address.");
+        } else if (email === "") {
+            setEmailError("Email cannot be empty.");
+        } else {
+            setEmailError("");
+        }
+    }
+
+    const validatePassword = (password) => {
+        if (password === "") {
+            setPasswordError("Password cannot be empty.");
+        } else {
+            setPasswordError("");
+        }
+    }
+
+    const validateConfirmPassword = (confirmPassword) => {
+        if (confirmPassword === "") {
+            setConfirmPasswordError("Password cannot be empty.");
+        } else {
+            setConfirmPasswordError("");
+        }
+    }
 
     useEffect(() => {
         if(userInfo){
@@ -57,9 +99,13 @@ function RegisterScreen() {
                         type='name'
                         placeholder='Enter name'
                         value={name}
-                        onChange={(e) => setName(e.target.value) }
+                        onChange={(e) => {
+                            setName(e.target.value);
+                            validateName(e.target.value);
+                        }}
                     >
                     </Form.Control>
+                    {nameError  && <Message variant="danger">{nameError}</Message>}
                 </Form.Group>
 
                 <Form.Group controlId='email'>
@@ -68,10 +114,13 @@ function RegisterScreen() {
                         required
                         type='email'
                         placeholder='Enter email'
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value) }
+                        onChange={(e) => {
+                            setEmail(e.target.value); 
+                            validateEmail(e.target.value);
+                        }}
                     >
                     </Form.Control>
+                    {emailError  && <Message variant="danger">{emailError}</Message>}
                 </Form.Group>
 
                 <Form.Group controlId='password'>
@@ -81,9 +130,13 @@ function RegisterScreen() {
                         type='password'
                         placeholder='Enter password'
                         value={password}
-                        onChange={(e) => setPassword(e.target.value) }
+                        onChange={(e) => {
+                            setPassword(e.target.value);
+                            validatePassword(e.target.value);
+                        }}
                     >
                     </Form.Control>
+                    {passwordError  && <Message variant="danger">{passwordError}</Message>}
                 </Form.Group>
 
                 <Form.Group controlId='passwordConfirm'>
@@ -93,9 +146,13 @@ function RegisterScreen() {
                         type='password'
                         placeholder='Confirm password'
                         value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value) }
+                        onChange={(e) => {
+                            setConfirmPassword(e.target.value);
+                            validateConfirmPassword(e.target.value);
+                        }}
                     >
                     </Form.Control>
+                    {confirmPasswordError  && <Message variant="danger">{confirmPasswordError}</Message>}
                 </Form.Group>
 
                 <Button type='submit' variant='primary'> 

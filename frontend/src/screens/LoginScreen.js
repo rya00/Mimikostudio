@@ -13,6 +13,8 @@ function LoginScreen() {
     const [password, setPassword] = useState('')
     const navigate = useNavigate()
     const location = useLocation()
+    const [emailError, setEmailError] = useState('')
+    const [passwordError, setPasswordError] = useState('')
 
     const dispatch = useDispatch()
 
@@ -20,6 +22,26 @@ function LoginScreen() {
 
     const userLogin = useSelector(state => state.userLogin)
     const {error, loading, userInfo} = userLogin
+
+    const validateEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+.[^\s@]+$/;
+
+        if (!emailRegex.test(email)){
+            setEmailError("Please enter a valid email address.");
+        } else if (email === "") {
+            setEmailError("Email cannot be empty.");
+        } else {
+            setEmailError("");
+        }
+    }
+
+    const validatePassword = (password) => {
+        if (password === "") {
+            setPasswordError("Password cannot be empty.");
+        } else {
+            setPasswordError("");
+        }
+    }
 
     useEffect(() => {
         if(userInfo){
@@ -46,9 +68,13 @@ function LoginScreen() {
                     type='email'
                     placeholder='Enter email'
                     value={email}
-                    onChange={(e) => setEmail(e.target.value) }
+                    onChange={(e) => {
+                        setEmail(e.target.value); 
+                        validateEmail(e.target.value);
+                    }}
                 >
                 </Form.Control>
+                {emailError  && <Message variant="danger">{emailError}</Message>}
             </Form.Group>
 
             <Form.Group controlId='password'>
@@ -57,9 +83,13 @@ function LoginScreen() {
                     type='password'
                     placeholder='Enter password'
                     value={password}
-                    onChange={(e) => setPassword(e.target.value) }
+                    onChange={(e) => {
+                        setPassword(e.target.value);
+                        validatePassword(e.target.value);
+                    }}
                 >
                 </Form.Control>
+                {passwordError  && <Message variant="danger">{passwordError}</Message>}
             </Form.Group>
 
             <Button type='submit' variant='primary'> 

@@ -20,7 +20,7 @@ function Event({event}) {
             </Card.Text>
 
             <Card.Text as='h3'>
-                {event.date}
+                {event.date.substring(0, 10)}
             </Card.Text>
 
             <Card.Text>

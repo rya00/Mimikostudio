@@ -8,84 +8,146 @@ import Message from '../components/Message'
 import FormContainer from '../components/FormContainer'
 import { listBiddingDetails, updateBidding } from '../actions/biddingActions'
 import { BIDDING_UPDATE_RESET } from '../constants/biddingConstants'
+import { toast } from 'react-toastify';
 
 function BiddingEditScreen() {
-    const {id} = useParams()
+    const { id } = useParams();
 
-    const biddingId = id
+  const biddingId = id;
 
-    const [bidding_name, setName] = useState('')
-    const [bidding_description, setDescription] = useState('')
-    const [image, setImage] = useState('')
-    const [minimum_price, setMinimumPrice] = useState(0)
-    const [end_time, setEndTime] = useState(0)    
-    const [uploading, setUploading] = useState(false)
+  const [bidding_name, setName] = useState('');
+  const [bidding_description, setDescription] = useState('');
+  const [image, setImage] = useState('');
+  const [minimum_price, setMinimumPrice] = useState(0);
+  const [end_time, setEndTime] = useState(0);
+  const [uploading, setUploading] = useState(false);
 
-    const navigate = useNavigate()
+  const current = new Date();
+  const date = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
 
-    const dispatch = useDispatch()
+  const [nameError, setNameError] = useState('')
+  const [minimumPriceError, setMinimumPriceError] = useState('')
+  const [endTimeError, setEndTimeError] = useState('')
+  const [descriptionError, setDescriptionError] = useState('')
 
-    const biddingDetails = useSelector(state => state.biddingDetails)
-    const {error, loading, bidding_product} = biddingDetails
+  const navigate = useNavigate();
 
-    const biddingUpdate = useSelector(state => state.biddingUpdate)
-    const {error:errorUpdate, loading:loadingUpdate, success:successUpdate} = biddingUpdate
+  const dispatch = useDispatch();
 
-    useEffect(() => {
-        if(successUpdate){
-            dispatch({type:BIDDING_UPDATE_RESET})
-            console.log('test')
-            navigate('/admin/biddinglist')
-        }else{
-            if(!bidding_product.bidding_name || bidding_product._id !== Number(biddingId)){
-                dispatch(listBiddingDetails(biddingId))
-            }else{
-                setName(bidding_product.bidding_name)
-                setMinimumPrice(bidding_product.minimum_price)
-                setImage(bidding_product.image)
-                setEndTime(bidding_product.end_time)
-                setDescription(bidding_product.bidding_description)
-            }
-        }
-    }, [dispatch, bidding_product, biddingId, navigate, successUpdate])
+  const biddingDetails = useSelector((state) => state.biddingDetails);
+  const { error, loading, bidding_product } = biddingDetails;
 
-    const submitHandler = (e) => {
-        e.preventDefault()
-        dispatch(updateBidding({
-            _id:biddingId,
-            bidding_name,
-            minimum_price,
-            image,
-            end_time,
-            bidding_description
-        }))
+  const biddingUpdate = useSelector((state) => state.biddingUpdate);
+  const {
+    error: errorUpdate,
+    loading: loadingUpdate,
+    success: successUpdate,
+  } = biddingUpdate;
+
+  const validateName = (name) => {
+    if (name === "") {
+        setNameError("Name cannot be empty.");
+    } else {
+        setNameError("");
+    }
+  }
+
+  const validatePrice = (minimum_price) => {
+    if (minimum_price <= 0 || minimum_price <= 0.00 ) {
+      setMinimumPriceError("Price cannot be empty.");
+    } else {
+      setMinimumPriceError("");
+    }
+  }
+
+  const validateDate = (end_time) => {
+    if (end_time <= {date}) {
+      setEndTimeError("Please select a date greater than the current date.");
+    } else {
+      setEndTimeError("");
+    }
+  }
+
+  const validateDescription = (description) => {
+    if (description === "") {
+      setDescriptionError("Description cannot be empty.");
+    } else {
+      setDescriptionError("");
+    }
+  }
+
+  useEffect(() => {
+    if (successUpdate) {
+      dispatch({ type: BIDDING_UPDATE_RESET });
+      console.log('test');
+      navigate('/admin/biddinglist');
+    } else {
+      if (
+        !bidding_product.bidding_name ||
+        bidding_product._id !== Number(biddingId)
+      ) {
+        dispatch(listBiddingDetails(biddingId));
+      } else {
+        setName(bidding_product.bidding_name);
+        setMinimumPrice(bidding_product.minimum_price);
+        setImage(bidding_product.image);
+        setEndTime(bidding_product.end_time);
+        setDescription(bidding_product.bidding_description);
+      }
+    }
+  }, [dispatch, bidding_product, biddingId, navigate, successUpdate]);
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    
+    dispatch(
+      updateBidding({
+        _id: biddingId,
+        bidding_name,
+        minimum_price,
+        image,
+        end_time,
+        bidding_description,
+      })
+    );
+  };
+
+  const uploadFileHandler = async (e) => {
+    const file = e.target.files[0];
+
+    // Validate file upload
+    if (!file) {
+      alert('Please select an image to upload');
+      return;
     }
 
-    const uploadFileHandler = async (e) => {
-        const file = e.target.files[0]
-        // Using form data function and adding file and product id to form data
-        const formData = new FormData()
+    // Using form data function and adding file and product id to form data
+    const formData = new FormData();
 
-        formData.append('image', file)
-        formData.append('bidding_product_id', biddingId)
+    formData.append('image', file);
+    formData.append('bidding_product_id', biddingId);
 
-        setUploading(true)
+    setUploading(true);
 
-        try{
-            const config = {
-                headers: {
-                    'Content-Type':'multipart/form-data'
-                }
-            }
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      };
 
-            const {data} = await axios.post('/api/biddings/upload/', formData, config)
+      const { data } = await axios.post(
+        '/api/biddings/upload/',
+        formData,
+        config
+      );
 
-            setImage(data)
-            setUploading(false)
-        }catch(error){
-            setUploading(false)
-        }
+      setImage(data);
+      setUploading(false);
+    } catch (error) {
+      setUploading(false);
     }
+  };
 
     return (
         <div>
@@ -105,9 +167,13 @@ function BiddingEditScreen() {
                                     type='biddingname'
                                     placeholder='Enter name'
                                     value={bidding_name}
-                                    onChange={(e) => setName(e.target.value) }
-                                >
-                                </Form.Control>
+                                    onChange={(e) => {
+                                      setName(e.target.value);
+                                      validateName(e.target.value);
+                                  }}
+                              >
+                              </Form.Control>
+                              {nameError  && <Message variant="danger">{nameError}</Message>}
                             </Form.Group>
 
                             <Form.Group controlId='minimumprice'>
@@ -116,9 +182,13 @@ function BiddingEditScreen() {
                                     type='number'
                                     placeholder='Enter minimum price'
                                     value={minimum_price}
-                                    onChange={(e) => setMinimumPrice(e.target.value) }
-                                >
-                                </Form.Control>
+                                    onChange={(e) => {
+                                      setMinimumPrice(e.target.value);
+                                      validatePrice(e.target.value);
+                                  }}
+                              >
+                              </Form.Control>
+                              {minimumPriceError  && <Message variant="danger">{minimumPriceError}</Message>}
                             </Form.Group>
 
                             <Form.Group controlId='image'>
@@ -145,9 +215,13 @@ function BiddingEditScreen() {
                                     type='date'
                                     placeholder='Enter end date'
                                     value={end_time}
-                                    onChange={(e) => setEndTime(e.target.value) }
-                                >
-                                </Form.Control>
+                                    onChange={(e) => {
+                                      setEndTime(e.target.value);
+                                      validateDate(e.target.value);
+                                  }}
+                              >
+                              </Form.Control>
+                              {endTimeError && <Message variant="danger">{endTimeError}</Message>}
                             </Form.Group>
 
                             <Form.Group controlId='biddingdescription'>
@@ -156,9 +230,13 @@ function BiddingEditScreen() {
                                     type='text'
                                     placeholder='Enter description'
                                     value={bidding_description}
-                                    onChange={(e) => setDescription(e.target.value) }
-                                >
-                                </Form.Control>
+                                    onChange={(e) => {
+                                      setDescription(e.target.value);
+                                      validateDescription(e.target.value);
+                                  }}
+                              >
+                              </Form.Control>
+                              {descriptionError  && <Message variant="danger">{descriptionError}</Message>}
                             </Form.Group>                           
 
                             <Button type='submit' variant='primary'> 

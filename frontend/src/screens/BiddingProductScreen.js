@@ -17,6 +17,8 @@ function BiddingProductScreen( ) {
     const [bids, setBids] = useState([]);
 
     const dispatch = useDispatch();
+    const [message, setMessage] = useState('')
+    
 
     const biddingDetails = useSelector((state) => state.biddingDetails);
     const { loading, error, bidding_product } = biddingDetails;
@@ -47,14 +49,15 @@ function BiddingProductScreen( ) {
         e.preventDefault();
       
         if (amount <= bidding_product.minimum_price) {
-          alert('Amount must be greater than minimum price.');
+          setMessage('Amount must be greater than minimum price.');
           return;
-        }
-      
-        if (amount <= bidding_product.current_price) {
-          alert('Amount greater than current price must be kept.');
+        } else if (amount <= bidding_product.current_price) {
+          setMessage('Amount greater than current price must be kept.');
           return;
+        } else {
+            setMessage('');
         }
+
       
         dispatch(createProductBid(id, { id, amount, highest_bidder }));
     };
@@ -114,7 +117,7 @@ function BiddingProductScreen( ) {
                                                 <Row>
                                                     <Col>End Time:</Col>
                                                     <Col>
-                                                        <strong>{bidding_product.end_time}</strong>
+                                                        <strong>{bidding_product.end_time.substring(0, 10)}</strong>
                                                     </Col>
                                                 </Row>
                                             </ListGroup.Item>
@@ -136,17 +139,16 @@ function BiddingProductScreen( ) {
                                                         <input
                                                             type='textarea'
                                                             placeholder='Enter amount'
-                                                            disabled={bidding_product.end_time < {date}}
                                                             value={amount}
                                                             onChange={(e) => setAmount(e.target.value)}
                                                         />
                                                         <br></br>
                                                         <button 
                                                             type='submit'
-                                                            disabled={bidding_product.end_time < {date}}
                                                         >
                                                             Bid
                                                         </button>
+                                                        {message && <Message variant='danger'>{message}</Message>} 
                                                         </form>
                                                     ) : (
                                                         <p>Please login to bid on this product.</p>
