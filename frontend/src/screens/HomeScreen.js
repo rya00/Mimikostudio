@@ -9,9 +9,10 @@ import Message from "../components/Message";
 import Paginate from "../components/Paginate";
 import ProductCarousel from "../components/ProductCarousel";
 import { listProducts } from "../actions/productActions";
-import AboutCarousel from "../components/AboutCarousel";
+import DisplayCarousel from "../components/DisplayCarousel";
 import useUser from "../helper/useUser";
 import { Container } from "react-bootstrap";
+import AboutArtist from "../components/AboutArtist"
 
 /* <Message>{error}</Message> -> Error is passed as child in the component */
 
@@ -38,10 +39,10 @@ function HomeScreen() {
   return (
     <div>
       {/* {!keyword && <ProductCarousel />} */}
-      <AboutCarousel />
+      <DisplayCarousel />
 
       <Container>
-        <h1 className="auto-underline-animation">Latest Products</h1>
+        <h1 className="auto-underline-animation">Products</h1>
         {loading ? (
           <Loader />
         ) : error ? (
@@ -51,7 +52,7 @@ function HomeScreen() {
             <Row className="painting-container">
               {products.map((product) => (
                 // Key attribute is needed to map for looping in react
-                <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
+                <Col key={product._id} sm={12} md={6} lg={4} xl={3} className="rng-container">
                   <Product product={product} />
                 </Col>
               ))}
@@ -60,6 +61,8 @@ function HomeScreen() {
           </div>
         )}
       </Container>
+
+      <AboutArtist />
     </div>
   );
 }

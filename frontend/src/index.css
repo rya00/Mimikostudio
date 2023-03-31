@@ -116,41 +116,20 @@ h3 {
   border-radius: 6px;
   transition: all 0.3s ease;
 
+  height: 300px !important;
+
   position: relative;
   overflow: hidden;
   border: 0px !important;
   padding: 0px !important;
-  background-color: #F7F7F7 !important;
+  background-color: #f7f7f7 !important;
 }
 
 .product-card:hover {
-  /* width: calc(500px + 10%);
-  height: calc(500px + 10%); */
   transform: scale(1.02);
   transform: translateY(-10px);
-  background-color: #AECBB4 !important;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
-
-/* .product-card:hover::before {
-  content: "View Details";
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(220, 220, 220, 0.9); 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 20; 
-  transform: translateY(100%);
-  transition: all 0.3s ease;
-  backdrop-filter: blur(3px); 
-}
-
-.product-card:hover::before {
-  transform: translateY(-100%);
-} */
 
 .painting-container {
   margin-bottom: 30px;
@@ -213,6 +192,7 @@ h3 {
 
 .painting-title {
   font-size: medium;
+  font-weight: bold;
 }
 
 .cart-item {
@@ -226,6 +206,7 @@ h3 {
 .product-card-title {
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .product-card-title p {
@@ -239,15 +220,42 @@ h3 {
   margin-right: 5px;
 }
 
-.product-review-container,
-.product-price-container {
+.product-img-container {
+  height: 60%;
+}
+
+.product-img-container img {
+  height: 100%;
+  width: 100%;
+}
+
+.product-price-container,
+.product-rating-container {
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-items: center;
+  border: 1px solid #304a35;
+  padding: 5px;
+  border-radius: 10px;
+  font-size: small;
+}
+
+.product-rating-container {
+  margin-right: auto;
+}
+
+/* price and review container */
+.product-desc {
+  display: flex;
+  flex-direction: row;
 }
 
 .product-card-body {
   padding-left: 10px !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 /* .product-card-body:hover {
@@ -257,6 +265,9 @@ h3 {
 .price {
   font-size: medium;
   margin-bottom: 0px;
+  width: 100%;
+  text-align: center;
+  color: #304a35;
 }
 
 a:link {
@@ -287,7 +298,6 @@ a:link {
   transform: scaleX(1);
   transform-origin: bottom left;
 }
-
 
 /* auto underline animation */
 .auto-underline-animation {
@@ -321,21 +331,19 @@ a:link {
   background-color: #3a5a40 !important;
 }
 
-.standard-btn:hover{
-  background-color: #304A35 !important;
+.standard-btn:hover {
+  background-color: #304a35 !important;
 }
 
-.about-carousel{
+.about-carousel {
   width: 100%;
   height: 83vh;
   background-color: #389f5c;
-  /* background-image: url("./images/red_door.jpg");
-  background-size: cover;
-  background-position: center 30%;
-  background-repeat: no-repeat; */
 }
 
-.carousel-pics, .carousel-pics-1, .carousel-pics-2{
+.carousel-pics,
+.carousel-pics-1,
+.carousel-pics-2 {
   height: 100%;
   width: 100%;
   background-image: url("./images/red_door.jpg");
@@ -343,19 +351,54 @@ a:link {
   background-position: center 30%;
 }
 
-.carousel-pics-1{
+.carousel-pics-1 {
   background-image: url("./images/angels.jpg");
   background-position: center 0%;
 }
 
-.carousel-pics-2{
+.carousel-pics-2 {
   background-image: url("./images/stones.jpg");
   background-position: center 50%;
 }
 
-
-.carousel-inner{
+.carousel-inner {
   height: 100% !important;
+}
+
+.about-artist-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 500px;
+  background-color: #304a35;
+}
+
+.artist-pic {
+  width: 30%;
+  height: 100%;
+  background-color: #304a35;
+}
+
+.artist-about-container {
+  width: 70%;
+  height: 100%;
+  background-color: #d9d9d9;
+  background-image: url("./images/rough_road.jpg");
+  background-size: cover;
+  background-position: center 80%;
+
+  display: flex;
+  align-items: center;
+}
+
+.about-text-container {
+  height: 80%;
+  width: 70%;
+  background-color: #304a35;
+  opacity: 0.5;
+  margin-left: 40px;
+  color: white;
+  padding: 20px;
 }
 
 /* for mobiles apparently */
@@ -371,5 +414,38 @@ a:link {
   .search-item-container {
     margin-top: 15px;
     margin-bottom: 10px;
+  }
+
+  .about-artist-container {
+    flex-direction: column;
+  }
+
+  .artist-pic {
+    width: 100%;
+    height: 40%;
+  }
+
+  .artist-about-container {
+    width: 100%;
+    height: 60%;
+  }
+
+  .about-text-container {
+    height: 100%;
+    width: 100%;
+    margin-left: 0px;
+  }
+
+  .about-carousel {
+    height: 50vh;
+  }
+
+  .product-card {
+    width: 300px;
+  }
+
+  .rng-container {
+    display: flex;
+    justify-content: center;
   }
 }

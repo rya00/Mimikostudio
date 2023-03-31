@@ -1,7 +1,7 @@
 import React from "react";
 import { Carousel, Image } from "react-bootstrap";
 
-const AboutCarousel = () => {
+const DisplayCarousel = () => {
   return (
     <>
       <Carousel pause="hover" className="about-carousel">
@@ -18,4 +18,4 @@ const AboutCarousel = () => {
   );
 };
 
-export default AboutCarousel;
+export default DisplayCarousel;

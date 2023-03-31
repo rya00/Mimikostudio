@@ -10,28 +10,29 @@ function Product({ product }) {
   return (
     <Link to={`/product/${product._id}`}>
       <Card className="product-card">
-        <Card.Img src={`${SEED}${product.image}`} />
+        <div className="product-img-container">
+          <img src={`${SEED}${product.image}`} />
+          {/* <Card.Img src={`${SEED}${product.image}`} /> */}
+        </div>
 
         <Card.Body className="product-card-body">
           <div className="product-card-title">
-            <label className="product-card-label">Title: </label>
-            <p className="painting-title">{product.name}</p>
+            {/* <p className="painting-title">{product.name}</p> */}
+            <p className="painting-title">Emrald Earrings</p>
           </div>
 
-          <Card.Text as="div">
-            <div className="product-review-container">
-              <label className="product-card-label">Reviews: </label>
+          <div className="product-desc">
+            <div className="product-rating-container">
               <Rating
                 value={product.rating}
                 text={`${product.numReviews}`}
                 color={"#f8e826"}
               />
             </div>
-          </Card.Text>
 
-          <div className="product-price-container">
-            <label className="product-card-label">Price: </label>
-            <p className="price">Rs. {product.price}</p>
+            <div className="product-price-container">
+              <p className="price">Rs. {product.price}</p>
+            </div>
           </div>
         </Card.Body>
       </Card>
