@@ -1,7 +1,7 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 import { SEED } from "../env";
-import Rating from "./Rating";
+import ProductCardRating from "./ProductCardRating";
 import { Link } from "react-router-dom";
 import "../index.css";
 
@@ -11,7 +11,7 @@ function Product({ product }) {
     <Link to={`/product/${product._id}`}>
       <Card className="product-card">
         <div className="product-img-container">
-          <img src={`${SEED}${product.image}`} />
+          <img src={require('../images/miao-xiang-leFR7Fj3J6I-unsplash.jpg')} />
           {/* <Card.Img src={`${SEED}${product.image}`} /> */}
         </div>
 
@@ -23,7 +23,7 @@ function Product({ product }) {
 
           <div className="product-desc">
             <div className="product-rating-container">
-              <Rating
+              <ProductCardRating
                 value={product.rating}
                 text={`${product.numReviews}`}
                 color={"#f8e826"}

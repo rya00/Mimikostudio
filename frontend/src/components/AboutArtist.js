@@ -4,8 +4,8 @@ const AboutArtist = () => {
   return (
     <>
         <section className='about-artist-container'>
-            <div className='artist-pic'>
-                pic
+            <div className='artist-pic-container'>
+              <img src={require('../images/potrait.jpg')} className='artist-pic'/>
             </div>
 
             <div className='artist-about-container'>

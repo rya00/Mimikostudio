@@ -13,6 +13,18 @@ const DisplayCarousel = () => {
 
         <Carousel.Item className="carousel-pics-2">
         </Carousel.Item>
+
+        <Carousel.Item className="carousel-pics-3">
+        </Carousel.Item>
+
+        <Carousel.Item className="carousel-pics-4">
+        </Carousel.Item>
+
+        <Carousel.Item className="carousel-pics-5">
+        </Carousel.Item>
+
+        <Carousel.Item className="carousel-pics-6">
+        </Carousel.Item>
       </Carousel>
     </>
   );

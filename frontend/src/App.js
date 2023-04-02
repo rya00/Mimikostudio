@@ -24,6 +24,7 @@ function App() {
   return (
     <Router>
       <Header />
+      {/* <main style={{backgroundColor: "#F9F6F0"}}> */}
       <main>
           <Routes>
             <Route exact path="/" element={<HomeScreen />} />
