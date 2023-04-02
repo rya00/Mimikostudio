@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import FormContainer from '../components/FormContainer'
-import { login } from '../actions/userActions'
+import { login, passwordReset } from '../actions/userActions'
 import useUser from '../helper/useUser'
 
 function LoginScreen() {
@@ -22,6 +22,9 @@ function LoginScreen() {
 
     const userLogin = useSelector(state => state.userLogin)
     const {error, loading, userInfo} = userLogin
+
+    const passwordResetState = useSelector((state) => state.passwordReset);
+    const { loading: resetLoading, error: resetError, success: resetSuccess } = passwordResetState;
 
     const validateEmail = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+.[^\s@]+$/;
@@ -54,6 +57,9 @@ function LoginScreen() {
         dispatch(login(email, password))
     }
 
+    const resetPasswordHandler = () => {
+        dispatch(passwordReset(email));
+    };
 
 
   return (
@@ -96,6 +102,10 @@ function LoginScreen() {
                 Sign In
             </Button>
         </Form>
+        <button onClick={resetPasswordHandler}>Reset Password</button>
+        {resetLoading && <div>Loading...</div>}
+        {resetError && <div>{resetError}</div>}
+        {resetSuccess && <div>Password reset email sent.</div>}
 
         <Row className='py-3'>
             <Col>

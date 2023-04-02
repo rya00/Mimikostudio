@@ -8,7 +8,7 @@ import Message from '../components/Message'
 import FormContainer from '../components/FormContainer'
 import { listBiddingDetails, updateBidding } from '../actions/biddingActions'
 import { BIDDING_UPDATE_RESET } from '../constants/biddingConstants'
-import { toast } from 'react-toastify';
+
 
 function BiddingEditScreen() {
     const { id } = useParams();

@@ -20,6 +20,8 @@ function RegisterScreen() {
     const [passwordError, setPasswordError] = useState('')
     const [confirmPasswordError, setConfirmPasswordError] = useState('')
 
+    const [registerMessage, setRegisterMessage] = useState('');
+
 
     const navigate = useNavigate()
     const location = useLocation()
@@ -71,6 +73,10 @@ function RegisterScreen() {
         if(userInfo){
             navigate(redirect)
         }
+        if (localStorage.getItem('registerMessage')) {
+            setRegisterMessage(localStorage.getItem('registerMessage'));
+            localStorage.removeItem('registerMessage');
+          }
     }, [navigate, userInfo, redirect])
 
     const submitHandler = (e) => {
@@ -90,6 +96,7 @@ function RegisterScreen() {
             {/* Message is only shown when passwords do not match */}
             {message && <Message variant='danger'>{message}</Message>} 
             {error && <Message variant='danger'>{error}</Message>}
+            {registerMessage && <div>{registerMessage}</div>}
             {loading && <Loader />}
             <Form onSubmit={ submitHandler }>
                 <Form.Group controlId='name'>

@@ -1,99 +1,77 @@
-import React, {useState, useEffect} from 'react'
-import { useParams, Link, useNavigate } from 'react-router-dom'
-import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap'
-import { useDispatch, useSelector } from 'react-redux'
-// import { PayPalButton } from 'react-paypal-button-v2'
-import Message from '../components/Message'
-import { getOrderDetails, payOrder, deliverOrder } from '../actions/orderActions'
-import Loader from '../components/Loader'
-import { ORDER_PAY_RESET, ORDER_DELIVER_RESET } from '../constants/orderConstants'
-import { SEED } from '../env'
-// import KhaltiCheckout from "khalti-checkout-web";
-// import config from "../components/KhaltiConfig";  
+import React, { useState, useEffect } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { Button, Row, Col, ListGroup, Image, Card } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import Message from "../components/Message";
+import { getOrderDetails, payOrder, deliverOrder } from "../actions/orderActions";
+import Loader from "../components/Loader";
+import { ORDER_PAY_RESET, ORDER_DELIVER_RESET } from "../constants/orderConstants";
+import { SEED } from "../env";
+import KhaltiCheckout from "khalti-checkout-web";
+import config from "../components/KhaltiConfig";
 
 function OrderScreen() {
-    const { id } = useParams();
-    const navigate = useNavigate()
-    const orderId = id
-    const dispatch = useDispatch()
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const orderId = id;
+  const dispatch = useDispatch();
 
-    const [khaltiReady, setKhaltiReady] = useState(false);
-    const [sdkReady, setSdkReady] = useState(false)
+  const [khaltiReady, setKhaltiReady] = useState(false);
 
-    const orderDetails = useSelector(state => state.orderDetails)
-    const { order, loading, error } = orderDetails
+  const orderDetails = useSelector((state) => state.orderDetails);
+  const { order, loading, error } = orderDetails;
 
-    const orderPay = useSelector(state => state.orderPay)
-    const { loading:loadingPay, success:successPay } = orderPay
+  const orderPay = useSelector((state) => state.orderPay);
+  const { loading: loadingPay, success: successPay } = orderPay;
 
-    const orderDeliver = useSelector(state => state.orderDeliver)
-    const { loading:loadingDeliver, success:successDeliver } = orderDeliver
+  const orderDeliver = useSelector((state) => state.orderDeliver);
+  const { loading: loadingDeliver, success: successDeliver } = orderDeliver;
 
-    const userLogin = useSelector(state => state.userLogin)
-    const { userInfo } = userLogin
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
-    if(!loading && !error){
-        order.itemsPrice = order.orderItems.reduce(
-          (acc, item) => acc + item.price * item.qty, 0).toFixed(2)
-    }
+  if (!loading && !error) {
+    order.itemsPrice = order.orderItems
+      .reduce((acc, item) => acc + item.price * item.qty, 0)
+      .toFixed(2);
+  }
 
-    // AbEVP_8_yj1gws7zu8ryZu5LB8J7RA1W--WoHAXT7xpB104HL1nt2EguaCef3PeWmiDLRM4A0kjfrRwK    
-
-    // const addPaypalScript = () =>{
-    //   const script = document.createElement('script')
-    //   script.type = 'text/javascript'
-    //   script.src = 'https://www.paypal.com/sdk/js?client-id=AbEVP_8_yj1gws7zu8ryZu5LB8J7RA1W--WoHAXT7xpB104HL1nt2EguaCef3PeWmiDLRM4A0kjfrRwK'
-    //   script.async = true
-    //   script.onload = () => {
-    //     setSdkReady(true)
-    //   }
-    //   document.body.appendChild(script)
-    // }
-
-    const addKhaltiScript = () => {
-      const script = document.createElement('script');
-      script.type = 'text/javascript';
-      script.src = 'https://khalti.com/static/khalti-checkout.js';
-      script.async = true;
-      script.onload = () => {
-        setKhaltiReady(true);
-      };
-      document.body.appendChild(script);
+  const addKhaltiScript = () => {
+    const script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "https://khalti.com/static/khalti-checkout.js";
+    script.async = true;
+    script.onload = () => {
+      setKhaltiReady(true);
     };
-    
-    
-    useEffect(() =>{
-      if(!userInfo){
-        navigate('/login')
-      }
-      if(!order || successPay || order._id !== Number(orderId) || successDeliver){
-        dispatch({type:ORDER_PAY_RESET})
-        dispatch({type:ORDER_DELIVER_RESET})
-        dispatch(getOrderDetails(orderId))
-      }else if(!order.isPaid){
-        if(!window.paypal){
-          addKhaltiScript()
-        }else{
-          setSdkReady(true)
-        }
-      }
-    }, [dispatch, order, orderId, successPay, successDeliver])
+    document.body.appendChild(script);
+  };
 
-    const successPaymentHandler = (paymentResult) => {
-      dispatch(
-        payOrder(orderId, {
-          paymentMethod: order.paymentMethod,
-          paymentResult: {
-            referenceId: paymentResult.id,
-            paymentId: paymentResult.user_id,
-          },
-        })
-      );
-    };
+  let checkout = new KhaltiCheckout(config(dispatch, orderId, order));
 
-    const deliverHandler = () => {
-      dispatch(deliverOrder(order))
+  useEffect(() => {
+    if (!userInfo) {
+      navigate("/login");
     }
+    if (
+      !order ||
+      successPay ||
+      order._id !== Number(orderId) ||
+      successDeliver
+    ) {
+      dispatch({ type: ORDER_PAY_RESET });
+      dispatch({ type: ORDER_DELIVER_RESET });
+      dispatch(getOrderDetails(orderId));
+    } else if (!order.isPaid) {
+      if (!window.khalti) {
+        addKhaltiScript();
+      }
+    }
+  }, [dispatch, order, orderId, successPay, successDeliver, navigate, userInfo]);
+
+  const deliverHandler = () => {
+    dispatch(deliverOrder(order));
+  };
 
   return loading  ? (
     <Loader />
@@ -157,7 +135,7 @@ function OrderScreen() {
                             </Col>
 
                             <Col md={4}>
-                              {item.qty} X ${item.price} = ${(item.qty * item.price).toFixed(2)}
+                              {item.qty} X Rs. {item.price} = Rs. {(item.qty * item.price).toFixed(2)}
                             </Col>
                           </Row>
                         </ListGroup.Item>
@@ -180,28 +158,28 @@ function OrderScreen() {
                   <ListGroup.Item>
                     <Row>
                       <Col>Items:</Col>
-                      <Col>${order.itemsPrice}</Col>
+                      <Col>Rs. {order.itemsPrice}</Col>
                     </Row>
                   </ListGroup.Item>
 
                   <ListGroup.Item>
                     <Row>
                       <Col>Shipping:</Col>
-                      <Col>${order.shippingPrice}</Col>
+                      <Col>Rs. {order.shippingPrice}</Col>
                     </Row>
                   </ListGroup.Item>
 
                   <ListGroup.Item>
                     <Row>
                       <Col>Tax:</Col>
-                      <Col>${order.taxPrice}</Col>
+                      <Col>Rs. {order.taxPrice}</Col>
                     </Row>
                   </ListGroup.Item>
 
                   <ListGroup.Item>
                     <Row>
                       <Col>Total:</Col>
-                      <Col>${order.totalPrice}</Col>
+                      <Col>Rs. {order.totalPrice}</Col>
                     </Row>
                   </ListGroup.Item>
 
@@ -209,21 +187,23 @@ function OrderScreen() {
                     <ListGroup.Item>
                       {loadingPay && <Loader/>}
 
-                      {!sdkReady ? (
-                        <Loader />
-                      ) : (
-                        // <PayPalButton
-                        //   amount={order.totalPrice}
-                        //   onSuccess={successPaymentHandler}
-                        // />
-                        <Button
-                            type='button'
-                            className='btn btn-block'
+                      {khaltiReady && order.paymentMethod === "khalti" ? (
+                        <div className="d-grid gap-2">
+                          <Button
+                            type="button"
                             disabled={loadingPay}
-                            // onClick={() => checkout.show({})}
-                        >
+                            amount={order.totalPrice}
+                            onClick={() =>
+                            checkout.show({ amount: order.totalPrice * 100 })
+                            }
+                          >
                             Pay with Khalti
-                        </Button>
+                          </Button>
+                        </div>
+                      ) : (
+                        <div className="center">
+                          <h5>Proceed with cash</h5>
+                        </div>
                       )}
                     </ListGroup.Item>
                   )}

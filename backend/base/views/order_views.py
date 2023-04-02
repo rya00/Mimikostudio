@@ -1,7 +1,9 @@
+import requests
 from django.shortcuts import render
 
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from django.shortcuts import redirect
 from rest_framework.response import Response
 
 from base.models import Product, Order, OrderItem, ShippingAddress
@@ -9,6 +11,10 @@ from base.serializers import OrderSerializer
 
 from rest_framework import status
 from datetime import datetime
+
+from django.conf import settings
+from base.models import Order
+from decouple import config
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -103,6 +109,46 @@ def updateOrderToPaid(request, pk):
     order.save()
     
     return Response('Order was paid.')
+
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def updateOrderToPaid(request, pk):
+    order = Order.objects.get(_id=pk)
+    
+    if request.method == 'PUT':
+        token = request.data.get('token')
+        amount = request.data.get('amount')
+
+        if not token or not amount:
+            return Response({'error': 'Token and amount are required'})
+
+        headers = {
+            'Authorization': f"Key {settings.test_secret_key_8921b846637245d19e633c274f08213a}"
+        }
+        payload = {
+            'token': token,
+            'amount': amount,
+        }
+
+        try:
+            response = requests.post('https://khalti.com/api/v2/payment/verify/', data=payload, headers=headers)
+            if response.status_code == 200:
+                response_json = response.json()
+                if response_json.get('idx'):
+                    order.isPaid = True
+                    order.paidAt = datetime.now()
+                    order.transaction_id = response_json.get('idx')
+                    order.save()
+                    return Response({'message': 'Order was paid.'})
+                else:
+                    return Response({'error': 'Payment verification failed'})
+            else:
+                return Response({'error': 'Khalti API request failed'})
+        except Exception as e:
+            return Response({'error': str(e)})
+
+    return Response({'error': 'Invalid request method'})
 
 @api_view(['PUT'])
 @permission_classes([IsAdminUser])

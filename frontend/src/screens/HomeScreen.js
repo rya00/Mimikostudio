@@ -30,12 +30,11 @@ function HomeScreen() {
   // In our app it gets triggered when the component first loads
   // Empty array kept because we only want this to update when the component loads not when an actual state element gets updated
   useEffect(() => {
-    dispatch(listProducts(keyword, sort))
-  }, [dispatch, keyword, sort]) 
+    dispatch(listProducts(keyword))
+  }, [dispatch, keyword]) 
 
   const handleSortChange = (e) => {
     const selectedSort = e.target.value;
-    setSort(selectedSort);
     let newKeyword = '';
     if (keyword && keyword.includes('keyword=')) {
       // Keyword is already present, so just update the sort parameter
@@ -50,6 +49,8 @@ function HomeScreen() {
   return (
     <div>
       {!keyword && <ProductCarousel />}
+
+      <h1>All Products</h1>
       <select value={sort} onChange={handleSortChange}>
         <option value="">Sort by</option>
         <option value="name_asc">Name (A to Z)</option>
@@ -57,8 +58,6 @@ function HomeScreen() {
         <option value="price_asc">Price (Low to High)</option>
         <option value="price_desc">Price (High to Low)</option>
       </select>
-
-      <h1>All Products</h1>
       {loading ? <Loader />
         : error ? <Message variant='danger'>{error}</Message>
           :
