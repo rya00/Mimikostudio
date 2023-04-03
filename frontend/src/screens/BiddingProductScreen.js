@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams, useNavigate } from 'react-router-dom'
-import { Row, Col, Image, ListGroup, Button, Card, Form, FormControl } from 'react-bootstrap'
+import { Row, Col,Table, Image, ListGroup, Button, Card, Form, FormControl } from 'react-bootstrap'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import { listBiddingDetails, createProductBid } from '../actions/biddingActions'
@@ -35,6 +35,12 @@ function BiddingProductScreen( ) {
     const current = new Date();
     const date = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
 
+    // Convert the end_time string to a Date object
+    const endTime = new Date(bidding_product.end_time);
+
+    // Conditionally render the text field and button based on the current time and end time
+    const canBid = endTime > new Date();
+
     useEffect(() => {
         if(successProductBid){
             setAmount(0)
@@ -47,21 +53,26 @@ function BiddingProductScreen( ) {
 
     const submitBidHandler = (e) => {
         e.preventDefault();
-      
-        if (amount <= bidding_product.minimum_price) {
-          setMessage('Amount must be greater than minimum price.');
-          return;
-        } else if (amount <= bidding_product.current_price) {
-          setMessage('Amount greater than current price must be kept.');
-          return;
+    
+        // Parse the amount as a number
+        const parsedAmount = parseFloat(amount);
+    
+        if (isNaN(parsedAmount) || parsedAmount <= 0) {
+            setMessage('Please enter a valid amount.');
+            return;
+        } else if (parsedAmount <= bidding_product.minimum_price) {
+            setMessage('Amount must be greater than minimum price.');
+            return;
+        } else if (parsedAmount <= bidding_product.current_price) {
+            setMessage('Amount greater than current price must be kept.');
+            return;
         } else {
             setMessage('');
         }
-
-      
-        dispatch(createProductBid(id, { id, amount, highest_bidder }));
+    
+        // Dispatch the createProductBid action with the parsedAmount instead of the amount
+        dispatch(createProductBid(id, { id, amount: parsedAmount, highest_bidder }));
     };
-
     useEffect(() => {
         if (bidding_product && bidding_product.bids) {
           setBids(bidding_product.bids);
@@ -117,7 +128,7 @@ function BiddingProductScreen( ) {
                                                 <Row>
                                                     <Col>End Time:</Col>
                                                     <Col>
-                                                        <strong>{bidding_product.end_time.substring(0, 10)}</strong>
+                                                        <strong>{bidding_product.end_time}</strong>
                                                     </Col>
                                                 </Row>
                                             </ListGroup.Item>
@@ -132,51 +143,64 @@ function BiddingProductScreen( ) {
                                             </ListGroup.Item>
                                             
                                             <ListGroup.Item>
-                                                <Row>
-                                                    <Col>Your Price:</Col>
-                                                    {userInfo ? (
+                                                <div>
+                                                    <Row>
+                                                    {userInfo && canBid ? (
+                                                        <>
+                                                        <Col>Your Price:</Col>
                                                         <form onSubmit={submitBidHandler}>
-                                                        <input
+                                                            <input
                                                             type='textarea'
                                                             placeholder='Enter amount'
                                                             value={amount}
                                                             onChange={(e) => setAmount(e.target.value)}
-                                                        />
-                                                        <br></br>
-                                                        <button 
-                                                            type='submit'
-                                                        >
-                                                            Bid
-                                                        </button>
-                                                        {message && <Message variant='danger'>{message}</Message>} 
+                                                            />
+                                                            <br></br>
+                                                            <button type='submit'>Bid</button>
+                                                            {message && <Message variant='danger'>{message}</Message>}
                                                         </form>
+                                                        </>
                                                     ) : (
-                                                        <p>Please login to bid on this product.</p>
+                                                        <p>
+                                                        Please {userInfo ? 'wait for the next bidding event' : <Message variant='info'>Please <Link to='/login'>login</Link> to bid.</Message>}.
+                                                        </p>
                                                     )}
                                                     {errorProductBid && <p>{errorProductBid}</p>}
                                                     {successProductBid && <p>Bid successfully placed.</p>}
-                                                </Row>
-                                            </ListGroup.Item>
+                                                    </Row>
+                                                </div>
+                                                </ListGroup.Item>
+
                                         </ListGroup>
                                     </Card>
                                 </Col>
                             </Row>
                             <Row>
-                            <Col md={6}>
-                                <h4>Bids</h4>
-                                {bids.length > 0 ? (
-                                        <ul>
+                                <Col md={6}>
+                                    <h4>Bids</h4>
+                                    {bids.length > 0 ? (
+                                    <Table striped bordered hover>
+                                        <thead>
+                                        <tr>
+                                            <th>Bidder Email</th>
+                                            <th>Highest Bid Amount</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
                                         {bids.map((bid) => (
-                                            <li key={bid.id}>
-                                            Bidder Email: {bid.bidder.email} - Highest Bid Amount: {bid.amount}
-                                            </li>
+                                            <tr key={bid.id}>
+                                            <td>{bid.bidder.email}</td>
+                                            <td>{bid.amount}</td>
+                                            </tr>
                                         ))}
-                                        </ul>
+                                        </tbody>
+                                    </Table>
                                     ) : (
-                                        <p>No bids yet.</p>
-                                )}
-                            </Col>
+                                    <p>No bids yet.</p>
+                                    )}
+                                </Col>
                             </Row>
+
                         </div>
                     )
 

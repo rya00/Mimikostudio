@@ -119,46 +119,57 @@ export const getOrderDetails = (id) => async(dispatch, getState) => {
     }
 }
 
-export const payOrder = (id, paymentResult) => async(dispatch, getState) => {
-    try{
-        dispatch({
-            type: ORDER_PAY_REQUEST
-        })
-
-        // Pulling out user
-        // Need user to send in token and place an order
-        const {
-            userLogin: {userInfo},
-        }= getState()
-
-        // Added token into config into headers
-        const config = {
-            headers: {
-                'Content-type': 'application/json',
-                Authorization: `Bearer ${userInfo.token}`
-            }
-        }
-
-        const {data} = await axios.put(
-            `/api/orders/${id}/pay/`,
-            paymentResult,
-            config
-        )
-
-        // Response data is sent as payload and state is updated
-        dispatch({
-            type: ORDER_PAY_SUCCESS,
-            payload: data,
-        })
-    }catch(error){
-        dispatch({
-            type: ORDER_PAY_FAIL,
-            payload:error.response && error.response.data.detail
-                ? error.response.data.detail
-                : error.message,
-        })
+export const payOrder = (id, paymentResult) => async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: ORDER_PAY_REQUEST,
+      });
+  
+      // Pulling out user
+      // Need user to send in token and place an order
+      const {
+        userLogin: { userInfo },
+      } = getState();
+  
+      // Added token into config into headers
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+  
+      // Create a payload object with 'token' and 'amount'
+      const payload = {
+        token: paymentResult.token,
+        amount: paymentResult.amount,
+      };
+  
+      console.log("Sending payload to backend:", payload);
+  
+      const { data } = await axios.put(
+        `/api/orders/${id}/pay/`,
+        payload, // Send the payload object instead of paymentResult
+        config
+      );
+  
+      // Response data is sent as payload and state is updated
+      dispatch({
+        type: ORDER_PAY_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: ORDER_PAY_FAIL,
+        payload:
+          error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message,
+      });
     }
-}
+  };
+  
+
 
 export const deliverOrder = (order) => async(dispatch, getState) => {
     try{

@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from rest_framework.decorators import api_view, permission_classes
+from django.shortcuts import redirect
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 
@@ -12,7 +13,18 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from django.contrib.auth.hashers import make_password
 from rest_framework import status
 
-from django.core.mail import EmailMessage
+from django.core.mail import send_mail
+from django.urls import reverse
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_str
+from django.contrib.auth.tokens import default_token_generator
+from django.views.decorators.csrf import csrf_exempt
+ 
+from rest_framework.permissions import AllowAny
+
+from django.http import HttpResponse,HttpResponseBadRequest
+
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
@@ -28,73 +40,157 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
-# def send_verification_email(user_email):
-#     subject = 'Please verify your email'
-#     message = 'Thank you for registering. Please click the link to verify your email.'
-#     from_email = 'mimikostudio@gmail.com'
-#     recipient_list = [user_email]
-#     send_mail(subject, message, from_email, recipient_list, fail_silently=False)
 
-# @api_view(['POST'])
-# def registerUser(request):
-#     data = request.data
+def send_confirmation_email(request, user):
+    token = default_token_generator.make_token(user)
+    uid = urlsafe_base64_encode(force_bytes(user.pk))
+    current_site = get_current_site(request)
+    domain = current_site.domain
+    path = reverse('activate_account', kwargs={'uidb64': uid, 'token': token})
+    activation_link = f'http://{domain}{path}'
 
-#     try:
-#         user = User.objects.create(
-#             first_name=data['name'],
-#             username=data['email'],
-#             email=data['email'],
-#             password=make_password(data['password'])
-#         )
-#         serializer = UserSerializerWithToken(user, many=False)
-#         send_mail(
-#             'Welcome to Mimikostudio!',
-#             'Thank you for registering with us. Please click the link below to verify your account:\nhttp://localhost:3000/verify/' + str(serializer.data['id']) + '/',
-#             'mimikostudio@gmail.com',
-#             [data['email']],
-#             fail_silently=False,
-#         )
-#         return Response(serializer.data)
-#     except:
-#         message = {'detail': 'User with this email already exists'}
-#         return Response(message, status=status.HTTP_400_BAD_REQUEST)
+    subject = 'Account Activation'
+    message = f'Hi {user.first_name},\n\nPlease click the link below to activate your account:\n\n{activation_link}'
+    from_email = 'mimikostudio@gmail.com' 
+    recipient_list = [user.email]
+
+    send_mail(subject, message, from_email, recipient_list, fail_silently=False)
 
 @api_view(['POST'])
 def registerUser(request):
     data = request.data
 
-    try:
-        user = User.objects.create(
-            first_name = data['name'],
-            username = data['email'],
-            email = data['email']
-        )
+    user, created = User.objects.get_or_create(
+        username=data['email'],
+        email=data['email'],
+        defaults={
+            'first_name': data['name'],
+            'password': make_password(data['password']),
+        }
+    )
 
-        serializer = UserSerializerWithToken(user, many=False)
-        return Response(serializer.data)
-    except:
+    if not created:
         message = {'detail': 'User with this email already exists.'}
         return Response(message, status=status.HTTP_400_BAD_REQUEST)
 
+    user.is_active = False  # Set the user's is_active field to False
+    user.save()
+
+    # Send the confirmation email
+    send_confirmation_email(request, user)
+
+    serializer = UserSerializerWithToken(user, many=False)
+    return Response(serializer.data)
+
+def activate_account(request, uidb64, token):
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        user.is_active = True
+        user.save()
+        # Replace 'https://your-app-url.com/login' with the actual URL of your app's login page
+        return redirect('http://localhost:3000/login')
+    else:
+        return HttpResponse('Activation link is invalid.')
+
 # @api_view(['POST'])
-# def registerUser(request):
+# def password_reset(request):
 #     data = request.data
+#     email = data.get('email')
 
 #     try:
-#         user = User.objects.create(
-#             first_name=data['name'],
-#             username=data['email'],
-#             email=data['email'],
-#             password=make_password(data['password'])
-#         )
+#         user = User.objects.get(email=email)
+#     except User.DoesNotExist:
+#         return Response({'detail': 'User with this email does not exist.'}, status=status.HTTP_404_NOT_FOUND)
 
-#         send_verification_email(user.email)
+#     token = default_token_generator.make_token(user)
+#     uid = urlsafe_base64_encode(force_bytes(user.pk))
+#     current_site = get_current_site(request)
+#     domain = current_site.domain
+#     path = reverse('password_reset_confirm', kwargs={'uidb64': uid, 'token': token})
+#     reset_link = f'http://{domain}{path}'
 
-#         serializer = UserSerializerWithToken(user, many=False)
-#         return Response(serializer.data)
-#     except:
-#         message = {'detail': 'User with this email already exists.'}
-#         return Response(message, status=status.HTTP_400_BAD_REQUEST)
+#     subject = 'Password Reset Request'
+#     message = f'Hi {user.first_name},\n\nPlease click the link below to reset your password:\n\n{reset_link}'
+#     from_email = 'mimikostudio@gmail.com'
+#     recipient_list = [user.email]
+
+#     send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+
+#     return Response({'detail': 'Password reset email sent.'})
+
+@api_view(['POST'])
+@csrf_exempt
+@authentication_classes([])
+@permission_classes([AllowAny])
+def password_reset(request):
+    data = request.data
+    email = data.get('email')
+
+    try:
+        user = User.objects.get(email=email)
+    except User.DoesNotExist:
+        return Response({'detail': 'User with this email does not exist.'}, status=status.HTTP_404_NOT_FOUND)
+
+    token = default_token_generator.make_token(user)
+    uid = urlsafe_base64_encode(force_bytes(user.pk))
+    current_site = get_current_site(request)
+    domain = current_site.domain
+    path = reverse('password_reset_confirm', kwargs={'uidb64': uid, 'token': token})
+    reset_link = f'http://{domain}{path}'
+    # reset_link = f'http://localhost:3000/password-reset-confirm?uidb64=%7Buid%7D&token=%7Btoken%7D'
+
+    subject = 'Password Reset Request'
+    message = f'Hi {user.first_name},\n\nPlease click the link below to reset your password:\n\n{reset_link}'
+    from_email = 'c2sakya@gmail.com'
+    recipient_list = [user.email]
+
+    send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+
+    return Response({'detail': 'Password reset email sent.'})
+
+@api_view(['GET','POST'])
+@csrf_exempt
+@authentication_classes([])
+@permission_classes([AllowAny])
+def password_reset_confirm(request, uidb64=None, token=None):
+    if request.method == 'POST':
+        password = request.data.get('password')
+
+        try:
+            uid = force_str(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(pk=uid)
+        except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+            return HttpResponseBadRequest()
+
+        if default_token_generator.check_token(user, token):
+            user.set_password(password)
+            user.save()
+            return Response({'detail': 'Password has been reset.'}, status=status.HTTP_200_OK)
+        else:
+            return Response({'detail': 'Invalid token.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    # GET request
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        # Display a form for resetting the password
+        return redirect('http://localhost:3000/password-reset-confirm/' + uidb64 + '/' + token + '/')
+    else:
+        return Response({'detail': 'Invalid token.'}, status=status.HTTP_400_BAD_REQUEST)
+
+# def password_reset_confirm(request, uidb64, token):
+#     # Replace the URL below with the URL of your React app
+#     react_app_url = 'http://localhost:3000/password-reset-confirm?uidb64=%7Buidb64%7D&token=%7Btoken%7D'
+#     return redirect(react_app_url)
 
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
