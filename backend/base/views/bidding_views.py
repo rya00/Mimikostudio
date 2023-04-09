@@ -96,7 +96,7 @@ def createProductBid(request, pk):
 
     # Set the bidding end time to the end of the bidding date
     # Convert time.max to a timezone-aware time object
-    bidding_end_time = timezone.make_aware(datetime.combine(bidding_product.end_time, time.max))
+    bidding_end_time = timezone.make_aware(datetime.datetime.combine(bidding_product.end_time, datetime.time.max))
 
     if bidding_end_time < timezone.now():
         content = {'detail': 'Bidding has ended for this product.'}
@@ -117,7 +117,7 @@ def createProductBid(request, pk):
 
     # Check if the amount has more than 6 digits
     if len(str(amount).replace('.', '')) > 6:
-        content = {'detail': 'Amount should not have more than 6 digits.'}
+        content = {'detail': 'Sorry, currently amount should not have more than 6 digits.'}
         return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
     try:
