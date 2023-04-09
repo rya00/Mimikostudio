@@ -30,7 +30,7 @@ function OrderListScreen() {
 
     return (
         <div>
-            <h1>Orders</h1>
+            <h1 className='auto-underline-animation'>Orders</h1>
             {loading 
                 ? (<Loader />)
                 : error
@@ -73,7 +73,7 @@ function OrderListScreen() {
 
                                         <td>
                                             <LinkContainer to={`/order/${order._id}`}>
-                                                <Button variant='light' className='btn-sm'>
+                                                <Button variant='dark' className='btn-sm standard-btn'>
                                                     Details
                                                 </Button>
                                             </LinkContainer>

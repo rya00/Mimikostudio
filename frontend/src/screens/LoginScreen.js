@@ -68,16 +68,15 @@ function LoginScreen() {
 
   return (
     <FormContainer>
-      <h1>Sign In</h1>
+      <h1> Sign In</h1>
       {error && <Message variant="danger">{error}</Message>}
       {loading && <Loader />}
       <Form onSubmit={submitHandler}>
         <Form.Group controlId="email">
-          <Form.Label>Email Address</Form.Label>
+          <Form.Label>Email Address:</Form.Label>
           <Form.Control
-            className="shadow-sm p-3 mb-5 bg-white rounded"
             type="email"
-            placeholder="Enter Email"
+            placeholder="Enter email"
             value={email}
             onChange={(e) => {
               setEmail(e.target.value);
@@ -88,25 +87,21 @@ function LoginScreen() {
         </Form.Group>
 
         <Form.Group controlId="password">
-          <Form.Label>Password</Form.Label>
+          <Form.Label>Password:</Form.Label>
           <Form.Control
-            className="shadow-sm p-3 mb-5 bg-white rounded"
             type="password"
-            placeholder="Enter Password"
+            placeholder="Enter password"
             value={password}
             onChange={(e) => {
               setPassword(e.target.value);
               validatePassword(e.target.value);
             }}
           ></Form.Control>
-          {passwordError && <Message variant="danger">{passwordError}</Message>}
         </Form.Group>
 
-        <div className="col-md-12 text-center">
-          <Button type="submit" variant="dark">
-            Sign In
-          </Button>
-        </div>
+        <Button type="submit" variant="primary" className="standard-btn">
+          Sign In
+        </Button>
       </Form>
 
       <Button onClick={resetPasswordHandler}>Reset Password</Button>

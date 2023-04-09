@@ -39,7 +39,7 @@ function UserListScreen() {
 
     return (
         <div>
-            <h1>Users</h1>
+            <h1 className='auto-underline-animation'>Users</h1>
             {loading 
                 ? (<Loader />)
                 : error

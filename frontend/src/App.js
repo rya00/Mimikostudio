@@ -1,7 +1,7 @@
-import { Container } from 'react-bootstrap'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Header from './components/Header'
-import Footer from './components/Footer'
+import { Container } from "react-bootstrap";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 import HomeScreen from './screens/HomeScreen'
 import BiddingScreen from './screens/BiddingScreen'
@@ -26,47 +26,53 @@ import BiddingListScreen from './screens/BiddingListScreen'
 import BiddingEditScreen from './screens/BiddingEditScreen'
 import OrderListScreen from './screens/OrderListScreen'
 import PasswordResetConfirmScreen from './screens/PasswordResetConfirmScreen'
+import PageLayout from "./components/wrapper/PageLayout"
 
 function App() {
   return (
     <Router>
       <Header />
-      <main className='py-3'>
-        <Container>
+      {/* <main style={{backgroundColor: "#F9F6F0"}}> */}
+      <main>
           <Routes>
-            <Route exact path='/' element={< HomeScreen />} />
-            <Route exact path='/biddings' element={< BiddingScreen />} />
-            <Route exact path='/events' element={< EventScreen />} />
-            <Route path='/login' element={< LoginScreen />} />
-            <Route path="/password-reset-confirm/:uidb64/:token" element={<PasswordResetConfirmScreen />}/>
-            <Route path='/register' element={< RegisterScreen />} />
-            <Route path='/profile' element={< ProfileScreen />} />
-            <Route path='/shipping' element={< ShippingScreen />} />
-            <Route path='/payment' element={< PaymentScreen />} />
-            <Route path='/placeorder' element={< PlaceOrderScreen />} />
-            <Route path='/order/:id' element={< OrderScreen />} />
-            {/* Passing id as parameter */}
-            <Route path='/product/:id' element={< ProductScreen />} /> 
-            <Route path='/bidding/:id' element={< BiddingProductScreen />} /> 
-            {/* id? -> Making the id an option as sometimes we can just go to cart directly */}
-            <Route path='/cart/:id?' element={< CartScreen />} /> 
+            <Route exact path="/" element={<HomeScreen />} />
+            <Route element={<PageLayout />}> {/* Custom page layout */}
+              <Route path="/login" element={<LoginScreen />} />
+              <Route path="/password-reset-confirm/:uidb64/:token" element={<PasswordResetConfirmScreen />}/>
+              <Route path="/register" element={<RegisterScreen />} />
+              <Route path="/profile" element={<ProfileScreen />} />
+              <Route path="/shipping" element={<ShippingScreen />} />
+              <Route path="/payment" element={<PaymentScreen />} />
+              <Route path="/placeorder" element={<PlaceOrderScreen />} />
+              <Route path="/order/:id" element={<OrderScreen />} />
+              {/* Passing id as parameter */}
+              <Route path="/product/:id" element={<ProductScreen />} />
+              <Route path='/bidding/:id' element={< BiddingProductScreen />} /> 
+              {/* id? -> Making the id an option as sometimes we can just go to cart directly */}
+              <Route path="/cart/:id?" element={<CartScreen />} />
 
 
-            <Route path='/admin/userlist' element={< UserListScreen />} />
-            <Route path='/admin/user/:id/edit' element={< UserEditScreen />} />
+              <Route path="/admin/userlist" element={<UserListScreen />} />
+              <Route path="/admin/user/:id/edit" element={<UserEditScreen />} />
 
-            <Route path='/admin/productlist' element={< ProductListScreen />} />
-            <Route path='/admin/product/:id/edit' element={< ProductEditScreen />} />
+              <Route path="/admin/productlist" element={<ProductListScreen />} />
+              <Route
+                path="/admin/product/:id/edit"
+                element={<ProductEditScreen />}
+              />
 
-            <Route path='/admin/biddinglist' element={< BiddingListScreen />} />
-            <Route path='/admin/bidding/:id/edit' element={< BiddingEditScreen />} />
+              <Route path='/admin/productlist' element={< ProductListScreen />} />
+              <Route path='/admin/product/:id/edit' element={< ProductEditScreen />} />
 
-            <Route path='/admin/eventlist' element={< EventListScreen />} />
-            <Route path='/admin/event/:id/edit' element={< EventEditScreen />} />
+              <Route path='/admin/biddinglist' element={< BiddingListScreen />} />
+              <Route path='/admin/bidding/:id/edit' element={< BiddingEditScreen />} />
 
-            <Route path='/admin/orderlist' element={< OrderListScreen />} />
+              <Route path='/admin/eventlist' element={< EventListScreen />} />
+              <Route path='/admin/event/:id/edit' element={< EventEditScreen />} />
+
+              <Route path='/admin/orderlist' element={< OrderListScreen />} />
+            </Route>
           </Routes>
-        </Container>
       </main>
       <Footer />
     </Router>

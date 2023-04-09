@@ -4,6 +4,7 @@ import { Navbar, Nav, Container, NavDropdown, Row } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import SearchBox from './SearchBox'
 import { logout } from '../actions/userActions'
+import "../index.css"
 
 function Header() {
   const userLogin = useSelector(state => state.userLogin)
@@ -18,15 +19,15 @@ function Header() {
 
   return (
     <header>
-      <Navbar bg="dark" variant='dark' expand="lg" collapseOnSelect>
+      <Navbar  variant='dark' expand="lg" collapseOnSelect className='nav-color'>
         <Container>
           <LinkContainer to='/'>
-            <Navbar.Brand>Mimikostudio</Navbar.Brand>
+            <Navbar.Brand className='hover-underline-animation'>Mimikostudio</Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <SearchBox />
-            <Nav className="mr-auto">
+            <Nav className="nav-items-container">
               <LinkContainer to='/biddings'>
                 <Nav.Link><i className="fa-solid fa-hammer"></i>Bidding</Nav.Link>
               </LinkContainer>
@@ -37,7 +38,7 @@ function Header() {
                 <Nav.Link><i className='fas fa-shopping-cart'></i>Cart</Nav.Link>
               </LinkContainer>
               { userInfo  ?(
-                <NavDropdown title={userInfo.name} id='username'>
+                <NavDropdown title={userInfo.name} id='username' className='nav-item-custom'>
                   <LinkContainer to='/profile'>
                     <NavDropdown.Item>Profile</NavDropdown.Item>
                   </LinkContainer>
@@ -50,7 +51,7 @@ function Header() {
               )}
 
               {userInfo && userInfo.isAdmin && (
-                <NavDropdown title='Admin' id='adminmenu'>
+                <NavDropdown title='Admin' id='adminmenu' className='nav-item-custom'>
                   <LinkContainer to='/admin/userlist'>
                     <NavDropdown.Item>Users</NavDropdown.Item>
                   </LinkContainer>

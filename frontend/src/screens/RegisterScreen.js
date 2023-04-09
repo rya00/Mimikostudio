@@ -99,7 +99,7 @@ function RegisterScreen() {
             {registerMessage && <div>{registerMessage}</div>}
             {loading && <Loader />}
             <Form onSubmit={ submitHandler }>
-                <Form.Group controlId='name'>
+                <Form.Group controlId='name' className='grp-fields'>
                     <Form.Label>Name:</Form.Label>
                     <Form.Control
                         required
@@ -115,7 +115,7 @@ function RegisterScreen() {
                     {nameError  && <Message variant="danger">{nameError}</Message>}
                 </Form.Group>
 
-                <Form.Group controlId='email'>
+                <Form.Group controlId='email' className='grp-fields'>
                     <Form.Label>Email Address:</Form.Label>
                     <Form.Control
                         required
@@ -130,7 +130,7 @@ function RegisterScreen() {
                     {emailError  && <Message variant="danger">{emailError}</Message>}
                 </Form.Group>
 
-                <Form.Group controlId='password'>
+                <Form.Group controlId='password' className='grp-fields'>
                     <Form.Label>Password:</Form.Label>
                     <Form.Control
                         required
@@ -146,7 +146,7 @@ function RegisterScreen() {
                     {passwordError  && <Message variant="danger">{passwordError}</Message>}
                 </Form.Group>
 
-                <Form.Group controlId='passwordConfirm'>
+                <Form.Group controlId='passwordConfirm' className='grp-fields'>
                     <Form.Label>Confirm Password:</Form.Label>
                     <Form.Control
                         required
@@ -162,7 +162,7 @@ function RegisterScreen() {
                     {confirmPasswordError  && <Message variant="danger">{confirmPasswordError}</Message>}
                 </Form.Group>
 
-                <Button type='submit' variant='primary'> 
+                <Button type='submit' variant='primary' className="standard-btn"> 
                 Register
                 </Button>
             </Form>

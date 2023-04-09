@@ -8,6 +8,8 @@ import Message from '../components/Message'
 import FormContainer from '../components/FormContainer'
 import { listProductDetails, updateProduct } from '../actions/productActions'
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
+import {IoIosArrowBack} from "react-icons/io"
+
 
 function ProductEditScreen() {
     const {id} = useParams()
@@ -165,17 +167,18 @@ function ProductEditScreen() {
 
     return (
         <div>
-            <Link to='/admin/productlist'>
+            <Link to='/admin/productlist' className='btn btn-light go-back-btn'>
+                <IoIosArrowBack size={20}/>
                 Go Back            
             </Link>
             <FormContainer>
-                <h1> Edit Product</h1>
+                <h1 className='auto-underline-animation'> Edit Product</h1>
                 {loadingUpdate && < Loader />}
                 {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
                 {loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> 
                     :(
                         <Form onSubmit={ submitHandler }>
-                            <Form.Group controlId='name'>
+                            <Form.Group controlId='name' className='grp-fields'>
                                 <Form.Label>Name:</Form.Label>
                                 <Form.Control
                                     type='name'
@@ -189,7 +192,7 @@ function ProductEditScreen() {
                                 {nameError && <Message variant='danger'>{nameError}</Message>}
                             </Form.Group>
 
-                            <Form.Group controlId='price'>
+                            <Form.Group controlId='price' className='grp-fields'>
                                 <Form.Label>Price:</Form.Label>
                                 <Form.Control
                                     type='number'
@@ -203,13 +206,14 @@ function ProductEditScreen() {
                                 {priceError && <Message variant='danger'>{priceError}</Message>}
                             </Form.Group>
 
-                            <Form.Group controlId='image'>
+                            <Form.Group controlId='image' className='grp-fields'>
                                 <Form.Label>Image:</Form.Label>
                                 <Form.Control
                                     type='text'
                                     placeholder='Enter image'
                                     value={image}
                                     onChange={(e) => setImage(e.target.value) }
+                                    style={{marginBottom: 15}}
                                 >
                                 </Form.Control>
                                 <Form.Control
@@ -221,7 +225,7 @@ function ProductEditScreen() {
                                 {uploading && <Loader />}
                             </Form.Group>
 
-                            <Form.Group controlId='category'>
+                            <Form.Group controlId='category' className='grp-fields'>
                                 <Form.Label>Category:</Form.Label>
                                 <Form.Control
                                     type='text'
@@ -235,7 +239,7 @@ function ProductEditScreen() {
                                 {categoryError && <Message variant='danger'>{categoryError}</Message>}
                             </Form.Group>
 
-                            <Form.Group controlId='countInStock'>
+                            <Form.Group controlId='countInStock' className='grp-fields'>
                                 <Form.Label>Stock:</Form.Label>
                                 <Form.Control
                                     type='number'
@@ -249,7 +253,7 @@ function ProductEditScreen() {
                                 {countInStockError && <Message variant='danger'>{countInStockError}</Message>}
                             </Form.Group>
 
-                            <Form.Group controlId='description'>
+                            <Form.Group controlId='description' className='grp-fields'>
                                 <Form.Label>Description:</Form.Label>
                                 <Form.Control
                                     type='text'
@@ -263,7 +267,7 @@ function ProductEditScreen() {
                                 {descriptionError && <Message variant='danger'>{descriptionError}</Message>}
                             </Form.Group>                           
 
-                            <Button type='submit' variant='primary'> 
+                            <Button type='submit' variant='primary' className='standard-btn'> 
                                 Update
                             </Button>
                         </Form>

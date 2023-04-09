@@ -56,7 +56,7 @@ function PaymentScreen() {
                     </Col>
                 </Form.Group>
 
-                <Button type='submit' variant='primary'>
+                <Button type='submit' variant='primary' className='standard-btn'>  
                     Continue
                 </Button>
             </Form>
