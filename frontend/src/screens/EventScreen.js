@@ -28,8 +28,9 @@ function EventScreen() {
   // In our app it gets triggered when the component first loads
   // Empty array kept because we only want this to update when the component loads not when an actual state element gets updated
   useEffect(() => {
-    dispatch(listEvents(keyword))
-  }, [dispatch, keyword]) 
+    const currentDate = new Date().toISOString().substring(0, 10); // Get the current date in yyyy-mm-dd format
+    dispatch(listEvents(`?date=${currentDate}`)); // Pass the date as a query parameter to the listEvents function
+  }, [dispatch])  
   
   return (
     <div>

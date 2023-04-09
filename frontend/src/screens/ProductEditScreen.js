@@ -21,6 +21,12 @@ function ProductEditScreen() {
     const [countInStock, setCountInStock] = useState(0)
     const [description, setDescription] = useState('')
     const [uploading, setUploading] = useState(false)
+    const [nameError, setNameError] = useState('');
+    const [priceError, setPriceError] = useState('');
+    const [categoryError, setCategoryError] = useState('');
+    const [countInStockError, setCountInStockError] = useState('');
+    const [descriptionError, setDescriptionError] = useState('');
+
 
     const navigate = useNavigate()
 
@@ -31,6 +37,46 @@ function ProductEditScreen() {
 
     const productUpdate = useSelector(state => state.productUpdate)
     const {error:errorUpdate, loading:loadingUpdate, success:successUpdate} = productUpdate
+
+    const validateName = (name) => {
+        if (name.trim() === '') {
+            setNameError('Name cannot be empty');
+        } else {
+            setNameError('');
+        }
+    };
+    
+    const validatePrice = (price) => {
+        if (isNaN(price) || price <= 0) {
+            setPriceError('Price must be a positive number');
+        } else {
+            setPriceError('');
+        }
+    };
+    
+    const validateCategory = (category) => {
+        if (category.trim() === '') {
+            setCategoryError('Category cannot be empty');
+        } else {
+            setCategoryError('');
+        }
+    };
+    
+    const validateCountInStock = (countInStock) => {
+        if (isNaN(countInStock) || countInStock < 0) {
+            setCountInStockError('Stock must be a non-negative number');
+        } else {
+            setCountInStockError('');
+        }
+    };
+    
+    const validateDescription = (description) => {
+        if (description.trim() === '') {
+            setDescriptionError('Description cannot be empty');
+        } else {
+            setDescriptionError('');
+        }
+    };    
 
     useEffect(() => {
         if(successUpdate){
@@ -52,17 +98,44 @@ function ProductEditScreen() {
     }, [dispatch, product, productId, navigate, successUpdate])
 
     const submitHandler = (e) => {
-        e.preventDefault()
-        dispatch(updateProduct({
-            _id:productId,
-            name,
-            price,
-            image,
-            category,
-            countInStock,
-            description
-        }))
-    }
+        e.preventDefault();
+    
+        // Validate name
+        if (name.trim() === '') {
+            setNameError('Name cannot be empty.');
+            return;
+        }
+    
+        // Validate price
+        if (isNaN(price) || price <= 0) {
+            setPriceError('Price must be a positive number.');
+            return;
+        }
+    
+        // Validate category
+        if (category.trim() === '') {
+            setCategoryError('Category cannot be empty.');
+            return;
+        }
+    
+        // Validate stock
+        if (isNaN(countInStock) || countInStock < 0) {
+            setCountInStockError('Stock must be a non-negative number.');
+            return;
+        }
+    
+        if (!nameError && !priceError && !categoryError && !descriptionError && !countInStockError) {
+            dispatch(updateProduct({
+                _id:productId,
+                name,
+                price,
+                image,
+                category,
+                countInStock,
+                description
+            }));
+        }
+    };    
 
     const uploadFileHandler = async (e) => {
         const file = e.target.files[0]
@@ -108,9 +181,12 @@ function ProductEditScreen() {
                                     type='name'
                                     placeholder='Enter name'
                                     value={name}
-                                    onChange={(e) => setName(e.target.value) }
-                                >
-                                </Form.Control>
+                                    onChange={(e) => {
+                                        setName(e.target.value);
+                                        validateName(e.target.value);
+                                    }}
+                                />
+                                {nameError && <Message variant='danger'>{nameError}</Message>}
                             </Form.Group>
 
                             <Form.Group controlId='price'>
@@ -119,9 +195,12 @@ function ProductEditScreen() {
                                     type='number'
                                     placeholder='Enter price'
                                     value={price}
-                                    onChange={(e) => setPrice(e.target.value) }
-                                >
-                                </Form.Control>
+                                    onChange={(e) => {
+                                        setPrice(e.target.value);
+                                        validatePrice(e.target.value);
+                                    }}
+                                />
+                                {priceError && <Message variant='danger'>{priceError}</Message>}
                             </Form.Group>
 
                             <Form.Group controlId='image'>
@@ -148,9 +227,12 @@ function ProductEditScreen() {
                                     type='text'
                                     placeholder='Enter category'
                                     value={category}
-                                    onChange={(e) => setCategory(e.target.value) }
-                                >
-                                </Form.Control>
+                                    onChange={(e) => {
+                                        setCategory(e.target.value);
+                                        validateCategory(e.target.value);
+                                    }}
+                                />
+                                {categoryError && <Message variant='danger'>{categoryError}</Message>}
                             </Form.Group>
 
                             <Form.Group controlId='countInStock'>
@@ -159,9 +241,12 @@ function ProductEditScreen() {
                                     type='number'
                                     placeholder='Enter stock'
                                     value={countInStock}
-                                    onChange={(e) => setCountInStock(e.target.value) }
-                                >
-                                </Form.Control>
+                                    onChange={(e) => {
+                                        setCountInStock(e.target.value);
+                                        validateCountInStock(e.target.value);
+                                    }}
+                                />
+                                {countInStockError && <Message variant='danger'>{countInStockError}</Message>}
                             </Form.Group>
 
                             <Form.Group controlId='description'>
@@ -170,9 +255,12 @@ function ProductEditScreen() {
                                     type='text'
                                     placeholder='Enter description'
                                     value={description}
-                                    onChange={(e) => setDescription(e.target.value) }
-                                >
-                                </Form.Control>
+                                    onChange={(e) => {
+                                        setDescription(e.target.value);
+                                        validateDescription(e.target.value);
+                                    }}
+                                />
+                                {descriptionError && <Message variant='danger'>{descriptionError}</Message>}
                             </Form.Group>                           
 
                             <Button type='submit' variant='primary'> 

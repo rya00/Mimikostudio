@@ -37,8 +37,19 @@ function PaymentScreen() {
                             type='radio'
                             label='Khalti'
                             id='khalti'
+                            value='khalti'
                             name='paymentMethod'
-                            checked
+                            checked={paymentMethod === 'khalti'}
+                            onChange={(e) => setPaymentMethod(e.target.value)}
+                        >
+                        </Form.Check>
+                        <Form.Check
+                            type='radio'
+                            label='Cash On Delivery'
+                            id='cod'
+                            value='cod'
+                            name='paymentMethod'
+                            checked={paymentMethod === 'cod'}
                             onChange={(e) => setPaymentMethod(e.target.value)}
                         >
                         </Form.Check>

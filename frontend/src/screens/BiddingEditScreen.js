@@ -8,10 +8,10 @@ import Message from '../components/Message'
 import FormContainer from '../components/FormContainer'
 import { listBiddingDetails, updateBidding } from '../actions/biddingActions'
 import { BIDDING_UPDATE_RESET } from '../constants/biddingConstants'
-import { toast } from 'react-toastify';
+
 
 function BiddingEditScreen() {
-    const { id } = useParams();
+  const { id } = useParams();
 
   const biddingId = id;
 
@@ -23,12 +23,12 @@ function BiddingEditScreen() {
   const [uploading, setUploading] = useState(false);
 
   const current = new Date();
-  const date = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
+  const date = `${current.getFullYear()}-${(current.getMonth()+1).toString().padStart(2, '0')}-${current.getDate().toString().padStart(2, '0')}`;
 
-  const [nameError, setNameError] = useState('')
-  const [minimumPriceError, setMinimumPriceError] = useState('')
-  const [endTimeError, setEndTimeError] = useState('')
-  const [descriptionError, setDescriptionError] = useState('')
+  const [nameError, setNameError] = useState('');
+  const [minimumPriceError, setMinimumPriceError] = useState('');
+  const [endTimeError, setEndTimeError] = useState('');
+  const [descriptionError, setDescriptionError] = useState('');
 
   const navigate = useNavigate();
 
@@ -39,78 +39,85 @@ function BiddingEditScreen() {
 
   const biddingUpdate = useSelector((state) => state.biddingUpdate);
   const {
-    error: errorUpdate,
-    loading: loadingUpdate,
-    success: successUpdate,
+      error: errorUpdate,
+      loading: loadingUpdate,
+      success: successUpdate,
   } = biddingUpdate;
 
   const validateName = (name) => {
-    if (name === "") {
-        setNameError("Name cannot be empty.");
-    } else {
-        setNameError("");
-    }
-  }
+      if (name.trim() === "") {
+          setNameError("Name cannot be empty.");
+      } else {
+          setNameError("");
+      }
+  };
 
-  const validatePrice = (minimum_price) => {
-    if (minimum_price <= 0 || minimum_price <= 0.00 ) {
-      setMinimumPriceError("Price cannot be empty.");
-    } else {
-      setMinimumPriceError("");
-    }
-  }
+  const validatePrice = (price) => {
+      if (isNaN(price) || price <= 0) {
+          setMinimumPriceError("Minimum price must be a positive number.");
+      } else {
+          setMinimumPriceError("");
+      }
+  };
 
-  const validateDate = (end_time) => {
-    if (end_time <= {date}) {
-      setEndTimeError("Please select a date greater than the current date.");
-    } else {
-      setEndTimeError("");
-    }
-  }
+  const validateDate = (date) => {
+      if (date < current.toISOString().slice(0, 10)) {
+          setEndTimeError("End date must be after the current date.");
+      } else {
+          setEndTimeError("");
+      }
+  };
 
   const validateDescription = (description) => {
-    if (description === "") {
-      setDescriptionError("Description cannot be empty.");
-    } else {
-      setDescriptionError("");
-    }
-  }
+      if (description.trim() === "") {
+          setDescriptionError("Description cannot be empty.");
+      } else {
+          setDescriptionError("");
+      }
+  };
 
   useEffect(() => {
-    if (successUpdate) {
-      dispatch({ type: BIDDING_UPDATE_RESET });
-      console.log('test');
-      navigate('/admin/biddinglist');
-    } else {
-      if (
-        !bidding_product.bidding_name ||
-        bidding_product._id !== Number(biddingId)
-      ) {
-        dispatch(listBiddingDetails(biddingId));
+      if (successUpdate) {
+          dispatch({ type: BIDDING_UPDATE_RESET });
+          navigate('/admin/biddinglist');
       } else {
-        setName(bidding_product.bidding_name);
-        setMinimumPrice(bidding_product.minimum_price);
-        setImage(bidding_product.image);
-        setEndTime(bidding_product.end_time);
-        setDescription(bidding_product.bidding_description);
+          if (
+              !bidding_product.bidding_name ||
+              bidding_product._id !== Number(biddingId)
+          ) {
+              dispatch(listBiddingDetails(biddingId));
+          } else {
+              setName(bidding_product.bidding_name);
+              setMinimumPrice(bidding_product.minimum_price);
+              setImage(bidding_product.image);
+              setEndTime(bidding_product.end_time);
+              setDescription(bidding_product.bidding_description);
+          }
       }
-    }
   }, [dispatch, bidding_product, biddingId, navigate, successUpdate]);
 
   const submitHandler = (e) => {
     e.preventDefault();
-    
-    dispatch(
-      updateBidding({
-        _id: biddingId,
-        bidding_name,
-        minimum_price,
-        image,
-        end_time,
-        bidding_description,
-      })
-    );
-  };
+
+    validateName(bidding_name);
+    validatePrice(minimum_price);
+    validateDate(end_time);
+    validateDescription(bidding_description);
+
+    if (!nameError && !minimumPriceError && !endTimeError && !descriptionError) {
+        dispatch(
+            updateBidding({
+                _id: biddingId,
+                bidding_name,
+                minimum_price,
+                image,
+                end_time,
+                bidding_description,
+            })
+        );
+    }
+    };
+
 
   const uploadFileHandler = async (e) => {
     const file = e.target.files[0];
@@ -164,16 +171,15 @@ function BiddingEditScreen() {
                             <Form.Group controlId='biddingname'>
                                 <Form.Label>Bidding Name:</Form.Label>
                                 <Form.Control
-                                    type='biddingname'
+                                    type='text'
                                     placeholder='Enter name'
                                     value={bidding_name}
                                     onChange={(e) => {
-                                      setName(e.target.value);
-                                      validateName(e.target.value);
-                                  }}
-                              >
-                              </Form.Control>
-                              {nameError  && <Message variant="danger">{nameError}</Message>}
+                                    setName(e.target.value);
+                                    validateName(e.target.value);
+                                    }}
+                                ></Form.Control>
+                                {nameError && <Message variant='danger'>{nameError}</Message>}
                             </Form.Group>
 
                             <Form.Group controlId='minimumprice'>
@@ -188,7 +194,7 @@ function BiddingEditScreen() {
                                   }}
                               >
                               </Form.Control>
-                              {minimumPriceError  && <Message variant="danger">{minimumPriceError}</Message>}
+                              {minimumPriceError && (<Message variant='danger'>{minimumPriceError}</Message>)}
                             </Form.Group>
 
                             <Form.Group controlId='image'>

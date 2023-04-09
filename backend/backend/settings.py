@@ -176,9 +176,16 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+# Email Configuration
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'mimikostudio@gmail.com'
-EMAIL_HOST_PASSWORD = "r5e5y1@ree_ya"
+EMAIL_HOST_PASSWORD = "vktqlgoqpfzpajhq"
 EMAIL_PORT = 587
+
+# Khalti Key Setup
+
+TEST_SECRET_KEY = "test_secret_key_8921b846637245d19e633c274f08213a"
+

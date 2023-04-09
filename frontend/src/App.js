@@ -25,6 +25,7 @@ import ProductEditScreen from './screens/ProductEditScreen'
 import BiddingListScreen from './screens/BiddingListScreen'
 import BiddingEditScreen from './screens/BiddingEditScreen'
 import OrderListScreen from './screens/OrderListScreen'
+import PasswordResetConfirmScreen from './screens/PasswordResetConfirmScreen'
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
             <Route exact path='/biddings' element={< BiddingScreen />} />
             <Route exact path='/events' element={< EventScreen />} />
             <Route path='/login' element={< LoginScreen />} />
+            <Route path="/password-reset-confirm/:uidb64/:token" element={<PasswordResetConfirmScreen />}/>
             <Route path='/register' element={< RegisterScreen />} />
             <Route path='/profile' element={< ProfileScreen />} />
             <Route path='/shipping' element={< ShippingScreen />} />

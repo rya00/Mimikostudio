@@ -109,7 +109,6 @@ class Bid(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     _id = models.AutoField(primary_key=True, editable=False)
 
-from django.db import models
 
 class Event(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
