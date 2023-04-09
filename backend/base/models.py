@@ -82,3 +82,43 @@ class ShippingAddress(models.Model):
 
     def __str__(self):
         return str(self.address)
+
+# Bidding
+    
+class BiddingProduct(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    bidding_name = models.CharField(max_length=100)
+    bidding_description = models.TextField()
+    image = models.ImageField(null=True, blank=True, 
+                              default='/placeholder.png')
+    minimum_price = models.DecimalField(max_digits=8, decimal_places=2)
+    current_price = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    highest_bidder = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='bids_won')
+    end_time = models.DateTimeField()
+    numBids = models.IntegerField(null=True, blank=True, default=0)
+    _id = models.AutoField(primary_key=True, editable=False)
+    
+
+    def __str__(self):
+        return self.bidding_name
+    
+class Bid(models.Model):
+    bidding_product = models.ForeignKey(BiddingProduct, on_delete=models.CASCADE, related_name='bids')
+    bidder = models.ForeignKey(User, on_delete=models.CASCADE, related_name='bids_made')
+    amount = models.DecimalField(max_digits=8, decimal_places=2)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    _id = models.AutoField(primary_key=True, editable=False)
+
+
+class Event(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    title = models.CharField(max_length=200)
+    image = models.ImageField(null=True, blank=True, 
+                              default='/placeholder.png')
+    event_description = models.TextField()
+    date = models.DateTimeField()
+    location = models.CharField(max_length=200)
+    _id = models.AutoField(primary_key=True, editable=False)
+
+    def __str__(self):
+        return self.title

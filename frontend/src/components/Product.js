@@ -1,12 +1,14 @@
 import React from "react";
-import { Card } from "react-bootstrap";
+import { Card, Dropdown } from "react-bootstrap";
 import { SEED } from "../env";
 import ProductCardRating from "./ProductCardRating";
 import { Link } from "react-router-dom";
 import "../index.css";
 
+
 // Product({ product }) -> Accessing products directly without using props
-function Product({ product }) {
+function Product({ product}) {
+
   return (
     <Link to={`/product/${product._id}`}>
       <Card className="product-card">
@@ -39,5 +41,6 @@ function Product({ product }) {
     </Link>
   );
 }
+ 
 
 export default Product;

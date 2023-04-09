@@ -12,33 +12,40 @@ from rest_framework import status
 
 @api_view(['GET'])
 def getProducts(request):
-    query = request.query_params.get('keyword')
-    print('query:', query)
-    if query == None:
-        query = ''
+    keyword = request.query_params.get('keyword')
+    sort = request.query_params.get('sort')
 
-    # If name contains any value inside of query then its going to filter and return the product
-    products = Product.objects.filter(name__icontains=query) # setting variable for query
+    # Filter products by name if a keyword is provided
+    if keyword:
+        products = Product.objects.filter(name__icontains=keyword)
+    else:
+        products = Product.objects.all()
 
+    # Apply sorting if a sort parameter is provided
+    if sort:
+        if sort == 'price_asc':
+            products = products.order_by('price')
+        elif sort == 'price_desc':
+            products = products.order_by('-price')
+        elif sort == 'name_asc':
+            products = products.order_by('name')
+        elif sort == 'name_desc':
+            products = products.order_by('-name')
+
+    # Paginate the products
+    paginator = Paginator(products, 12)
     page = request.query_params.get('page')
-    paginator = Paginator(products, 8)
-
     try:
         products = paginator.page(page)
     except PageNotAnInteger:
         products = paginator.page(1)
     except EmptyPage:
         products = paginator.page(paginator.num_pages)
-    
-    if page == None:
-        page = 1
-    
-    page = int(page)
+    page = int(page) if page else 1
 
-
-    # Creating serializer. Serializer -> Wraps our model and turns it into JSON format
-    serializer = ProductSerializer(products, many=True) # many=True -> Serializing many products
-    return Response({'products':serializer.data, 'page':page, 'pages':paginator.num_pages})
+    # Serialize the products and return the response
+    serializer = ProductSerializer(products, many=True)
+    return Response({'products': serializer.data, 'page': page, 'pages': paginator.num_pages})
 
 @api_view(['GET'])
 def getTopProducts(request):
@@ -59,9 +66,9 @@ def createProduct(request):
 
     product = Product.objects.create(
         user=user,
-        name='Sample Name',
+        name='',
         price=0,
-        category='Sample Category',
+        category='',
         countInStock=0,
         description=''
     )

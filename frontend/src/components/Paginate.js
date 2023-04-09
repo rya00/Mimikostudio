@@ -28,7 +28,7 @@ function Paginate({pages, page, keyword='', isAdmin = false}) {
 
 
     return (pages > 1 && (
-        <Pagination linkClass="">
+        <Pagination>
             {[...Array(pages).keys()].map((x) => (
                 <Pagination.Item  key={x + '-page-item'} active={x + 1 === page } onClick={() => clickHandler(x+1)} className="page-button">{x + 1}</Pagination.Item>                    
             ))}
@@ -38,3 +38,8 @@ function Paginate({pages, page, keyword='', isAdmin = false}) {
 }
 
 export default Paginate
+
+
+
+
+

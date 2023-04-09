@@ -3,22 +3,30 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
-import HomeScreen from "./screens/HomeScreen";
-import ProductScreen from "./screens/ProductScreen";
-import CartScreen from "./screens/CartScreen";
-import LoginScreen from "./screens/LoginScreen";
-import RegisterScreen from "./screens/RegisterScreen";
-import ProfileScreen from "./screens/ProfileScreen";
-import ShippingScreen from "./screens/ShippingScreen";
-import PaymentScreen from "./screens/PaymentScreen";
-import PlaceOrderScreen from "./screens/PlaceOrderScreen";
-import OrderScreen from "./screens/OrderScreen";
-import UserListScreen from "./screens/UserListScreen";
-import UserEditScreen from "./screens/UserEditScreen";
-import ProductListScreen from "./screens/ProductListScreen";
-import ProductEditScreen from "./screens/ProductEditScreen";
-import OrderListScreen from "./screens/OrderListScreen";
-import PageLayout from "./components/wrapper/PageLayout";
+import HomeScreen from './screens/HomeScreen'
+import BiddingScreen from './screens/BiddingScreen'
+import BiddingProductScreen from './screens/BiddingProductScreen'
+import ProductScreen from './screens/ProductScreen'
+import CartScreen from './screens/CartScreen'
+import LoginScreen from './screens/LoginScreen'
+import RegisterScreen from './screens/RegisterScreen'
+import ProfileScreen from './screens/ProfileScreen'
+import EventScreen from './screens/EventScreen'
+import ShippingScreen from './screens/ShippingScreen'
+import PaymentScreen from './screens/PaymentScreen'
+import PlaceOrderScreen from './screens/PlaceOrderScreen'
+import OrderScreen from './screens/OrderScreen'
+import UserListScreen from './screens/UserListScreen'
+import UserEditScreen from './screens/UserEditScreen'
+import EventListScreen from './screens/EventListScreen'
+import EventEditScreen from './screens/EventEditScreen'
+import ProductListScreen from './screens/ProductListScreen'
+import ProductEditScreen from './screens/ProductEditScreen'
+import BiddingListScreen from './screens/BiddingListScreen'
+import BiddingEditScreen from './screens/BiddingEditScreen'
+import OrderListScreen from './screens/OrderListScreen'
+import PasswordResetConfirmScreen from './screens/PasswordResetConfirmScreen'
+import PageLayout from "./components/wrapper/PageLayout"
 
 function App() {
   return (
@@ -30,6 +38,7 @@ function App() {
             <Route exact path="/" element={<HomeScreen />} />
             <Route element={<PageLayout />}> {/* Custom page layout */}
               <Route path="/login" element={<LoginScreen />} />
+              <Route path="/password-reset-confirm/:uidb64/:token" element={<PasswordResetConfirmScreen />}/>
               <Route path="/register" element={<RegisterScreen />} />
               <Route path="/profile" element={<ProfileScreen />} />
               <Route path="/shipping" element={<ShippingScreen />} />
@@ -38,8 +47,10 @@ function App() {
               <Route path="/order/:id" element={<OrderScreen />} />
               {/* Passing id as parameter */}
               <Route path="/product/:id" element={<ProductScreen />} />
+              <Route path='/bidding/:id' element={< BiddingProductScreen />} /> 
               {/* id? -> Making the id an option as sometimes we can just go to cart directly */}
               <Route path="/cart/:id?" element={<CartScreen />} />
+
 
               <Route path="/admin/userlist" element={<UserListScreen />} />
               <Route path="/admin/user/:id/edit" element={<UserEditScreen />} />
@@ -50,7 +61,16 @@ function App() {
                 element={<ProductEditScreen />}
               />
 
-              <Route path="/admin/orderlist" element={<OrderListScreen />} />
+              <Route path='/admin/productlist' element={< ProductListScreen />} />
+              <Route path='/admin/product/:id/edit' element={< ProductEditScreen />} />
+
+              <Route path='/admin/biddinglist' element={< BiddingListScreen />} />
+              <Route path='/admin/bidding/:id/edit' element={< BiddingEditScreen />} />
+
+              <Route path='/admin/eventlist' element={< EventListScreen />} />
+              <Route path='/admin/event/:id/edit' element={< EventEditScreen />} />
+
+              <Route path='/admin/orderlist' element={< OrderListScreen />} />
             </Route>
           </Routes>
       </main>

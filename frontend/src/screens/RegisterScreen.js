@@ -14,6 +14,14 @@ function RegisterScreen() {
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const [message, setMessage] = useState('')
+    
+    const [nameError, setNameError] = useState('')
+    const [emailError, setEmailError] = useState('')
+    const [passwordError, setPasswordError] = useState('')
+    const [confirmPasswordError, setConfirmPasswordError] = useState('')
+
+    const [registerMessage, setRegisterMessage] = useState('');
+
 
     const navigate = useNavigate()
     const location = useLocation()
@@ -25,10 +33,50 @@ function RegisterScreen() {
     const userRegister = useSelector(state => state.userRegister)
     const {error, loading, userInfo} = userRegister
 
+    const validateName = (name) => {
+        if (name === "") {
+            setNameError("Name cannot be empty.");
+        } else {
+            setNameError("");
+        }
+    }
+
+    const validateEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+.[^\s@]+$/;
+
+        if (!emailRegex.test(email)){
+            setEmailError("Please enter a valid email address.");
+        } else if (email === "") {
+            setEmailError("Email cannot be empty.");
+        } else {
+            setEmailError("");
+        }
+    }
+
+    const validatePassword = (password) => {
+        if (password === "") {
+            setPasswordError("Password cannot be empty.");
+        } else {
+            setPasswordError("");
+        }
+    }
+
+    const validateConfirmPassword = (confirmPassword) => {
+        if (confirmPassword === "") {
+            setConfirmPasswordError("Password cannot be empty.");
+        } else {
+            setConfirmPasswordError("");
+        }
+    }
+
     useEffect(() => {
         if(userInfo){
             navigate(redirect)
         }
+        if (localStorage.getItem('registerMessage')) {
+            setRegisterMessage(localStorage.getItem('registerMessage'));
+            localStorage.removeItem('registerMessage');
+          }
     }, [navigate, userInfo, redirect])
 
     const submitHandler = (e) => {
@@ -48,6 +96,7 @@ function RegisterScreen() {
             {/* Message is only shown when passwords do not match */}
             {message && <Message variant='danger'>{message}</Message>} 
             {error && <Message variant='danger'>{error}</Message>}
+            {registerMessage && <div>{registerMessage}</div>}
             {loading && <Loader />}
             <Form onSubmit={ submitHandler }>
                 <Form.Group controlId='name' className='grp-fields'>
@@ -57,9 +106,13 @@ function RegisterScreen() {
                         type='name'
                         placeholder='Enter name'
                         value={name}
-                        onChange={(e) => setName(e.target.value) }
+                        onChange={(e) => {
+                            setName(e.target.value);
+                            validateName(e.target.value);
+                        }}
                     >
                     </Form.Control>
+                    {nameError  && <Message variant="danger">{nameError}</Message>}
                 </Form.Group>
 
                 <Form.Group controlId='email' className='grp-fields'>
@@ -68,10 +121,13 @@ function RegisterScreen() {
                         required
                         type='email'
                         placeholder='Enter email'
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value) }
+                        onChange={(e) => {
+                            setEmail(e.target.value); 
+                            validateEmail(e.target.value);
+                        }}
                     >
                     </Form.Control>
+                    {emailError  && <Message variant="danger">{emailError}</Message>}
                 </Form.Group>
 
                 <Form.Group controlId='password' className='grp-fields'>
@@ -81,9 +137,13 @@ function RegisterScreen() {
                         type='password'
                         placeholder='Enter password'
                         value={password}
-                        onChange={(e) => setPassword(e.target.value) }
+                        onChange={(e) => {
+                            setPassword(e.target.value);
+                            validatePassword(e.target.value);
+                        }}
                     >
                     </Form.Control>
+                    {passwordError  && <Message variant="danger">{passwordError}</Message>}
                 </Form.Group>
 
                 <Form.Group controlId='passwordConfirm' className='grp-fields'>
@@ -93,9 +153,13 @@ function RegisterScreen() {
                         type='password'
                         placeholder='Confirm password'
                         value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value) }
+                        onChange={(e) => {
+                            setConfirmPassword(e.target.value);
+                            validateConfirmPassword(e.target.value);
+                        }}
                     >
                     </Form.Control>
+                    {confirmPasswordError  && <Message variant="danger">{confirmPasswordError}</Message>}
                 </Form.Group>
 
                 <Button type='submit' variant='primary' className="standard-btn"> 

@@ -11,13 +11,30 @@ import {
 } from './reducers/productReducers'
 import { cartReducer } from './reducers/cartReducers'
 import { 
+        biddingListReducer,
+        biddingDetailsReducer,
+        biddingCreateReducer,
+        biddingDeleteReducer,
+        biddingUpdateReducer,
+        biddingTopRatedReducer,
+        productBidCreateReducer
+} from './reducers/biddingReducers'
+import { 
+        eventListReducer,
+        eventDetailsReducer,
+        eventCreateReducer,
+        eventDeleteReducer,
+        eventUpdateReducer,
+} from './reducers/eventReducers'
+import { 
         userLoginReducer, 
         userRegisterReducer, 
         userDetailsReducer, 
         userUpdateProfileReducer, 
         userListReducer, 
         userDeleteReducer, 
-        userUpdateReducer 
+        userUpdateReducer,
+        passwordResetReducer,
 } from './reducers/userReducers'
 import { 
         orderCreateReducer, 
@@ -39,6 +56,20 @@ const reducer = combineReducers({
   productReviewCreate: productReviewCreateReducer,
   productTopRated: productTopRatedReducer,
 
+  eventList: eventListReducer,
+  eventDetails: eventDetailsReducer,
+  eventDelete: eventDeleteReducer,
+  eventCreate: eventCreateReducer,
+  eventUpdate: eventUpdateReducer,
+
+  biddingList: biddingListReducer,
+  biddingDetails: biddingDetailsReducer,
+  biddingDelete: biddingDeleteReducer,
+  biddingCreate: biddingCreateReducer,
+  biddingUpdate: biddingUpdateReducer,
+  biddingTopRated: biddingTopRatedReducer,
+  productBidCreate: productBidCreateReducer,
+
   cart: cartReducer,
   
   userLogin: userLoginReducer,
@@ -48,6 +79,7 @@ const reducer = combineReducers({
   userList: userListReducer,
   userDelete: userDeleteReducer,  
   userUpdate: userUpdateReducer,
+  passwordReset: passwordResetReducer,
 
 
   orderCreate: orderCreateReducer,

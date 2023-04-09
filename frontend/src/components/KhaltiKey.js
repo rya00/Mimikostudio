@@ -1,22 +1,9 @@
-// let myKey = {
-//     publicTestKey: "test_public_key_a445f0be7b404426ae07620da0c5db48",
-//     secretKey: "test_secret_key_534abad9d69447009674a47e8722c437",
-//   };
+let myKey = {
+    publicTestKey: "test_public_key_2fc9f07ae57e4d4fa7fc3adb68d587c3",
+    secretKey: "test_secret_key_8921b846637245d19e633c274f08213a",
+  };
   
-//   export default myKey;
+  export default myKey;
 
 
-// OrderScreen.js
-// let checkout = new KhaltiCheckout(config);
-    // let buttonStyles = {
-    //   backgroundColor: "purple",
-    //   padding: "10px",
-    //   color: "white",
-    //   cursor: "pointer",
-    //   fontWeight: "bold",
-    //   border: "1px solid white",
-    // };
-    // <button
-    //                 onClick={() => checkout.show({ amount: 10000 })}
-    //                 style={buttonStyles}
-    //               >Khalti</button>
+

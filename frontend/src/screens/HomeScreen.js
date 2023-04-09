@@ -27,6 +27,8 @@ function HomeScreen() {
 
   let keyword = location.search;
 
+  const [sort, setSort] = useState('');
+
   // useEffect ->  Triggered every single time the component loads or when a state value gets updated
   // In our app it gets triggered when the component first loads
   // Empty array kept because we only want this to update when the component loads not when an actual state element gets updated
@@ -36,6 +38,19 @@ function HomeScreen() {
 
   console.log(products);
 
+  const handleSortChange = (e) => {
+    const selectedSort = e.target.value;
+    let newKeyword = '';
+    if (keyword && keyword.includes('keyword=')) {
+      // Keyword is already present, so just update the sort parameter
+      newKeyword = `${keyword}&sort=${selectedSort}`;
+    } else {
+      // Keyword is not present, so set the sort parameter with a leading "?"
+      newKeyword = `?sort=${selectedSort}`;
+    }
+    dispatch(listProducts(newKeyword));
+  };
+  
   return (
     <div>
       {/* {!keyword && <ProductCarousel />} */}

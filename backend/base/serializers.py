@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
-from .models import Product, Order, OrderItem, ShippingAddress, Review
+from .models import Product, Order, OrderItem, ShippingAddress, Review, BiddingProduct, Bid, Event
 
 class UserSerializer(serializers.ModelSerializer):
     name = serializers.SerializerMethodField(read_only=True)
@@ -94,3 +94,38 @@ class OrderSerializer(serializers.ModelSerializer):
         user = obj.user
         serializer = UserSerializer(user, many=False)
         return serializer.data
+
+# Bidding
+class DecimalField(serializers.DecimalField):
+    def to_internal_value(self, data):
+        try:
+            return super().to_internal_value(data)
+        except Exception:
+            raise serializers.ValidationError('Invalid amount.')
+        
+class BidSerializer(serializers.ModelSerializer):
+    bidder = UserSerializer(read_only=True)
+
+    class Meta:
+        model = Bid
+        fields = ['_id', 'bidder', 'amount']
+
+class BiddingProductSerializer(serializers.ModelSerializer):
+    highest_bidder = serializers.StringRelatedField()
+
+    bids = BidSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = BiddingProduct
+        fields = ['_id', 'bidding_name', 'bidding_description', 'minimum_price', 'current_price', 'highest_bidder', 'end_time', 'bids', 'image']
+        read_only_fields = ['_id', 'current_price', 'highest_bidder', 'image']
+    
+    def get_bids(self, obj):
+        bids = obj.bid_set.all()
+        serializer = BidSerializer(bids, many=False)
+        return serializer.data
+
+class EventSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Event
+        fields = '__all__'

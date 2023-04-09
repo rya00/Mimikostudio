@@ -9,7 +9,8 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     # path('api/', include('base.urls')),
     path('api/products/', include('base.urls.product_urls')),
-    # path('api/biddings/', include('base.urls.bidding_urls')),
+    path('api/biddings/', include('base.urls.bidding_urls')),
+    path('api/events/', include('base.urls.event_urls')),
     path('api/users/', include('base.urls.user_urls')),
     path('api/orders/', include('base.urls.order_urls')),
 ]

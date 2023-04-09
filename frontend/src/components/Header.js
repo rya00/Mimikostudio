@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Navbar, Nav, Container, NavDropdown, Ro } from 'react-bootstrap'
+import { Navbar, Nav, Container, NavDropdown, Row } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import SearchBox from './SearchBox'
 import { logout } from '../actions/userActions'
@@ -28,6 +28,12 @@ function Header() {
           <Navbar.Collapse id="basic-navbar-nav">
             <SearchBox />
             <Nav className="nav-items-container">
+              <LinkContainer to='/biddings'>
+                <Nav.Link><i className="fa-solid fa-hammer"></i>Bidding</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to='/events'>
+                <Nav.Link><i className="fa-regular fa-calendar-check"></i> Event</Nav.Link>
+              </LinkContainer>
               <LinkContainer to='/cart'>
                 <Nav.Link><i className='fas fa-shopping-cart'></i>Cart</Nav.Link>
               </LinkContainer>
@@ -56,6 +62,14 @@ function Header() {
 
                   <LinkContainer to='/admin/orderlist'>
                     <NavDropdown.Item>Orders</NavDropdown.Item>
+                  </LinkContainer>
+
+                  <LinkContainer to='/admin/biddinglist'>
+                    <NavDropdown.Item>Bids</NavDropdown.Item>
+                  </LinkContainer>
+
+                  <LinkContainer to='/admin/eventlist'>
+                    <NavDropdown.Item>Events</NavDropdown.Item>
                   </LinkContainer>
                 </NavDropdown>
               )}
