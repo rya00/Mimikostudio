@@ -50,7 +50,8 @@ function App() {
               <Route path='/bidding/:id' element={< BiddingProductScreen />} /> 
               {/* id? -> Making the id an option as sometimes we can just go to cart directly */}
               <Route path="/cart/:id?" element={<CartScreen />} />
-
+              <Route exact path='/biddings' element={< BiddingScreen />} />
+            <Route exact path='/events' element={< EventScreen />} />
 
               <Route path="/admin/userlist" element={<UserListScreen />} />
               <Route path="/admin/user/:id/edit" element={<UserEditScreen />} />

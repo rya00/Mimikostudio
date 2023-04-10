@@ -18,7 +18,7 @@ function SearchBox() {
     }
   };
   return (
-    <Form onSubmit={submitHandler}>
+    <Form onSubmit={submitHandler} style={{marginLeft: "auto"}}>
       <div className="search-item-container">
         <Form.Control
           type="text"

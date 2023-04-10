@@ -20,7 +20,7 @@ function Header() {
   return (
     <header>
       <Navbar  variant='dark' expand="lg" collapseOnSelect className='nav-color'>
-        <Container>
+        <Container className="nav-container">
           <LinkContainer to='/'>
             <Navbar.Brand className='hover-underline-animation'>Mimikostudio</Navbar.Brand>
           </LinkContainer>

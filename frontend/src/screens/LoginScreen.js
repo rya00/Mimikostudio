@@ -72,7 +72,7 @@ function LoginScreen() {
       {error && <Message variant="danger">{error}</Message>}
       {loading && <Loader />}
       <Form onSubmit={submitHandler}>
-        <Form.Group controlId="email">
+        <Form.Group controlId="email" className="grp-fields">
           <Form.Label>Email Address:</Form.Label>
           <Form.Control
             type="email"
@@ -86,7 +86,7 @@ function LoginScreen() {
           {emailError && <Message variant="danger">{emailError}</Message>}
         </Form.Group>
 
-        <Form.Group controlId="password">
+        <Form.Group controlId="password" className="grp-fields">
           <Form.Label>Password:</Form.Label>
           <Form.Control
             type="password"
@@ -99,18 +99,23 @@ function LoginScreen() {
           ></Form.Control>
         </Form.Group>
 
-        <Button type="submit" variant="primary" className="standard-btn">
-          Sign In
-        </Button>
+        <div className="login-btm-section">
+          <Button type="submit" variant="primary" className="standard-btn">
+            Sign In
+          </Button>
+
+          <p className="reset-pwd" onClick={resetPasswordHandler}>
+            Forgot Password?
+          </p>
+        </div>
       </Form>
 
-      <Button onClick={resetPasswordHandler}>Reset Password</Button>
       {resetLoading && <div>Loading...</div>}
       {resetError && <div>{resetError}</div>}
       {resetSuccess && <div>Password reset email sent.</div>}
-      <Row className="py-3">
+      <Row style={{marginTop: "20px"}}>
         <Col>
-          No account?
+          No account? &nbsp;
           <Link to={redirect ? `/register?redirect=${redirect}` : "/register"}>
             Register
           </Link>

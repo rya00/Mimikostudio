@@ -282,6 +282,7 @@ a:link {
   display: inline-block;
   position: relative;
   /* color: #0087ca; */
+  margin-left: 2rem;
 }
 
 .hover-underline-animation:after {
@@ -436,6 +437,23 @@ a:link {
   padding: 20px;
 }
 
+.reset-pwd{
+  text-decoration: underline;
+  cursor: pointer;
+  width: fit-content;
+  margin-left: auto;
+}
+
+.login-btm-section{
+  display: flex;
+  flex-direction: row;
+}
+
+.nav-container{
+  max-width: none !important;
+  margin: 0px !important;
+}
+
 /* for mobiles apparently */
 @media (max-width: 900px) {
   .carousel-caption h2 {
@@ -482,5 +500,9 @@ a:link {
   .rng-container {
     display: flex;
     justify-content: center;
+  }
+
+  .hover-underline-animation{
+    margin-left: 0px;
   }
 }

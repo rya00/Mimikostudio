@@ -13,14 +13,14 @@ function Product({ product}) {
     <Link to={`/product/${product._id}`}>
       <Card className="product-card">
         <div className="product-img-container">
-          <img src={require('../images/miao-xiang-leFR7Fj3J6I-unsplash.jpg')} />
-          {/* <Card.Img src={`${SEED}${product.image}`} /> */}
+          {/* <img src={require('../images/miao-xiang-leFR7Fj3J6I-unsplash.jpg')} /> */}
+          <Card.Img src={`${SEED}${product.image}`} />
         </div>
 
         <Card.Body className="product-card-body">
           <div className="product-card-title">
-            {/* <p className="painting-title">{product.name}</p> */}
-            <p className="painting-title">Emrald Earrings</p>
+            <p className="painting-title">{product.name}</p>
+            {/* <p className="painting-title">Emrald Earrings</p> */}
           </div>
 
           <div className="product-desc">
