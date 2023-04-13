@@ -62,10 +62,10 @@ function BiddingListScreen() {
         <div>
             <Row className='align-items-center'>
                 <Col>
-                    <h1>Bids</h1>
+                    <h1 className='auto-underline-animation'>Bids</h1>
                 </Col>
                 <Col className='text-right'>
-                    <Button className='my-3' onClick={createBiddingHandler}>
+                    <Button className='my-3 standard-btn' onClick={createBiddingHandler}>
                         <i className='fa fa-plus'></i>Add Bidding Product
                     </Button>
                 </Col>

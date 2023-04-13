@@ -36,7 +36,7 @@ function EventScreen() {
     <div>
       {!keyword}
 
-      <h1>Events</h1>
+      <h1 className='auto-underline-animation'>Events</h1>
       {loading ? <Loader />
         : error ? <Message variant='danger'>{error}</Message>
           :

@@ -62,10 +62,10 @@ function EventListScreen() {
         <div>
             <Row className='align-items-center'>
                 <Col>
-                    <h1>Events</h1>
+                    <h1 className='auto-underline-animation'>Events</h1>
                 </Col>
                 <Col className='text-right'>
-                    <Button className='my-3' onClick={createEventHandler}>
+                    <Button className='my-3 standard-btn' onClick={createEventHandler}>
                         <i className='fa fa-plus'></i>Add Event
                     </Button>
                 </Col>

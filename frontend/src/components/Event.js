@@ -16,9 +16,9 @@ function Event({ event }) {
             <strong>{event.title}</strong>
           </Card.Title>
 
-          <Card.Text as="h3">{event.location}</Card.Text>
+          <Card.Text>{event.location}</Card.Text>
 
-          <Card.Text as="h3">{event.date.substring(0, 10)}</Card.Text>
+          <Card.Text>{event.date.substring(0, 10)}</Card.Text>
 
           <Card.Text>{event.event_description}</Card.Text>
         </Card.Body>
