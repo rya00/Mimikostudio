@@ -454,6 +454,17 @@ a:link {
   margin: 0px !important;
 }
 
+.event-location, .event-date{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.event-location p, .event-date p{
+  margin-bottom: 0px;
+  margin-left: 5px;
+}
+
 /* for mobiles apparently */
 @media (max-width: 900px) {
   .carousel-caption h2 {
@@ -471,11 +482,12 @@ a:link {
 
   .about-artist-container {
     flex-direction: column;
+    height: 100vh;
   }
 
   .artist-pic-container {
     width: 100%;
-    height: 40%;
+    height: 90%;
   }
 
   .artist-about-container {

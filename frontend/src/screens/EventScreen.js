@@ -41,10 +41,10 @@ function EventScreen() {
         : error ? <Message variant='danger'>{error}</Message>
           :
           <div>
-            <Row>
+            <Row className="painting-container">
               {events.map(event => (
                   // Key attribute is needed to map for looping in react
-                  <Col key={event._id} sm={12} md={6} lg={4} xl={3}>
+                  <Col key={event._id} sm={12} md={6} lg={4} xl={3} className="rng-container">
                       <Event event ={event} />
                   </Col>
               ))}
